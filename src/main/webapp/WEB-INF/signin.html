@@ -1,0 +1,63 @@
+<#assign basePath=req.contextPath>
+
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="my self">
+<meta name="author" content="tdu">
+<title>IPE快速开发平台登入</title>
+<link rel="icon" href="${basePath}/resources/images/favicon.ico" type="image/x-icon"/>
+<link rel="shortcut icon" href="${basePath}/resources/images/favicon.ico" type="image/x-icon"/>
+<script src="${basePath}/resources/lib/crypto-md5.js"></script>
+    <style>
+        body {
+            background-color: #eee;
+            font-size: 14px;
+            text-align: center;
+        }
+        .container{
+        	 margin-top:80px;
+        }
+        .form-signin {
+            width: 350px;
+            padding: 20px;
+            background-color: #ffffff;
+            border-top:2px solid green;
+            box-shadow:0px 2px 2px #cbcbcb;
+            margin:0px auto 0 auto;
+        }
+        .form-signin .form-group{
+        	margin:10px;
+        }
+        .form-signin input{
+        	width:80%;
+        	height:30px;
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+    <form class="form-signin" role="form" action="login" method="post">
+        <div class="form-group">
+            <label>用户名</label>
+            <input name="useraccount" class="form-control" placeholder="用户名" value="admin" required="true">
+        </div>
+        <div class="form-group">
+            <label>密&nbsp;&nbsp;码</label>
+            <input type="password" name="password" class="form-control" placeholder="密码" required="true" autofocus="true" onchange="encrypt(this)">
+        </div>
+        <div class="form-group">
+            <button type="submit" class="btn-block">登录</button>
+        </div>
+    </form>
+</div>
+</body>
+<script type="text/javascript">
+    function encrypt(obj) {
+        obj.value = CryptoJS.MD5(obj.value);
+    }
+</script>
+</html>

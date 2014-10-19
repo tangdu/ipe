@@ -1,0 +1,20 @@
+#loading{
+	margin:0 auto 0 auto;
+	width:110px;
+	background-color: #c0c0c0!important;
+	font-size: 13px;
+    text-align: center;
+    margin-top: 200px;
+    -webkit-border-radius:11px;
+    opacity:6;
+    z-index: 99999;
+}
+html,body{
+	font-size: 13px;
+	font-family: 宋体, Arial, Helvetica, sans-serif;
+}
+.m_textReadOnly input{
+    background-color: #EFEFEF!important;
+    background-image: none!important;
+    border-color: #AFBFF8!important;
+}

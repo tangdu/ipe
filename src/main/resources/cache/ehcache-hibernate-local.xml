@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ehcache updateCheck="false" name="hibernateCache">
+
+	<diskStore path="e:/smh/ehcache/hibernate" />
+
+	<!-- DefaultCache setting. -->
+	<defaultCache maxEntriesLocalHeap="10000" eternal="false" timeToIdleSeconds="300" timeToLiveSeconds="600" 
+		overflowToDisk="true" maxEntriesLocalDisk="100000" />
+    <!--SYS CACHE-->
+    <cache name="com.ipe.module.core.entity.Role" maxEntriesLocalHeap="1000" eternal="false" overflowToDisk="true" maxEntriesLocalDisk="100000" />
+    <cache name="com.ipe.module.core.entity.Menu" maxEntriesLocalHeap="1000" eternal="false" overflowToDisk="true" maxEntriesLocalDisk="100000" />
+    <cache name="com.ipe.module.core.entity.Resource" maxEntriesLocalHeap="1000" eternal="false" overflowToDisk="true" maxEntriesLocalDisk="100000" />
+</ehcache>

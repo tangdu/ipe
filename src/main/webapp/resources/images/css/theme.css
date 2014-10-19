@@ -1,0 +1,174 @@
+/****首页样式****/
+.mcontainer{
+	margin: 30px auto 0 auto;
+	width:1024px;
+	font-size:13px !important;
+}
+.p_header{
+	margin-top:20px;
+	margin-bottom:20px;
+}
+.mytheme{
+	border:1px #5D9CEC solid;
+	margin:5px;
+	float:left;
+	height:260px;
+	overflow: hidden;
+	background-color: #f5f5f5;
+}
+.mytheme2{
+	border:1px #5D9CEC solid;
+	margin:5px 0px 0px 5px;
+	float:left;
+	height:128px;
+	overflow: hidden;
+	background-color: #f5f5f5;
+}
+.mytheme:hover{
+	/*border-radius:3px;*/
+	box-shadow:0px 2px 2px #cbcbcb;
+}
+.task_theme{
+	width:60%;
+	padding:5px;
+}
+.candar_theme{
+	width:38%;
+}
+.msg_theme{
+	width:60%;
+	padding:5px;
+}
+.kj_theme{
+	width:38%;
+}
+.mtable{
+	width:100%;
+	height:92%;
+	padding:0px;
+	margin: 0 auto 0 auto;
+	border-collapse: collapse;
+	box-shadow:0 2px 5px #cbcbcb;
+	font-size:13px !important;
+}
+.mtable thead {
+	background-color: #99bbe8;
+}
+.mtable thead th {
+	font-weight: bold !important;
+	text-align:center !important;
+}
+.mtable td , .mtable th{
+	border:1px solid;
+	border-collapse: collapse;
+	height:18px;
+}
+
+.mtable tbody tr:nth-child(odd){
+	background-color: #f9f9f9
+}
+.mtable tbody tr{
+	height:30px;
+}
+.block-left{
+	float:right;
+	clear:both;
+}
+.padding3px{
+	padding-top:2px;
+}
+.group-item{
+	position: relative;
+	display: block;
+	padding: 8px 15px;
+	margin-bottom: -1px;
+	background-color: #fff;
+	border: 1px solid #ddd;
+}
+.mcontainer a{
+	color:#2a6496;
+}
+.mcontainer a:hover{
+	color:#ff8000;
+	text-decoration: underline;
+}
+
+.bold{
+	font-weight:bold;
+}
+.text-center{
+	text-align: center;
+}
+.block-right{
+	float: right;
+}
+.list-groups{
+	text-align:right; 
+	margin-top:5px;
+	margin-right:10px;
+}
+.list-item{
+	color:#ffffff;
+	margin:0 5px 0 5px;
+}
+.list-item a{
+	color:#ffffff;
+}
+.list-item a:hover{
+	color:#ff8000;
+}
+.m_time{
+	margin:15 5px 0 5px;
+	color:yellow;
+}
+.sys_header{
+    background-image:url('../bk.jpg') !important;
+}
+.sys_title{
+	float: left;
+	margin:10px;;
+	font-size: 16px;
+}
+.toolbar{
+    background-color:#dfe8f6;
+    background-image:none;
+}
+.toolbar_btn {
+	color:#800000;cursor:pointer;text-decoration:underline;
+}
+.mpanel-header{
+	padding:6px;
+	background-color: #99bce8;
+}
+.mpanel-body{
+}
+.mpanel-body .box{
+	border:1px gray solid;
+	text-align:center;
+	margin:13px;
+	/*border-radius: 15px;
+	 line-height:70px; */
+	width:70px;
+	height:70px;
+	float:left;
+}
+.mpanel-body .box:hover{
+	box-shadow:0 2px 4px #cbcbcb;
+	color:#ffffff;
+}
+.box-red{
+	background-color: #E68364;
+	background-image: url("../user accounts.png") ;
+}
+.box-green{
+	background-color: #87D37C;
+	background-image: url("../contacts.png") ;
+}
+.box-blue{
+	background-color: #89C4F4;
+	background-image: url("../system alt.png") ;
+}
+.box-gray{
+	background-color: #BDC3C7;
+	background-image: url("../performance.png") ;
+}

@@ -1,0 +1,223 @@
+<#assign basePath=req.contextPath>
+<!DOCTYPE html>
+<html>
+<head>
+    <!--bootstrap-->
+    <link rel="stylesheet" type="text/css" href="${basePath}/resources/lib/bootstrap/css/bootstrap.min.css"  rel="stylesheet" media="screen"/>
+    <link rel="stylesheet" type="text/css" href="${basePath}/resources/lib/bootstrap/css/bootstrap-theme.min.css"  rel="stylesheet" media="screen"/>
+    <script type="text/javascript" src="${basePath}/resources/lib/bootstrap/js/jquery.min.js"></script>
+    <script type="text/javascript" src="${basePath}/resources/lib/bootstrap/js/bootstrap.min.js"></script>
+</head>
+<body>
+
+<div class="container">
+    <fieldset>
+        <legend>配置项</legend>
+        <div class="fieldset-content">
+        <form action="" method="POST" class="form"  role="form">
+            <div class="form-group">
+                <label for="entityName" class="col-md-1 control-label">实体对象</label>
+                <div class="col-md-3">
+                    <select  class="form-control" id="entityName" required="required">
+                        <#list entities as entity>
+                            <option value="${entity.entityName}">${entity.entityName}</option>
+                        </#list>
+                    </select>
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="type" class="col-md-1 control-label">生成类型</label>
+                <div class="col-md-3">
+                    <select class="form-control" required="required"  id="type">
+                        <option value="singleColForm">单列表单</option>
+                        <option value="multColForm">多列表单</option>
+                        <option value="gridList">表格</option>
+                    </select>
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="mpackage" class="col-md-1 control-label">文件包名</label>
+                <div class="col-md-3">
+                    <input type="text" id="mpackage" class="form-control" value="">
+                </div>
+            </div>
+            <div class="form-group">
+                <div class=" col-md-4 ">
+                    <label class="control-label checkbox">
+                        是否自动生成文件<input type="checkbox" value=true id="createFile">
+                    </label>
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="path" class="col-md-1 control-label">文件路径</label>
+                <div class="col-md-3">
+                    <input type="text" id="path" class="form-control" value="">
+                </div>
+            </div>
+            <button class="btn btn-primary" id="view" type="button">生成</button>
+        </form>
+        </div>
+    </fieldset>
+
+    <br>
+    <table class="table table-bordered table-hover" id="datas" >
+        <thead>
+        <tr>
+            <th>名称(fieldLabel)</th><th>字段(name)</th><th>属性类型</th><th>字段长度(maxLength)</th><th>是否为空(allowBlank)</th><th>ExtJS数据类型(xtype)</th>
+        </tr>
+        </thead>
+        <tbody>
+        </tbody>
+    </table>
+</div>
+
+<div class="modal fade" id="modal-id">
+    <div class="modal-dialog" style="width: 900px;">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title">生成</h4>
+            </div>
+            <div class="modal-body">
+
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-primary" id="copy">选中</button>
+                <button type="button" class="btn btn-default" id="scan">预览</button>
+                <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+            </div>
+        </div>
+    </div>
+</div>
+<script charset="utf-8" type="application/javascript">
+    var entities=${entitiesStr};
+    var xtypes="<select><option value='textfield'>表单文本框</option><option value='textarea'>多行文本框</option>" +
+            "<option value='htmleditor'>HTML编辑器</option><option value='hidden'>表单隐藏域</option>" +
+            "<option value='label'>标签</option><option value='numberfield'>数字编辑器</option>" +
+            "<option value='datefield'>日期选择项</option><option value='timefield'>时间录入项</option>" +
+            "<option value='combo'>下拉框</option><option value='fieldset'>表单字段组</option></select>"+
+            "<option value='radiogroup'>编组单选框</option><option value='checkboxgroup'>编组多选框</option><option value='undefined'>对象类型</option></select>";
+
+    /**************************/
+    function allowDrop(ev){
+        ev.preventDefault();
+    }
+    function drag(ev){
+        ev.dataTransfer.setData("Text",ev.target.id);
+    }
+    function drop(ev){
+        ev.preventDefault();
+        var srcTr=$("#"+ev.dataTransfer.getData("Text"));
+        var targetTr=$("#"+ev.target.parentNode.id);
+        //判断是上移还是下移
+        var srcIndex=srcTr.find("th:eq(6)").text();
+        var tagIndex=targetTr.find("th:eq(6)").text();
+        if(srcIndex>tagIndex){
+            targetTr.insertAfter(srcTr);
+        }else{
+            srcTr.insertAfter(targetTr);
+        }
+        srcTr.find("th:eq(6)").text(tagIndex);
+        targetTr.find("th:eq(6)").text(srcIndex);
+    }
+    /*************************/
+
+    $(function(){
+       var datasTab=$("#datas tbody");
+       $("#entityName").bind('change',function(){
+           var entityName=$(this).val();
+           datasTab.empty();
+           $.each(entities,function(i,r){
+               if(r.entityName==entityName){
+                   if(r.columns){
+                       $.each(r.columns,function(i2,r2){
+                           var tr="<tr id='"+r2.name+"tr' draggable='true' ondrop=drop(event) ondragover=allowDrop(event) ondragstart=drag(event)><th><input name='fieldLabel' class='form-control' tabIndex="+(i2+1)+"></th>";
+                           tr+="<th>"+r2.name+"</th>";
+                           tr+="<th>"+r2.javaType+"</th>";
+                           tr+="<th><input name='fieldLabel' class='form-control' value="+r2.maxLength+"></th>";
+                           tr+="<th><input type='radio' name='"+r2.name+"radio' value=true checked='checked'>是<input type='radio' name='"+r2.name+"radio' value=false>否</th>";
+                           //tr+="<th>"+r2.xtype+"</th>";
+                           tr+="<th><select  class='form-control'><option value='textfield'>表单文本框</option><option value='textarea'>多行文本框</option>" +
+                                   "<option value='htmleditor'>HTML编辑器</option><option value='hidden'>表单隐藏域</option>" +
+                                   "<option value='label'>标签</option><option value='numberfield'>数字编辑器</option>" +
+                                   "<option value='datefield'>日期选择项</option><option value='timefield'>时间录入项</option>" +
+                                   "<option value='combo'>下拉框</option><option value='fieldset'>表单字段组</option>"+
+                                   "<option value='radiogroup'>编组单选框</option><option value='checkboxgroup'>编组多选框</option>" +
+                                   "<option value='undefined'>对象类型</option></select></th>";
+                           tr+='<th style="display:none;">'+i2+'</th></tr>';
+                           tr=$(tr);
+                           datasTab.append(tr);
+                           tr.find("select[class=form-control] option[value='"+r2.xtype+"']").attr("selected", "selected");
+                       });
+                   }
+               }
+           });
+       });
+
+
+        $("#view").bind('click',function(){
+            var isValid=true;
+            if(datasTab.find("tr").size()<=0){
+                isValid=false;
+                alert('请先设定表格');
+            }
+
+            var datas=[];
+            $.each(datasTab.find("tr"),function(i,r){
+                var ths=$(r).find("th");
+                var fieldLabel=ths.eq(0).find("input").val();
+                var name=ths.eq(1).text();
+                var length=ths.eq(3).find("input").val();
+                var allowBlank=ths.eq(4).find("input:checked").val();
+                var xtype=ths.eq(5).find("option:selected").val();
+                if(fieldLabel==""){
+                    isValid=false;
+                    alert('第['+(i+1)+"]行,名称不能为空!");
+                    return false;
+                }
+                datas.push({"fieldLabel":fieldLabel,"name":name,"maxLength":length,"allowBlank":allowBlank,"xtype":xtype,sno:i});
+            });
+            if(!isValid){
+                return;
+            }
+
+            var dt=JSON.stringify(datas);
+            var type=$("#type").val();
+            var entityName=$("#entityName").val();
+            var mpackage=$("#mpackage").val();
+            var createFile=$("#createFile:checked").val();
+            var path=$("#path").val();
+            if(mpackage==""){
+                alert('文件包名不能为空');
+                return ;
+            }
+            if(createFile){
+                if(path==""){
+                    alert('生成文件路径不能为空');
+                    return ;
+                }
+            }else{
+                createFile=false;
+            }
+
+            $.ajax({
+                type:'POST',
+                url:'${basePath}/ext/generate_execute',
+                data:{type:type,dt:dt,entityName:entityName,mpackage:mpackage,createFile:createFile,path:path},
+                dataType:'text',
+                success:function(data){
+                    $("div[class=modal-body]").html("<pre class='pre-scrollable' id='pre_code'>"+data+"</pre>");
+                    $("#modal-id").modal();
+                }
+            });
+        });
+
+        $("#copy").bind('click',function(){
+
+        });
+        $("#scan").bind('click',function(){
+            window.open('code_view');
+        });
+    });
+</script>
+</body>
+</html>

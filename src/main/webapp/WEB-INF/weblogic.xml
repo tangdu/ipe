@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+
+<weblogic-web-app>
+  	<container-descriptor>
+	    <prefer-web-inf-classes>true</prefer-web-inf-classes>
+	</container-descriptor>
+	<session-descriptor>
+        <debug-enabled>false</debug-enabled>
+        <persistent-store-type>memory</persistent-store-type>
+        <sharing-enabled>true</sharing-enabled>
+    </session-descriptor>
+</weblogic-web-app>

@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.2.xsd
+		http://www.springframework.org/schema/context  http://www.springframework.org/schema/context/spring-context-3.2.xsd"
+       default-lazy-init="true">
+
+    <description>Shiro Configuration</description>
+    <!--加载属性配置文件-->
+    <context:property-placeholder ignore-unresolvable="true" location="classpath*:/config/application.properties" />
+
+    <!-- 定义 Shiro 主要业务对象 -->
+    <bean id="securityManager" class="org.apache.shiro.web.mgt.DefaultWebSecurityManager">
+        <property name="realm" ref="systemRealm"/>
+        <property name="cacheManager" ref="shiroCacheManager"/>
+    </bean>
+
+    <!--自定义Realm -->
+    <bean id="systemRealm" class="com.ipe.module.core.web.security.SystemRealm">
+        <property name="userService" ref="userService"/>
+        <property name="logService" ref="logService"/>
+    </bean>
+
+    <!--自定义
+    <bean id="formAuthenticationFilter" class="com.gbicc.ipe.core.web.security.CustFormAuthenticationFilter"/>-->
+    <!-- Shiro 过滤器 -->
+    <bean id="shiroFilter" class="org.apache.shiro.spring.web.ShiroFilterFactoryBean">
+        <property name="securityManager" ref="securityManager"/>
+        <property name="loginUrl" value="/signin.html"/>
+        <property name="successUrl" value="/index"/>
+        <property name="unauthorizedUrl" value="/common/403" />
+       <!-- <property name="filters">
+            <map>
+                <entry key="authc" value-ref="formAuthenticationFilter"/>
+            </map>
+        </property>-->
+        <property name="filterChainDefinitions">
+            <value>
+                /login=anon
+                /resources/** = anon
+                /logout = user
+                /comm/** = user
+                /** =authc
+            </value>
+        </property>
+    </bean>
+
+    <!-- 用户授权信息EhCache-->
+    <bean id="shiroCacheManager" class="org.apache.shiro.cache.ehcache.EhCacheManager">
+        <property name="cacheManagerConfigFile" value="classpath:cache/ehcache-shiro.xml"/>
+    </bean>
+
+    <!-- 保证实现了Shiro内部lifecycle函数的bean执行 -->
+    <bean id="lifecycleBeanPostProcessor" class="org.apache.shiro.spring.LifecycleBeanPostProcessor"/>
+
+    <!-- AOP式方法级权限检查 放在spring-mvc.xml才有效!
+    <bean class="org.springframework.aop.framework.autoproxy.DefaultAdvisorAutoProxyCreator" depends-on="lifecycleBeanPostProcessor">
+        <property name="proxyTargetClass" value="true" />
+    </bean>-->
+
+    <bean class="org.springframework.beans.factory.config.MethodInvokingFactoryBean">
+        <property name="staticMethod" value="org.apache.shiro.SecurityUtils.setSecurityManager"/>
+        <property name="arguments" ref="securityManager"/>
+    </bean>
+
+    <bean class="org.apache.shiro.spring.security.interceptor.AuthorizationAttributeSourceAdvisor">
+        <property name="securityManager" ref="securityManager"/>
+    </bean>
+</beans>

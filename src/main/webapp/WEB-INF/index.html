@@ -1,0 +1,28 @@
+<!DOCTYPE>
+<html lang="zh_CN">
+<head>
+    <title>IPE快速开发平台</title>
+    <#include "common/header.html"/>
+ </head>
+<body>
+<div id="loading"><img src="resources/images/loading.gif">正在加载....</div>
+</body>
+<script type="text/javascript">
+    Ext.onReady(function(){
+        Ext.QuickTips.init();
+        Ext.form.Field.prototype.msgTarget = "side";
+        //加载菜单
+        Ext.Ajax.request({
+            url:'menu/getRoleMenus',
+            method:'post',
+            success:function(res){
+                var result=Ext.decode(res.responseText);
+                if(result.success){
+                    ipe.conifg.userMenu=Ext.decode(result.rows);
+                    Ext.create('Ipe.desktop.Desktop');
+                }
+            }
+        });
+    });
+</script>
+</html>

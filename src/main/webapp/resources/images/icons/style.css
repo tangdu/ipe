@@ -1,0 +1,505 @@
+.btn_add
+{
+    background-image:url(add.png)!important;
+}
+.btn_app
+{
+    background-image:url(app.png)!important;
+}
+.btn_branch
+{
+    background-image:url(branch.png)!important;
+}
+.btn_bug
+{
+    background-image:url(bug.png)!important;
+}
+.btn_calendar
+{
+    background-image:url(calendar.png)!important;
+}
+.btn_cancel
+{
+    background-image:url(cancel.png)!important;
+}
+.btn_chart
+{
+    background-image:url(chart.png)!important;
+}
+.btn_check
+{
+    background-image:url(check.gif)!important;
+}
+.btn_clear
+{
+    background-image:url(clear.png)!important;
+}
+.btn_clock
+{
+    background-image:url(clock.gif)!important;
+}
+.btn_clock
+{
+    background-image:url(clock.png)!important;
+}
+.btn_comment
+{
+    background-image:url(comment.png)!important;
+}
+.btn_del
+{
+    background-image:url(del.png)!important;
+}
+.btn_down
+{
+    background-image:url(down.png)!important;
+}
+.btn_edit
+{
+    background-image:url(edit.png)!important;
+}
+.btn_fav
+{
+    background-image:url(fav.png)!important;
+}
+.btn_gmail
+{
+    background-image:url(gmail.png)!important;
+}
+.btn_help
+{
+    background-image:url(help.png)!important;
+}
+.btn_home
+{
+    background-image:url(home.png)!important;
+}
+.btn_import
+{
+    background-image:url(import.gif)!important;
+}
+.btn_info
+{
+    background-image:url(info.png)!important;
+}
+.btn_interface
+{
+    background-image:url(interface.gif)!important;
+}
+.btn_lock
+{
+    background-image:url(lock.png)!important;
+}
+.btn_mail
+{
+    background-image:url(mail.png)!important;
+}
+.btn_mailadd
+{
+    background-image:url(mailadd.png)!important;
+}
+.btn_mailbox
+{
+    background-image:url(mailbox.png)!important;
+}
+.btn_maildel
+{
+    background-image:url(maildel.png)!important;
+}
+.btn_mailinfo
+{
+    background-image:url(mailinfo.png)!important;
+}
+.btn_mailold
+{
+    background-image:url(mailold.png)!important;
+}
+.btn_mailompose
+{
+    background-image:url(mailompose.png)!important;
+}
+.btn_mailopen
+{
+    background-image:url(mailopen.png)!important;
+}
+.btn_mailre
+{
+    background-image:url(mailre.png)!important;
+}
+.btn_mails
+{
+    background-image:url(mails.png)!important;
+}
+.btn_mailve
+{
+    background-image:url(mailve.png)!important;
+}
+.btn_mialwarn
+{
+    background-image:url(mialwarn.png)!important;
+}
+.btn_monitor
+{
+    background-image:url(monitor.png)!important;
+}
+.btn_mouse
+{
+    background-image:url(mouse.gif)!important;
+}
+.btn_news
+{
+    background-image:url(news.png)!important;
+}
+.btn_next
+{
+    background-image:url(next.gif)!important;
+}
+.btn_prev
+{
+    background-image:url(prev.gif)!important;
+}
+.btn_printer
+{
+    background-image:url(printer.png)!important;
+}
+.btn_process
+{
+    background-image:url(process.gif)!important;
+}
+.btn_redo
+{
+    background-image:url(redo.png)!important;
+}
+.btn_refresh
+{
+    background-image:url(refresh.png)!important;
+}
+.btn_reset
+{
+    background-image:url(reset.png)!important;
+}
+.btn_save
+{
+    background-image:url(save.png)!important;
+}
+.btn_scriptcode
+{
+    background-image:url(scriptcode.png)!important;
+}
+.btn_set
+{
+    background-image:url(set.png)!important;
+}
+.btn_start
+{
+    background-image:url(start.png)!important;
+}
+.btn_style
+{
+    background-image:url(style.css)!important;
+}
+.btn_submit
+{
+    background-image:url(submit.png)!important;
+}
+.btn_target
+{
+    background-image:url(target.png)!important;
+}
+.btn_Trash
+{
+    background-image:url(Trash.png)!important;
+}
+.btn_turn
+{
+    background-image:url(turn.png)!important;
+}
+.btn_undo
+{
+    background-image:url(undo.png)!important;
+}
+.btn_up
+{
+    background-image:url(up.png)!important;
+}
+.btn_user
+{
+    background-image:url(user.png)!important;
+}
+.btn_valid
+{
+    background-image:url(valid.png)!important;
+}
+.btn_view
+{
+    background-image:url(view.png)!important;
+}
+.btn_warn
+{
+    background-image:url(warn.png)!important;
+}
+.btn_zoomin
+{
+    background-image:url(zoomin.png)!important;
+}
+.btn_zoomout
+{
+    background-image:url(zoomout.png)!important;
+}
+.textReadOnly input{
+    background-color: #EFEFEF !important;
+    cursor: default;
+    background-image: none !important;
+    border-color:#AFBFF8 !important;
+}
+.toolbar{
+    background-color:#dfe8f6;
+    background-image:none;
+}.btn_add
+{
+    background-image:url(add.png)!important;
+}
+.btn_app
+{
+    background-image:url(app.png)!important;
+}
+.btn_branch
+{
+    background-image:url(branch.png)!important;
+}
+.btn_bug
+{
+    background-image:url(bug.png)!important;
+}
+.btn_calendar
+{
+    background-image:url(calendar.png)!important;
+}
+.btn_cancel
+{
+    background-image:url(cancel.png)!important;
+}
+.btn_chart
+{
+    background-image:url(chart.png)!important;
+}
+.btn_check
+{
+    background-image:url(check.gif)!important;
+}
+.btn_clear
+{
+    background-image:url(clear.png)!important;
+}
+.btn_clock
+{
+    background-image:url(clock.gif)!important;
+}
+.btn_clock
+{
+    background-image:url(clock.png)!important;
+}
+.btn_comment
+{
+    background-image:url(comment.png)!important;
+}
+.btn_del
+{
+    background-image:url(del.png)!important;
+}
+.btn_down
+{
+    background-image:url(down.png)!important;
+}
+.btn_edit
+{
+    background-image:url(edit.png)!important;
+}
+.btn_fav
+{
+    background-image:url(fav.png)!important;
+}
+.btn_gmail
+{
+    background-image:url(gmail.png)!important;
+}
+.btn_help
+{
+    background-image:url(help.png)!important;
+}
+.btn_home
+{
+    background-image:url(home.png)!important;
+}
+.btn_import
+{
+    background-image:url(import.gif)!important;
+}
+.btn_info
+{
+    background-image:url(info.png)!important;
+}
+.btn_interface
+{
+    background-image:url(interface.gif)!important;
+}
+.btn_lock
+{
+    background-image:url(lock.png)!important;
+}
+.btn_mail
+{
+    background-image:url(mail.png)!important;
+}
+.btn_mailadd
+{
+    background-image:url(mailadd.png)!important;
+}
+.btn_mailbox
+{
+    background-image:url(mailbox.png)!important;
+}
+.btn_maildel
+{
+    background-image:url(maildel.png)!important;
+}
+.btn_mailinfo
+{
+    background-image:url(mailinfo.png)!important;
+}
+.btn_mailold
+{
+    background-image:url(mailold.png)!important;
+}
+.btn_mailompose
+{
+    background-image:url(mailompose.png)!important;
+}
+.btn_mailopen
+{
+    background-image:url(mailopen.png)!important;
+}
+.btn_mailre
+{
+    background-image:url(mailre.png)!important;
+}
+.btn_mails
+{
+    background-image:url(mails.png)!important;
+}
+.btn_mailve
+{
+    background-image:url(mailve.png)!important;
+}
+.btn_mialwarn
+{
+    background-image:url(mialwarn.png)!important;
+}
+.btn_monitor
+{
+    background-image:url(monitor.png)!important;
+}
+.btn_mouse
+{
+    background-image:url(mouse.gif)!important;
+}
+.btn_news
+{
+    background-image:url(news.png)!important;
+}
+.btn_next
+{
+    background-image:url(next.gif)!important;
+}
+.btn_prev
+{
+    background-image:url(prev.gif)!important;
+}
+.btn_printer
+{
+    background-image:url(printer.png)!important;
+}
+.btn_process
+{
+    background-image:url(process.gif)!important;
+}
+.btn_redo
+{
+    background-image:url(redo.png)!important;
+}
+.btn_refresh
+{
+    background-image:url(refresh.png)!important;
+}
+.btn_reset
+{
+    background-image:url(reset.png)!important;
+}
+.btn_save
+{
+    background-image:url(save.png)!important;
+}
+.btn_scriptcode
+{
+    background-image:url(scriptcode.png)!important;
+}
+.btn_set
+{
+    background-image:url(set.png)!important;
+}
+.btn_start
+{
+    background-image:url(start.png)!important;
+}
+.btn_style
+{
+    background-image:url(style.css)!important;
+}
+.btn_submit
+{
+    background-image:url(submit.png)!important;
+}
+.btn_target
+{
+    background-image:url(target.png)!important;
+}
+.btn_Trash
+{
+    background-image:url(Trash.png)!important;
+}
+.btn_turn
+{
+    background-image:url(turn.png)!important;
+}
+.btn_undo
+{
+    background-image:url(undo.png)!important;
+}
+.btn_up
+{
+    background-image:url(up.png)!important;
+}
+.btn_user
+{
+    background-image:url(user.png)!important;
+}
+.btn_valid
+{
+    background-image:url(valid.png)!important;
+}
+.btn_view
+{
+    background-image:url(view.png)!important;
+}
+.btn_warn
+{
+    background-image:url(warn.png)!important;
+}
+.btn_zoomin
+{
+    background-image:url(zoomin.png)!important;
+}
+.btn_zoomout
+{
+    background-image:url(zoomout.png)!important;
+}
