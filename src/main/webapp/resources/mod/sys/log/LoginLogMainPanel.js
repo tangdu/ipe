@@ -24,11 +24,8 @@ Ext.define('Sys.config.LogList',{
         },{
             header:'日志类型',
             dataIndex:'logType',
-            renderer:function(val){
-                if(val=="01"){
-                    return "登录";
-                }
-            }
+            width:70,
+            renderer:ipe.fuc.logTypeDt
         },{
             header:'访问IP',
             dataIndex:'accessIp'
@@ -67,6 +64,7 @@ Ext.define('Sys.config.LogList',{
                 type: 'ajax',
                 enablePaging: true,
                 url: 'log/loginlist',
+                extraParams:{'a':'L1'},
                 reader: {
                     root: 'rows'
                 }

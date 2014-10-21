@@ -2,7 +2,6 @@ package com.ipe.module.core.entity;
 
 import java.util.Set;
 
-import javax.persistence.Basic;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -41,8 +40,7 @@ public class Organization extends IDEntity {
     private Organization parent;
     private Set<Organization> rows;
 
-    @Column(name = "org_code", nullable = true, insertable = true, updatable = true, length = 1000, precision = 0)
-    @Basic
+    @Column(name = "org_code")
     public String getOrgCode() {
         return orgCode;
     }
@@ -51,8 +49,7 @@ public class Organization extends IDEntity {
         this.orgCode = orgCode;
     }
 
-    @Column(name = "org_name", nullable = true, insertable = true, updatable = true, length = 1000, precision = 0)
-    @Basic
+    @Column(name = "org_name")
     public String getOrgName() {
         return orgName;
     }
@@ -61,8 +58,7 @@ public class Organization extends IDEntity {
         this.orgName = orgName;
     }
 
-    @Column(name = "remark_", nullable = true, insertable = true, updatable = true, length = 1000, precision = 0)
-    @Basic
+    @Column(name = "remark_")
     public String getRemark() {
         return remark;
     }
@@ -73,8 +69,7 @@ public class Organization extends IDEntity {
 
     private Integer sno;
 
-    @Column(name = "sno_", nullable = true, insertable = true, updatable = true, length = 10, precision = 0)
-    @Basic
+    @Column(name = "sno_")
     public Integer getSno() {
         return sno;
     }

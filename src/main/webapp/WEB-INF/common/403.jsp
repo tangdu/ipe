@@ -2,7 +2,9 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title>没有权限访问</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <title>没有访问权限</title>
+    <link href="<%=request.getContextPath()%>/resources/images/css/error.css" rel="stylesheet">
 </head>
 <body class="page-404-full-page" ryt13217="1">
 <div>

@@ -21,7 +21,7 @@ Ext.define('Sys.config.BusLogList',{
             sortable:true
         },{
             header:'访问用户',
-            width:150,
+            width:100,
             dataIndex:'accessPerson',
             sortable:true
         },{
@@ -33,10 +33,11 @@ Ext.define('Sys.config.BusLogList',{
             dataIndex:'accessTime'
         },{
             header:'访问路径',
-            width:350,
+            width:300,
             dataIndex:'operate'
         },{
             header:'备注',
+            width:300,
             dataIndex:'remark'
         }];
 
@@ -51,6 +52,7 @@ Ext.define('Sys.config.BusLogList',{
             proxy: {
                 type: 'ajax',
                 url: 'log/buslist',
+                extraParams:{'a':'L2'},
                 reader: {
                     root: 'rows'
                 }

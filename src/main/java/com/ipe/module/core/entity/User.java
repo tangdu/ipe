@@ -34,7 +34,7 @@ public class User extends IDEntity {
 
 	private String userAccount;
 
-    @Column(name = "user_account", nullable = true, insertable = true, updatable = true, length = 100, precision = 0)
+    @Column(name = "user_account")
     @JSONField(serialize = false)
     public String getUserAccount() {
         return userAccount;
@@ -46,7 +46,7 @@ public class User extends IDEntity {
 
     private String userPwd;
 
-    @Column(name = "user_pwd", nullable = true, insertable = true, updatable = true, length = 100, precision = 0)
+    @Column(name = "user_pwd")
     @JSONField(serialize = false)
     public String getUserPwd() {
         return userPwd;
@@ -58,7 +58,7 @@ public class User extends IDEntity {
 
     private String enabled;
 
-    @Column(name = "enabled_", nullable = true, insertable = true, updatable = true, length = 2, precision = 0)
+    @Column(name = "enabled_")
     public String getEnabled() {
         return enabled;
     }
@@ -69,7 +69,7 @@ public class User extends IDEntity {
 
     private String remark;
 
-    @Column(name = "remark_", nullable = true, insertable = true, updatable = true, length = 1000, precision = 0)
+    @Column(name = "remark_")
     public String getRemark() {
         return remark;
     }
@@ -80,7 +80,7 @@ public class User extends IDEntity {
 
     private String userName;
 
-    @Column(name = "user_name", nullable = true, insertable = true, updatable = true, length = 100, precision = 0)
+    @Column(name = "user_name")
     public String getUserName() {
         return userName;
     }
@@ -91,7 +91,7 @@ public class User extends IDEntity {
 
     private String isAdmin;
 
-    @Column(name = "is_admin", nullable = true, insertable = true, updatable = true, length = 2, precision = 0)
+    @Column(name = "is_admin")
     @JSONField(serialize = false)
     public String getAdmin() {
         return isAdmin;
@@ -103,7 +103,7 @@ public class User extends IDEntity {
 
     private Date createdDate;
 
-    @Column(name = "created_date", nullable = true, insertable = true, updatable = true, length = 19, precision = 0)
+    @Column(name = "created_date",updatable=false)
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     public Date getCreatedDate() {
         return createdDate;
@@ -115,7 +115,7 @@ public class User extends IDEntity {
 
     private Date updatedDate;
 
-    @Column(name = "updated_date", nullable = true, insertable = true, updatable = true, length = 19, precision = 0)
+    @Column(name = "updated_date")
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     public Date getUpdatedDate() {
         return updatedDate;

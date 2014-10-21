@@ -72,12 +72,12 @@ Ext.define('Bpm.ProcessDefList',{
             iconCls:ipe.sty.del,
             scope:this,
             handler:this.delDef
-        },{
+        },/*{
             text:'历史',
             iconCls:ipe.sty.view,
             scope:this,
             handler:this.viewHis
-        },'-',{
+        },*/'-',{
             text:'流程图',
             iconCls:ipe.sty.view,
             scope:this,
@@ -109,7 +109,10 @@ Ext.define('Bpm.ProcessDefList',{
         });
 
         this.bbar=Ext.create('Ipe.PagingToolbar',{store:this.store,pageSize:this.pageSize});
+        this.on('selectionchange',this.showProDefHisList,this);
         this.callParent();
+    },showProDefHisList:function(th,sl){
+    	this.parent.processHisList.getStore().load({params:{params:sl[0].data.deploymentId}});
     },deploy:function(){
         var win=Ext.create('Bpm.ProcessDeployWin',{parent:this});
         win.show();
@@ -197,6 +200,124 @@ Ext.define('Bpm.ProcessDefList',{
 });
 
 /**
+ * 流程定义历史
+ */
+Ext.define('Bpm.ProcessDefHisList',{
+    extend:'Ext.grid.Panel',
+    alias : 'widget.processMHislist',
+    //title : '角色列表',
+    autoScroll : false,
+    enableColumnMove : false,
+    columnLines : true,
+    viewConfig : {
+        loadingText : '正在加载流程列表',
+        scrollOffset:0,
+        autoFit: true,
+        forceFit:true,
+        enableRowBody:true
+    },
+    pageSize : 20,
+    initComponent:function(){
+        this.columns=[{xtype: 'rownumberer'},{
+            header:'部署ID',
+            dataIndex:'deploymentId'
+        },{
+            header:'流程定义ID',
+            dataIndex:'id',
+            width:150,
+            sortable:true
+        },{
+            header:'名称',
+            dataIndex:'name',
+            width:150
+        },{
+            header:'版本',
+            dataIndex:'version'
+        },{
+            header:'Key',
+            dataIndex:'key'
+        },{
+            header:'有无表单',
+            dataIndex:'startFormKey'
+        },{
+            header:'目录',
+            dataIndex:'category',
+            width:200
+        },{
+            header:'资源名称',
+            dataIndex:'resourceName',
+            width:300
+        },{
+            header:'图片资源名称',
+            dataIndex:'diagramResourceName',
+            width:300
+        },{
+            header:'描述',
+            dataIndex:'description',
+            width:300
+        }];
+
+        this.tbar=[{
+            text:'流程图',
+            iconCls:ipe.sty.view,
+            scope:this,
+            handler:this.viewDiagram
+        }];
+        this.store=Ext.create('Ext.data.JsonStore', {
+            proxy: {
+                type: 'ajax',
+                url: 'bpm/process_def_his_list',
+                reader: {
+                    root: 'rows'
+                }
+            },
+            remoteSort : true,
+            fields : [
+                { name: 'id', type: 'string' },
+                { name: 'rev', type: 'string' },
+                { name: 'category', type: 'string' },
+                { name: 'name', type: 'string' },
+                { name: 'key', type: 'string' },
+                { name: 'version', type: 'int' },
+                { name: 'resourceName', type: 'string' },
+                { name: 'diagramResourceName', type: 'string' },
+                { name: 'description', type: 'string' },
+                { name: 'startFormKey', type: 'boolean' },
+                { name: 'deploymentId', type: 'string'}
+            ]
+        });
+
+        this.bbar=Ext.create('Ipe.PagingToolbar',{store:this.store,pageSize:this.pageSize});
+        this.callParent();
+    },viewDiagram:function(){
+        var record=this.getSelectionModel().getSelection();
+        if(record && record.length>0){
+            Ext.create('Ext.Window',{
+                title:'查看流程图->'+record[0].data.name+'['+record[0].data.key+']',
+                resizable : true,
+                draggable : true,
+                maximizable:true,
+                modal:true,
+                layout : 'fit',
+                width : 730,
+                height : 400,
+                items : [{
+                    xtype : 'box',
+                    autoEl : {
+                        tag : 'img',
+                        src : 'bpm/viewDiagram?date='+new Date()+'&key='+record[0].data.key+'&version='+record[0].data.version
+                    }
+                }],buttons:[{text:'关闭',iconCls:ipe.sty.cancel,handler:function(){
+                    this.up('window').close();
+                }}]
+            }).show();
+        }else{
+            Ext.Msg.alert("提示", "请先选择一条数据");
+        }
+    }
+});
+
+/**
  * 流程部署
  */
 Ext.define('Bpm.ProcessDeployWin',{
@@ -205,6 +326,7 @@ Ext.define('Bpm.ProcessDeployWin',{
     closeAction:'close',
     modal:true,
     width:400,
+    border:false,
     height:100,
     layout:'fit',
     initComponent:function(){
@@ -213,13 +335,14 @@ Ext.define('Bpm.ProcessDeployWin',{
             url:'bpm/deploy',
             frame:true,
             defaults:{
-                anchor:'93%',
+                anchor:'98%',
                 border:'5px'
             },
             items:[{fieldLabel:'流程文件',name:'file',allowBlank:false,buttonText:'选择',xtype:'filefield'}]
         });
 
-        this.buttons=[{text:'确定',scope:this,handler:this.submit},{text:'返回',scope:this,handler:this.close}];
+        this.buttons=[{text:'确定',scope:this,handler:this.submit,iconCls:ipe.sty.submit},
+        			{text:'返回',scope:this,handler:this.close,iconCls:ipe.sty.cancel}];
         this.callParent();
     },submit:function(){
         var form=(this.down('form').getForm());
@@ -248,10 +371,11 @@ Ext.define('Bpm.ProcessDeployWin',{
 
 Ext.define('Bpm.ProcessManagerMainPanel',{
     extend:'Ext.Panel',
-    layout:{type:'hbox',align:'stretch'},
+    layout:{type:'vbox',align:'stretch'},
     initComponent:function(){
         this.processList=Ext.create('Bpm.ProcessDefList',{parent:this,flex:7});
-        this.items=[this.processList];
+        this.processHisList=Ext.create('Bpm.ProcessDefHisList',{parent:this,flex:3});
+        this.items=[this.processList,this.processHisList];
         this.callParent();
     }
 });

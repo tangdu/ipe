@@ -40,6 +40,11 @@ Ext.define('Sys.tool.ExlImptplList',{
                     return val+"(<span style='color:red;font-weight:bold;'>"+record.data.tableCot+"</span>)";
                 }
             },{
+            	header:'表所属用户',
+            	width:80,
+            	dataInde:'tableBelongUser',
+            	sortable:true
+            },{
                 header:'Excel开始行',
                 width:80,
                 dataIndex:'startrowIndex',
@@ -81,6 +86,11 @@ Ext.define('Sys.tool.ExlImptplList',{
             scope:this,
             handler:this.addExlImptpl
         },{
+            text:'新增',
+            iconCls:ipe.sty.add,
+            scope:this,
+            handler:this.addExlImptpl
+        },{
             text:'编辑',
             iconCls:ipe.sty.edit,
             scope:this,
@@ -102,7 +112,7 @@ Ext.define('Sys.tool.ExlImptplList',{
             },
             remoteSort : true,
             autoLoad:true,
-            fields : ['exlName','exlCode','mappingTable','startrowIndex','startcolIndex','sheetIndex','enabled','createdDate','remark','exlFile','tableCot']
+            fields : ['exlName','exlCode','tableBelongUser','mappingTable','startrowIndex','startcolIndex','sheetIndex','enabled','createdDate','remark','exlFile','tableCot']
         });
 
         this.bbar=Ext.create('Ipe.PagingToolbar',{
@@ -171,9 +181,6 @@ Ext.define('Sys.tool.ExlImpEditForm',{
     extend:'Ext.FormPanel',
     url:'exlImptpl/impexcel',
     waitTitle:'请稍候....',
-    defaults:{
-        anchor:'98%'
-    },
     isFileUpload:true,
     frame:true,
     border:false,
@@ -195,7 +202,7 @@ Ext.define('Sys.tool.ExlImpEditForm',{
             displayField: 'text',
             editable: true
         });
-        this.enasetCol=Ext.create('Ext.form.Checkbox',{fieldLabel:'启用Excel表头作为表字段'});
+        this.enasetCol=Ext.create('Ext.form.Checkbox',{fieldLabel:'表头作表字段'});
         this.setCol=new Ext.form.NumberField({
            fieldLabel:'对应标题行',
            hidden:true,
@@ -204,9 +211,9 @@ Ext.define('Sys.tool.ExlImpEditForm',{
         this.items=[
             {xtype:'fieldset',title:'Excel上传',layout:'column',flex:2,items:[
                 {columnWidth:.25,fieldLabel:'Sheet索引',allowBlank:false,xtype:'numberfield',name:'sheetIndex',value:1},
-                {columnWidth:.25,layout:'form',margin: '-4 0 0 0 ',xtype: 'container',items:[this.defImpType]},
-                {columnWidth:.25,layout:'form',margin: '-4 0 0 0 ',xtype: 'container',items:[this.enasetCol]},
-            	{columnWidth:.25,layout:'form',margin: '-4 0 0 0',xtype: 'container',items:[this.setCol]},
+                {columnWidth:.25,layout:'form',xtype: 'container',items:[this.defImpType]},
+                {columnWidth:.25,layout:'form',xtype: 'container',items:[this.enasetCol]},
+            	{columnWidth:.25,layout:'form',xtype: 'container',items:[this.setCol]},
                 {columnWidth:.9,fieldLabel:'文件',allowBlank:false,clearOnSubmit:false,xtype:'filefield',buttonText:"浏览",name:'file',anchor:'95%'},
                 {columnWidth:.1,xtype:'button',text:'上传',iconCls:ipe.sty.up,handler:this.uploadExcel,scope:this}]},
             {xtype:'fieldset',title:'预览',flex:9,items:this.containerView,autoScroll:true,layout:'fit'}];
@@ -400,7 +407,7 @@ Ext.define('Sys.tool.ExlImptplEditForm',{
                         allowBlank:false,
                         name:'exlCode'
                     }
-                ]},{columnWidth:.33,xtype:'container',frame:true,border:false,layout:'form',items:[
+                ]},{columnWidth:.33,xtype:'container',frame:true,border:false,items:[
                     {
                         fieldLabel:'状态',
                         xtype:'combo',

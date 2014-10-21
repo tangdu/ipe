@@ -1,6 +1,5 @@
 package com.ipe.module.core.service;
 
-import java.util.Arrays;
 import java.util.Date;
 import java.util.HashSet;
 import java.util.List;
@@ -17,6 +16,7 @@ import com.alibaba.fastjson.serializer.SerializerFeature;
 import com.ipe.common.dao.BaseDao;
 import com.ipe.common.dao.SpringJdbcDao;
 import com.ipe.common.service.BaseService;
+import com.ipe.common.util.CollectionSort;
 import com.ipe.module.core.dao.MenuDao;
 import com.ipe.module.core.dao.ResourceDao;
 import com.ipe.module.core.entity.Menu;
@@ -91,7 +91,8 @@ public class MenuService extends BaseService<Menu, String> {
     @Transactional(readOnly = true)
     public String getUserMenu(String userId) {
         Menu root = null;
-        if (true) {
+        boolean isAdmin=true;
+        if (isAdmin) {
             String sql = "select * from ( select t01.* from t_cor_menu t01 left join (\n" +
                     "SELECT t4.resource_id from t_cor_user t1 join \n" +
                     "t_cor_user_role t2 on t1.id_=t2.user_id\n" +
@@ -99,6 +100,7 @@ public class MenuService extends BaseService<Menu, String> {
                     "join t_cor_authority t4 on t4.role_id=t3.id_ where t1.id_='"+userId+"' and t3.enabled_='1' and t1.enabled_='1') t02 \n" +
                     "on t01.resource_id=t02.resource_id) t  order by t.sno_ asc";
             List<Menu> menus = menuDao.listBySql(sql);
+            CollectionSort.sortList(menus, "sno", true);
             if (menus == null || menus.isEmpty()) {
                 return "[]";
             }
@@ -120,7 +122,6 @@ public class MenuService extends BaseService<Menu, String> {
         if (root == null) {
             throw new RuntimeException("root is null");
         }
-
         PropertyFilter propertyFilter = new PropertyFilter() {
             @Override
             public boolean apply(Object source, String name, Object value) {

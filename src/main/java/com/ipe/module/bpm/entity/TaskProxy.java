@@ -1,23 +1,32 @@
 package com.ipe.module.bpm.entity;
 
+import java.util.Date;
+
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.Table;
+
 import com.fasterxml.jackson.annotation.JsonAutoDetect;
 import com.fasterxml.jackson.annotation.JsonFormat;
-import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import com.ipe.common.entity.IDEntity;
+import com.ipe.common.util.Constants;
 import com.ipe.module.core.entity.User;
-
-import javax.persistence.*;
-import java.util.Date;
 
 /**
  * Created by tangdu on 14-2-16.
  */
 @JsonAutoDetect
 @Entity
-@Table(name = "act_ru_taskproxy", schema = "", catalog = "db_work")
-@JsonSerialize(include = JsonSerialize.Inclusion.NON_NULL)
+@Table(name = "act_ru_taskproxy", schema = "", catalog = Constants.SCHEMA)
 public class TaskProxy extends IDEntity {
-    private User userForm;
+    /**
+	 * 
+	 */
+	private static final long serialVersionUID = 8819597217441123096L;
+	private User userForm;
     private User userTo;
     private Date startDate;
     private Date endDate;

@@ -98,7 +98,7 @@ public class Remind extends IDEntity {
     }
 
 
-    @Column(name = "created_date")
+    @Column(name = "created_date",updatable=false)
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     public Date getCreatedDate() {
         return createdDate;

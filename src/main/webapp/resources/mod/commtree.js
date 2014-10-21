@@ -92,6 +92,7 @@ function viewDnyDiagram(record){
         layout : 'fit',
         width : 730,
         height : 400,
+        border:false,
         items : [{xtype:'panel',autoScroll:true,items:{
             xtype : 'box',
             autoEl : {
@@ -100,7 +101,7 @@ function viewDnyDiagram(record){
                 'data-qtitle':"执行中.",
                 src : 'bpm/viewDnyDiagram?date='+new Date()+'&executionId='+record.data.executionId
             }
-        }}],buttons:[{text:'关闭',handler:function(){
+        }}],buttons:[{text:'关闭',iconCls:ipe.sty.cancel,handler:function(){
             this.up('window').close();
         }}]
     });

@@ -4,7 +4,7 @@
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <title>404 打不到该页面</title>
-    <link href="<%=request.getContextPath()%>/resources/images/error.css" rel="stylesheet">
+    <link href="<%=request.getContextPath()%>/resources/images/css/error.css" rel="stylesheet">
 </head>
 <body class="page-404-full-page" ryt13217="1">
 <div>

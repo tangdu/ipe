@@ -1,8 +1,10 @@
 package com.ipe.module.bpm.controller.pojo;
 
-import com.fasterxml.jackson.annotation.JsonFormat;
-
 import java.util.Date;
+
+import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.serializer.SerializerFeature;
+import com.fasterxml.jackson.annotation.JsonFormat;
 
 /**
  * Created with IntelliJ IDEA.
@@ -12,6 +14,7 @@ import java.util.Date;
  * To change this template use File | Settings | File Templates.
  */
 public class ActTask {
+	String taskId;
     int revision;
     String owner;//所有人
     String assignee;//领取人
@@ -30,7 +33,15 @@ public class ActTask {
     String taskDefinitionKey;
     String eventName;
 
-    public String getUser() {
+    public String getTaskId() {
+		return taskId;
+	}
+
+	public void setTaskId(String taskId) {
+		this.taskId = taskId;
+	}
+
+	public String getUser() {
 		return user;
 	}
 
@@ -167,4 +178,9 @@ public class ActTask {
     public void setEventName(String eventName) {
         this.eventName = eventName;
     }
+
+	@Override
+	public String toString() {
+		return JSON.toJSONString(this,SerializerFeature.UseISO8601DateFormat);
+	}
 }

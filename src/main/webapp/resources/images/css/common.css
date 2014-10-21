@@ -18,3 +18,58 @@ html,body{
     background-image: none!important;
     border-color: #AFBFF8!important;
 }
+.padding0{
+	padding:0;
+	margin:0;
+}
+.hidden{
+	display: none;
+}
+.to-left{
+	float:left;
+}
+.to-right{
+	float:right;
+}
+.bold{
+	font-weight:bold;
+}
+.text-center{
+	text-align: center;
+}
+.mcol-md-6{
+	width:60%;
+}
+.mcol-md-4{
+	width:38%;
+}
+.mtable{
+	width:100%;
+	padding:0px;
+	margin: 0 auto 0 auto;
+	border-collapse: collapse;
+	box-shadow:0 2px 5px #cbcbcb;
+	font-size:13px !important;
+}
+.mtable thead {
+	background-color: #99bbe8;
+}
+.mtable thead th {
+	font-weight: bold !important;
+	text-align:center !important;
+}
+.mtable td , .mtable th{
+	border:1px solid;
+	border-collapse: collapse;
+	height:18px;
+}
+
+.mtable tbody tr:nth-child(odd){
+	background-color: #f9f9f9
+}
+.mtable tbody tr{
+	height:30px;
+}
+.marginTop10{
+	margin-top: 15px;
+}

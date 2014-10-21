@@ -32,12 +32,22 @@ public class ExlImptpl extends IDEntity {
 	private String remark;
 	private String enabled;
 	private String mappingTable;
+	private String tableBelongUser;
 	private Integer sheetIndex;
 	private Integer startrowIndex;
 	private Integer startcolIndex;
 	private String exlFile;
 
-	@Column(name = "exl_code", nullable = false, insertable = true, updatable = true, length = 50, precision = 0)
+	@Column(name="table_belong_user")
+	public String getTableBelongUser() {
+		return tableBelongUser;
+	}
+
+	public void setTableBelongUser(String tableBelongUser) {
+		this.tableBelongUser = tableBelongUser;
+	}
+
+	@Column(name = "exl_code")
 	public String getExlCode() {
 		return exlCode;
 	}
@@ -46,7 +56,7 @@ public class ExlImptpl extends IDEntity {
 		this.exlCode = exlCode;
 	}
 
-	@Column(name = "exl_name", nullable = false, insertable = true, updatable = true, length = 100, precision = 0)
+	@Column(name = "exl_name")
 	public String getExlName() {
 		return exlName;
 	}
@@ -55,7 +65,7 @@ public class ExlImptpl extends IDEntity {
 		this.exlName = exlName;
 	}
 
-	@Column(name = "created_date", nullable = true, insertable = true, updatable = true, length = 19, precision = 0)
+	@Column(name = "created_date", updatable = false)
 	@JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
 	public Timestamp getCreatedDate() {
 		return createdDate;
@@ -65,7 +75,7 @@ public class ExlImptpl extends IDEntity {
 		this.createdDate = createdDate;
 	}
 
-	@Column(name = "remark_", nullable = true, insertable = true, updatable = true, length = 200, precision = 0)
+	@Column(name = "remark_")
 	public String getRemark() {
 		return remark;
 	}
@@ -74,7 +84,7 @@ public class ExlImptpl extends IDEntity {
 		this.remark = remark;
 	}
 
-	@Column(name = "enabled_", nullable = true, insertable = true, updatable = true, length = 2, precision = 0)
+	@Column(name = "enabled_")
 	public String getEnabled() {
 		return enabled;
 	}
@@ -83,7 +93,7 @@ public class ExlImptpl extends IDEntity {
 		this.enabled = enabled;
 	}
 
-	@Column(name = "mapping_table", nullable = false, insertable = true, updatable = true, length = 50, precision = 0)
+	@Column(name = "mapping_table")
 	public String getMappingTable() {
 		return mappingTable;
 	}
@@ -92,7 +102,7 @@ public class ExlImptpl extends IDEntity {
 		this.mappingTable = mappingTable;
 	}
 
-	@Column(name = "sheet_index", nullable = true, insertable = true, updatable = true, length = 10, precision = 0)
+	@Column(name = "sheet_index")
 	public Integer getSheetIndex() {
 		return sheetIndex;
 	}
@@ -101,7 +111,7 @@ public class ExlImptpl extends IDEntity {
 		this.sheetIndex = sheetIndex;
 	}
 
-	@Column(name = "startrow_index", nullable = true, insertable = true, updatable = true, length = 10, precision = 0)
+	@Column(name = "startrow_index")
 	public Integer getStartrowIndex() {
 		return startrowIndex;
 	}
@@ -110,7 +120,7 @@ public class ExlImptpl extends IDEntity {
 		this.startrowIndex = startrowIndex;
 	}
 
-	@Column(name = "startcol_index", nullable = true, insertable = true, updatable = true, length = 10, precision = 0)
+	@Column(name = "startcol_index")
 	public Integer getStartcolIndex() {
 		return startcolIndex;
 	}

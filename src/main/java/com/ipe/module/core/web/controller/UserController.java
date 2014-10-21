@@ -1,12 +1,10 @@
 package com.ipe.module.core.web.controller;
 
-import com.ipe.common.util.MD5;
-import com.ipe.module.core.entity.Role;
-import com.ipe.module.core.entity.User;
-import com.ipe.module.core.service.UserService;
-import com.ipe.module.core.web.security.SystemRealm;
-import com.ipe.module.core.web.util.BodyWrapper;
-import com.ipe.module.core.web.util.RestRequest;
+import java.util.Date;
+import java.util.List;
+
+import javax.servlet.http.HttpServletRequest;
+
 import org.apache.shiro.SecurityUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -16,11 +14,13 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import javax.servlet.http.HttpServletRequest;
-import java.sql.Timestamp;
-import java.util.Calendar;
-import java.util.Date;
-import java.util.List;
+import com.ipe.common.util.MD5;
+import com.ipe.module.core.entity.Role;
+import com.ipe.module.core.entity.User;
+import com.ipe.module.core.service.UserService;
+import com.ipe.module.core.web.security.SystemRealm;
+import com.ipe.module.core.web.util.BodyWrapper;
+import com.ipe.module.core.web.util.RestRequest;
 
 /**
  * Created with IntelliJ IDEA.

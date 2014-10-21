@@ -16,10 +16,14 @@ Ext.define('Sys.msg.NoticeList',{
     pageSize : 20,
     initComponent:function(){
         this.columns=[{xtype: 'rownumberer'},{
-            header:'内容',
-            width:200,
-            dataIndex:'content',
+            header:'标题',
+            dataIndex:'title',
             sortable:true
+        },{
+            header:'内容',
+            width:400,
+            dataIndex:'content',
+            sortable:false
         },{
             header:'附件',
             width:250,
@@ -27,11 +31,12 @@ Ext.define('Sys.msg.NoticeList',{
             renderer:function(val,cellmeta, record){
                return "<a href='#' onclick=ipe.fuc.downFile('"+record.data.appendixPath+"')>"+val+"</a>";
             },
-            sortable:true
+            sortable:false
         },{
             header:'创建日期',
             width:150,
-            dataIndex:'createdDate'
+            dataIndex:'createdDate',
+            sortable:true
         }];
 
         this.tbar=[{
@@ -61,7 +66,7 @@ Ext.define('Sys.msg.NoticeList',{
             },
             remoteSort : true,
             autoLoad:true,
-            fields : ['id','content','appendixPath','userId','createdDate','appendixName']
+            fields : ['id','title','content','appendixPath','userId','createdDate','appendixName']
         });
 
         this.bbar=Ext.create('Ipe.PagingToolbar',{
@@ -142,6 +147,9 @@ Ext.define('Sys.msg.NoticeEditForm',{
     defaultType:'textfield',
     initComponent:function(){
         this.items=[{
+            fieldLabel:'标题',
+            name:'title'
+        },{
             fieldLabel:'公告内容',
             xtype:'htmleditor',
             height:400,
@@ -190,8 +198,9 @@ Ext.define('Sys.msg.NoticeEditForm',{
             Ext.Msg.alert("提示",'公告内容不能为空');
             return;
         }else{
-            if(content.length>200){
-                Ext.Msg.alert("提示",'公告内容长度不能超过200字');
+        	content=content.replace(/<\!--\[if\s*gte\s*mso\s*[\s\S]*?<\!\[endif\]-->/gi, "");
+            if(content.length>2000){
+                Ext.Msg.alert("提示",'公告内容长度不能超过2000字');
                 return;
             }
         }

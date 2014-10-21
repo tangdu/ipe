@@ -92,6 +92,7 @@ public class ProcessTaskService extends BaseService<IDEntity, String> {
             }else{
             	actTask.setUser("系统发送");
             }
+            actTask.setTaskId(task.getId());
             actTask.setCreateTime(task.getCreateTime());
             actTask.setDueDate(task.getDueDate());
             actTask.setExecutionId(task.getExecutionId());

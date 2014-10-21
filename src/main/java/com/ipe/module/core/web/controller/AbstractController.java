@@ -4,10 +4,12 @@ import com.alibaba.fastjson.JSON;
 import com.ipe.common.util.PageModel;
 import com.ipe.common.web.BaseController;
 import com.ipe.module.core.web.util.BodyWrapper;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import javax.servlet.http.HttpServletResponse;
+
 import java.io.IOException;
 import java.util.List;
 import java.util.Map;
@@ -113,7 +115,8 @@ public class AbstractController extends BaseController {
         }
     }
 
-    public void render(Map info,HttpServletResponse response){
+    @SuppressWarnings("rawtypes")
+	public void render(Map info,HttpServletResponse response){
         response.setCharacterEncoding("UTF-8");
         response.setContentType("text/html");
         if(info!=null){

@@ -16,7 +16,7 @@ public class TaskProxyService extends BaseService<TaskProxy, String> {
     private TaskProxyDao taskProxyDao;
 
     @Override
-    public BaseDao getBaseDao() {
+    public BaseDao<TaskProxy, String> getBaseDao() {
         return taskProxyDao;
     }
 

@@ -37,7 +37,7 @@ public class ExlImptplDetailes extends IDEntity {
 		this.exlCol = exlCol;
 	}
 
-	@Column(name = "table_col", nullable = true, insertable = true, updatable = true, length = 50, precision = 0)
+	@Column(name = "table_col")
 	public String getTableCol() {
 		return tableCol;
 	}
@@ -46,7 +46,7 @@ public class ExlImptplDetailes extends IDEntity {
 		this.tableCol = tableCol;
 	}
 
-	@Column(name = "col_type", nullable = true, insertable = true, updatable = true, length = 50, precision = 0)
+	@Column(name = "col_type")
 	public String getColType() {
 		return colType;
 	}
@@ -55,7 +55,7 @@ public class ExlImptplDetailes extends IDEntity {
 		this.colType = colType;
 	}
 
-	@Column(name = "col_desc", nullable = true, insertable = true, updatable = true, length = 50, precision = 0)
+	@Column(name = "col_desc")
 	public String getColDesc() {
 		return colDesc;
 	}

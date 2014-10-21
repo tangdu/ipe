@@ -102,7 +102,7 @@
 
     <!-- 开启AOP监听 只对当前配置文件有效-->
     <aop:aspectj-autoproxy expose-proxy="true" proxy-target-class="true"/>
-
+	
     <!--spring cache-->
     <bean id="springCacheManager" class="org.springframework.cache.ehcache.EhCacheCacheManager">
         <property name="cacheManager" ref="ehcacheManager"/>

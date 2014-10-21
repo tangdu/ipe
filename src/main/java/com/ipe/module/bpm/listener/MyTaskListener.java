@@ -11,7 +11,12 @@ import org.activiti.engine.delegate.TaskListener;
  * To change this template use File | Settings | File Templates.
  */
 public class MyTaskListener implements TaskListener {
-    @Override
+    /**
+	 * 
+	 */
+	private static final long serialVersionUID = -4553462842780589280L;
+
+	@Override
     public void notify(DelegateTask delegateTask) {
        System.out.print(delegateTask.getAssignee()+"--"+delegateTask.getExecutionId());
     }

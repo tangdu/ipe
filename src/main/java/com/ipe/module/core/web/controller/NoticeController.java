@@ -67,6 +67,7 @@ public class NoticeController extends AbstractController {
             SystemRealm.UserInfo user =(SystemRealm.UserInfo) SecurityUtils.getSubject().getPrincipal();
             notice.setUserId(user.getUserId());
             notice.setAppendixPath(appendixPath);
+            notice.setUpdatedDate(new Date());
             noticeService.update(notice);
             return success(notice);
         } catch (Exception e) {

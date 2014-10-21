@@ -25,13 +25,33 @@ public class Notice extends IDEntity {
 	 * 
 	 */
 	private static final long serialVersionUID = -4765306111286151445L;
+	private String title;
+	private String type;
 	private String content;
     private String appendixPath;
     private String appendixName;
     private Date createdDate;
     private String userId;
 
-    @Column(name = "content")
+    @Column(name = "title")
+    public String getTitle() {
+		return title;
+	}
+
+	public void setTitle(String title) {
+		this.title = title;
+	}
+	
+	 @Column(name = "type")
+	public String getType() {
+		return type;
+	}
+
+	public void setType(String type) {
+		this.type = type;
+	}
+
+	@Column(name = "content")
     public String getContent() {
         return content;
     }
@@ -59,7 +79,7 @@ public class Notice extends IDEntity {
     }
 
     @Temporal(TemporalType.TIMESTAMP)
-    @Column(name = "created_date")
+    @Column(name = "created_date",updatable=false)
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     public Date getCreatedDate() {
         return createdDate;
@@ -67,6 +87,19 @@ public class Notice extends IDEntity {
 
     public void setCreatedDate(Date createdDate) {
         this.createdDate = createdDate;
+    }
+    
+    private Date updatedDate;
+
+    @Temporal(TemporalType.TIMESTAMP)
+    @Column(name = "updated_date")
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
+    public Date getUpdatedDate() {
+        return updatedDate;
+    }
+
+    public void setUpdatedDate(Date updatedDate) {
+        this.updatedDate = updatedDate;
     }
 
     @Column(name = "user_id")

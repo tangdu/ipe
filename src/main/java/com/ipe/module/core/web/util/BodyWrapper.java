@@ -25,7 +25,11 @@ import java.io.Serializable;
  * ExtJS响应类
  */
 public class BodyWrapper implements Serializable {
-    private Long total;
+    /**
+	 * 
+	 */
+	private static final long serialVersionUID = -261285522908339819L;
+	private Long total;
     private Boolean success = true;
     private Object rows;
 

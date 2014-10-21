@@ -1,14 +1,18 @@
 package com.ipe.module.core.entity;
 
+import java.util.Set;
+
+import javax.persistence.CascadeType;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.JoinColumn;
+import javax.persistence.OneToMany;
+import javax.persistence.Table;
+
 import com.fasterxml.jackson.annotation.JsonAutoDetect;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import com.ipe.common.entity.IDEntity;
 import com.ipe.common.util.Constants;
-
-import javax.persistence.*;
-
-import java.util.Set;
 
 /**
  * Created with IntelliJ IDEA.
@@ -21,8 +25,7 @@ import java.util.Set;
 @Entity
 @Table(name = "t_sys_dict", schema = "",catalog=Constants.SCHEMA)
 @JsonIgnoreProperties({"dictVals"})
-@JsonSerialize(include=JsonSerialize.Inclusion.NON_NULL)
-public class Dict  extends IDEntity {
+	public class Dict  extends IDEntity {
     private static final long serialVersionUID = 1L;
     private String dictName;
     private String dictCode;

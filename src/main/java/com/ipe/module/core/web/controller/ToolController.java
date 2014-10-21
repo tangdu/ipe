@@ -1,29 +1,14 @@
 package com.ipe.module.core.web.controller;
 
-import com.ipe.module.core.web.util.BodyWrapper;
-import com.ipe.module.core.web.util.URLMapping;
-import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.BeanFactoryUtils;
-import org.springframework.core.MethodParameter;
+import java.lang.management.ManagementFactory;
+import java.lang.management.MemoryMXBean;
+import java.lang.management.OperatingSystemMXBean;
+import java.lang.management.RuntimeMXBean;
+import java.lang.management.ThreadMXBean;
+
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.context.WebApplicationContext;
-import org.springframework.web.context.support.WebApplicationContextUtils;
-import org.springframework.web.method.HandlerMethod;
-import org.springframework.web.servlet.HandlerMapping;
-import org.springframework.web.servlet.handler.SimpleUrlHandlerMapping;
-import org.springframework.web.servlet.mvc.method.RequestMappingInfo;
-import org.springframework.web.servlet.mvc.method.RequestMappingInfoHandlerMapping;
-import org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerMapping;
-
-import javax.servlet.http.HttpServletRequest;
-import java.lang.management.*;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
 
 /**
  * Created by tangdu on 14-2-6.
@@ -31,8 +16,6 @@ import java.util.Map;
 @Controller
 @RequestMapping("tool")
 public class ToolController extends AbstractController {
-    private static final org.slf4j.Logger Logger = LoggerFactory.getLogger(ToolController.class);
-
     /**
      * 查看系统信息-内存-环境等信息
      *

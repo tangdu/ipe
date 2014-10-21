@@ -117,7 +117,7 @@ public class Menu extends IDEntity {
 
 	private Date createdDate;
 
-	@Column(name = "created_date", nullable = true, insertable = true, updatable = true, length = 19, precision = 0)
+	@Column(name = "created_date",updatable=false)
 	@JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
 	public Date getCreatedDate() {
 		return createdDate;
@@ -129,7 +129,7 @@ public class Menu extends IDEntity {
 
 	private Date updatedDate;
 
-	@Column(name = "updated_date", nullable = true, insertable = true, updatable = true, length = 19, precision = 0)
+	@Column(name = "updated_date")
 	@JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
 	public Date getUpdatedDate() {
 		return updatedDate;

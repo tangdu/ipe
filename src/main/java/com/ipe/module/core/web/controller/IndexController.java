@@ -30,6 +30,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.ipe.module.bpm.service.ProcessTaskService;
+import com.ipe.module.core.service.NoticeService;
 import com.ipe.module.core.service.UserService;
 import com.ipe.module.core.web.security.CustUsernamePasswordToken;
 import com.ipe.module.core.web.security.SystemRealm;
@@ -130,8 +131,11 @@ public class IndexController extends AbstractController {
      */
     @Autowired
     private ProcessTaskService taskService;
+    @Autowired
+    private NoticeService noticeService;
     
     private static final String INDEX_VIEW="indexview_ftl.html";
+    
     @RequestMapping(value = "/getIndexView", method = RequestMethod.POST)
     public @ResponseBody BodyWrapper getIndexView(HttpServletRequest request) {
     	try {
@@ -156,6 +160,7 @@ public class IndexController extends AbstractController {
     		 //step2:任务信息
     		 data.put("mtaskLists",taskService.userTaskList(null, new RestRequest()).getRows());
     		 //step3:最新公告
+    		 data.put("noticeLists", noticeService.listAll());
     		 //step4:最新消息
     		 template.process(data, result);
     		 return success(result.toString());
@@ -185,29 +190,5 @@ public class IndexController extends AbstractController {
             Logger.error("del error", e);
             super.downFile(response);
         }
-    }
-
-    protected String getIpAddr(HttpServletRequest request) {
-        if (request == null) {
-            return "unknown";
-        }
-        String ip = request.getHeader("x-forwarded-for");
-        if (ip == null || ip.length() == 0 || "unknown".equalsIgnoreCase(ip)) {
-            ip = request.getHeader("Proxy-Client-IP");
-        }
-        if (ip == null || ip.length() == 0 || "unknown".equalsIgnoreCase(ip)) {
-            ip = request.getHeader("X-Forwarded-For");
-        }
-        if (ip == null || ip.length() == 0 || "unknown".equalsIgnoreCase(ip)) {
-            ip = request.getHeader("WL-Proxy-Client-IP");
-        }
-        if (ip == null || ip.length() == 0 || "unknown".equalsIgnoreCase(ip)) {
-            ip = request.getHeader("X-Real-IP");
-        }
-
-        if (ip == null || ip.length() == 0 || "unknown".equalsIgnoreCase(ip)) {
-            ip = request.getRemoteAddr();
-        }
-        return ip;
     }
 }

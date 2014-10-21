@@ -318,9 +318,8 @@ public class ProcessManagerService extends BaseService<IDEntity, String> {
      */
     public BodyWrapper proDefHisList(String params, RestRequest restRequest) {
         BodyWrapper bodyWrapp = new BodyWrapper();
-        List<ProcessDefinition> definitions = repositoryService.createProcessDefinitionQuery()
-                .latestVersion().processDefinitionKey(params).listPage(restRequest.getStart(), restRequest.getLimit() + restRequest.getStart());
-        Long count = repositoryService.createProcessDefinitionQuery().latestVersion().processDefinitionKey(params).count();
+        List<ProcessDefinition> definitions = repositoryService.createProcessDefinitionQuery().processDefinitionKey(params).listPage(restRequest.getStart(), restRequest.getLimit() + restRequest.getStart());
+        Long count = repositoryService.createProcessDefinitionQuery().processDefinitionKey(params).count();
         List<ProcessDefinition> list = new ArrayList<ProcessDefinition>();
         for (ProcessDefinition p : definitions) {
             list.add(setDefValue(p));

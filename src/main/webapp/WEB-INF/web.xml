@@ -72,7 +72,6 @@
     <listener>
         <listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>
     </listener>
-    <!-- 配置缓存清除监听器,负责处理由 JavaBean Introspector 功能而引起的缓存泄露 -->
     <listener>
         <listener-class>org.springframework.web.util.IntrospectorCleanupListener</listener-class>
     </listener>
@@ -130,9 +129,4 @@
     <session-config>
         <session-timeout>30</session-timeout>
     </session-config>
-
-    <error-page>
-            <error-code>404</error-code>
-            <location>/WEB-INF/common/404.jsp</location>
-    </error-page>
 </web-app>

@@ -1,14 +1,18 @@
 package com.ipe.module.core.entity;
 
+import java.util.Date;
+
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.OrderBy;
+import javax.persistence.Table;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
+
 import com.fasterxml.jackson.annotation.JsonAutoDetect;
 import com.fasterxml.jackson.annotation.JsonFormat;
-import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import com.ipe.common.entity.IDEntity;
 import com.ipe.common.util.Constants;
-
-import javax.persistence.*;
-
-import java.util.Date;
 
 /**
  * 日志记录器
@@ -20,7 +24,6 @@ import java.util.Date;
 @JsonAutoDetect
 @Entity
 @Table(name = "t_sys_log", schema = "",catalog=Constants.SCHEMA)
-@JsonSerialize(include=JsonSerialize.Inclusion.NON_NULL)
 public class Log extends IDEntity {
 
 	/**
