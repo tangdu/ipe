@@ -118,10 +118,9 @@
 /*公告CSS*/
 .mnotice-ul{
 	padding:0px;
-	margin:6px 0 0 6px;
+	margin:0px;
 	list-style: none;
 }
 .mnotice-ul li{
-	margin:0 10px 0 3px;
+	padding:11px 5px 0px 5px;
 }
-/***/

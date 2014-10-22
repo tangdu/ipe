@@ -181,6 +181,6 @@ public class ActTask {
 
 	@Override
 	public String toString() {
-		return JSON.toJSONString(this,SerializerFeature.UseISO8601DateFormat);
+		return JSON.toJSONString(this,SerializerFeature.UseSingleQuotes,SerializerFeature.UseISO8601DateFormat);
 	}
 }

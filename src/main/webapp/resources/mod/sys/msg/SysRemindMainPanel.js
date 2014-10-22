@@ -70,7 +70,7 @@ Ext.define('Sys.msg.RemindList',{
             },
             remoteSort : true,
             autoLoad:true,
-            fields : ['id','rtitle','rcontent','userId','rtype','createdDate','read','remindStDate','remindEnDate']
+            fields : ['id','rtitle','rcontent','rtype','createdDate','remindStDate','remindEnDate']
         });
 
         this.bbar=Ext.create('Ipe.PagingToolbar',{

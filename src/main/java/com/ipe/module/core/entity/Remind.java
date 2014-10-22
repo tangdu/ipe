@@ -25,10 +25,8 @@ public class Remind extends IDEntity {
 	private static final long serialVersionUID = 23823532578449306L;
 	private String rtitle;
     private String rcontent;
-    private String userId;
     private String rtype;
     private Date createdDate;
-    private String read;
     private Date remindStDate;
     private Date remindEnDate;
 
@@ -52,15 +50,6 @@ public class Remind extends IDEntity {
         this.remindEnDate = remindEnDate;
     }
 
-    @Column(name = "read_")
-    public String getRead() {
-        return read;
-    }
-
-    public void setRead(String read) {
-        this.read = read;
-    }
-
     @Column(name = "rtitle")
     public String getRtitle() {
         return rtitle;
@@ -77,15 +66,6 @@ public class Remind extends IDEntity {
 
     public void setRcontent(String rcontent) {
         this.rcontent = rcontent;
-    }
-
-    @Column(name = "user_id")
-    public String getUserId() {
-        return userId;
-    }
-
-    public void setUserId(String userId) {
-        this.userId = userId;
     }
 
     @Column(name = "rtype")

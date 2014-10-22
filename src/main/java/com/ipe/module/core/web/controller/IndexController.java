@@ -4,6 +4,10 @@ import static org.apache.shiro.SecurityUtils.getSubject;
 
 import java.io.File;
 import java.io.StringWriter;
+import java.lang.management.ManagementFactory;
+import java.lang.management.MemoryMXBean;
+import java.lang.management.OperatingSystemMXBean;
+import java.lang.management.RuntimeMXBean;
 import java.net.URL;
 import java.net.URLDecoder;
 import java.util.HashMap;
@@ -30,6 +34,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.ipe.module.bpm.service.ProcessTaskService;
+import com.ipe.module.core.service.MessageService;
 import com.ipe.module.core.service.NoticeService;
 import com.ipe.module.core.service.UserService;
 import com.ipe.module.core.web.security.CustUsernamePasswordToken;
@@ -133,6 +138,8 @@ public class IndexController extends AbstractController {
     private ProcessTaskService taskService;
     @Autowired
     private NoticeService noticeService;
+    @Autowired
+    private MessageService messageService;
     
     private static final String INDEX_VIEW="indexview_ftl.html";
     
@@ -162,6 +169,17 @@ public class IndexController extends AbstractController {
     		 //step3:最新公告
     		 data.put("noticeLists", noticeService.listAll());
     		 //step4:最新消息
+    		 data.put("messageLists", messageService.listAll());
+    		 //step5:内存信息
+    		 MemoryMXBean my = ManagementFactory.getMemoryMXBean();
+    		 data.put("initMemory", my.getHeapMemoryUsage().getInit() / 1000000 + " M");
+    		 data.put("maxMemory", my.getHeapMemoryUsage().getMax() / 1000000 + " M");
+    		 data.put("usedMemory", my.getHeapMemoryUsage().getUsed() / 1000000 + " M");
+    		 OperatingSystemMXBean os = ManagementFactory.getOperatingSystemMXBean();
+    		 data.put("osName", os.getName());
+    		 RuntimeMXBean rt = ManagementFactory.getRuntimeMXBean();
+    		 data.put("vmName", rt.getVmName());
+    		 
     		 template.process(data, result);
     		 return success(result.toString());
 		} catch (Exception e) {

@@ -48,22 +48,18 @@ html,body{
 	padding:0px;
 	margin: 0 auto 0 auto;
 	border-collapse: collapse;
-	box-shadow:0 2px 5px #cbcbcb;
 	font-size:13px !important;
 }
 .mtable thead {
-	background-color: #99bbe8;
+	background-color: #c0c0c0;
 }
 .mtable thead th {
 	font-weight: bold !important;
 	text-align:center !important;
 }
 .mtable td , .mtable th{
-	border:1px solid;
-	border-collapse: collapse;
-	height:18px;
+	border-top:1px solid;
 }
-
 .mtable tbody tr:nth-child(odd){
 	background-color: #f9f9f9
 }
@@ -71,5 +67,15 @@ html,body{
 	height:30px;
 }
 .marginTop10{
-	margin-top: 15px;
+}
+.meclipse{
+	 white-space:nowrap !important;
+	 overflow:hidden !important;
+	 text-overflow:ellipsis !important;
+}
+.grayColor{
+	color:gray;
+}
+.clear{
+	clear:both;
 }

@@ -1,11 +1,7 @@
 package com.ipe.module.core.web.controller;
 
-import com.ipe.module.core.entity.Remind;
-import com.ipe.module.core.service.RemindService;
-import com.ipe.module.core.web.security.SystemRealm;
-import com.ipe.module.core.web.util.BodyWrapper;
-import com.ipe.module.core.web.util.RestRequest;
-import org.apache.shiro.SecurityUtils;
+import java.util.Date;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,7 +10,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import java.util.Date;
+import com.ipe.module.core.entity.Remind;
+import com.ipe.module.core.service.RemindService;
+import com.ipe.module.core.web.util.BodyWrapper;
+import com.ipe.module.core.web.util.RestRequest;
 
 /**
  * Created with IntelliJ IDEA.
@@ -49,8 +48,6 @@ public class RemindController extends AbstractController {
     @ResponseBody
     BodyWrapper edit(Remind remind, RestRequest rest) {
         try {
-            SystemRealm.UserInfo user =(SystemRealm.UserInfo) SecurityUtils.getSubject().getPrincipal();
-            remind.setUserId(user.getUserId());
             remindService.update(remind);
             return success(remind);
         } catch (Exception e) {
@@ -64,8 +61,6 @@ public class RemindController extends AbstractController {
     @ResponseBody
     BodyWrapper add(Remind remind, RestRequest rest) {
         try {
-            SystemRealm.UserInfo user =(SystemRealm.UserInfo) SecurityUtils.getSubject().getPrincipal();
-            remind.setUserId(user.getUserId());
             remind.setCreatedDate(new Date());
             remindService.save(remind);
             return success(remind);

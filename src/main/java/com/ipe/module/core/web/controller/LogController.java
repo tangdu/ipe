@@ -100,8 +100,10 @@ public class LogController extends AbstractController {
                 response.setHeader("Pragma", "public");
                 response.setHeader("Cache-Control","must-revalidate, post-check=0, pre-check=0");
                 String  fileName = new String(file.getName().trim().getBytes("GBK"), "ISO-8859-1");
-                response.addHeader("Content-disposition", "attachment;filename=" + fileName+SIMPLEDATEFORMAT.format(new Date())+".zip");
+                response.addHeader("Content-disposition", "attachment;filename="+SIMPLEDATEFORMAT.format(new Date())+"_"+ fileName+".zip");
                 ZipUtil.zipFiles(logsPath, response.getOutputStream());
+            }else{
+            	super.downFile(response);
             }
         } catch (Exception e) {
             LOG.error("del error", e);

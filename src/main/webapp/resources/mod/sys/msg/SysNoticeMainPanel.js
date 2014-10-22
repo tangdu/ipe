@@ -20,6 +20,11 @@ Ext.define('Sys.msg.NoticeList',{
             dataIndex:'title',
             sortable:true
         },{
+            header:'公告类型',
+            width:80,
+            dataIndex:'type',
+            sortable:false
+        },{
             header:'内容',
             width:400,
             dataIndex:'content',
@@ -66,7 +71,7 @@ Ext.define('Sys.msg.NoticeList',{
             },
             remoteSort : true,
             autoLoad:true,
-            fields : ['id','title','content','appendixPath','userId','createdDate','appendixName']
+            fields : ['id','title','content','type','appendixPath','userId','createdDate','appendixName']
         });
 
         this.bbar=Ext.create('Ipe.PagingToolbar',{
@@ -149,6 +154,10 @@ Ext.define('Sys.msg.NoticeEditForm',{
         this.items=[{
             fieldLabel:'标题',
             name:'title'
+        },{
+            fieldLabel:'公告类型',
+            xtype:'combo',name:'admin',store:ipe.store.flagStore,value:'0',
+            displayField:'value',valueField:'key',hiddenName:'type',triggerAction:'all',editable:false,queryMode:'local'
         },{
             fieldLabel:'公告内容',
             xtype:'htmleditor',

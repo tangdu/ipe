@@ -1,65 +1,75 @@
 <div class=mcontainer> 
 	<div class="p_header">
-		欢迎您!,${useInfo.userName}  当前时间：${.now} 待审批任务：(<a class="bold">${mtaskLists?size}</a>) 我的消息：(<a class="bold">${mtaskLists?size}</a>)
+		欢迎您!,${useInfo.userName}  当前时间：${.now} 待审批任务：(<a class="bold">${mtaskLists?size}</a>) 我的消息：(<a class="bold">${messageLists?size}</a>)
 	</div>
     <div class="mytheme mcol-md-6">  
    	  <div class="mpanel-header">
    		待办事项<a class="to-right" onclick="openSysModule('Bpm.ProcessTaskManagerMainPanel','我的任务',this)">更多</a>
    	  </div>
-      <table class="mtable marginTop10">  
+   	  <table class="mtable marginTop10">  
         <thead>  
-          <tr><th>任务名称</th><th>任务描述</th><th>发送人</th><th>发送时间</th><th>详情</th></tr>  
+          <tr><th>任务名称</th><th>任务描述</th><th>发送人</th><th>发送时间</th></tr>  
         </thead>  
         <tbody>  
         <#if (mtaskLists?size>0) >
 	          <#list mtaskLists as mtask>
-	          		<#if (mtask_index<6)>
+	          		<#if (mtask_index<7)>
 	          		<tr class="text-center">
-		          		<td>${mtask.name}</td>
+		          		<td><a onclick="showMyTaskWin(${mtask})">${mtask.name}</a></td>
 		          		<td>${mtask.description?if_exists}</td>
 		          		<td>${mtask.user}</td>
-		          		<#-- <td>${mtask.dueDate?string("yyyy-MM-dd HH:mm:ss")}</td> -->
-		          		<td>${mtask.createTime?string("yyyy-MM-dd HH:mm:ss")}</td>
-		          		<td><a onclick=showMyTaskWin(${mtask})>查看</a></td>
+		          		<#-- <td>${mtask.dueDate?string("MM/dd HH:mm")}</td> -->
+		          		<td>${mtask.createTime?string("MM/dd HH:mm")}</td>
 	          		</tr>  
 	          		</#if>
 	          </#list>
           <#else>
-          		<tr class="text-center"><td colspan="4">没有任务</td></tr>  
+          		<tr class="text-center"><td colspan="3">没有任务</td></tr>  
         </#if>
         </tbody>  
       </table>
     </div>  
+    
     <div class="mytheme mcol-md-4">  
-    	<div class="mpanel-header">
-    		公告列表<a class="to-right" onclick="openSysModule('Sys.msg.SysNoticeMainPanel','系统公告',this)">更多</a>
-    	</div>
-    	<ul class="mnotice-ul">
-   		<#if (noticeLists?size>0) >
-          <#list noticeLists as notice>
-       		<#if (notice_index<15)>
-       			<li><a>${notice.title}</a><span class="to-right r-date">${notice.createdDate?string("yyyy-MM-dd")}</span></li>
+      <div class="mpanel-header">我的消息<a class="to-right" onclick="openSysModule('Sys.msg.SysMessageMainPanel','我的消息',this)">更多</a></div>
+      <ul class="mnotice-ul">
+   		<#if (messageLists?size>0) >
+          <#list messageLists as msg>
+       		<#if (msg_index<8)>
+       			<li class="clear">
+       				<a onclick="showMyMsgWin(${msg})">
+       				<div class="to-left grayColor">[${msg.createdDate?string("MM-dd HH:mm")}]&nbsp;</div>
+       				<div class="meclipse">${msg.msgContent}</div>
+       				</a>
+       			</li>
        		</#if>
           </#list>
         <#else>
-          	<li>没有内容</li>  
+          	<li>没有内容</li>
         </#if>
     	</ul>
     </div>  
     
     <div class="mytheme mcol-md-6">
-      <div class="mpanel-header">
-    	我的提醒<a class="to-right">更多</a>
-      </div>
-      <table class="mtable" >  
-        
-      </table>  
+	    <div class="mpanel-header">公告列表<a class="to-right" onclick="openSysModule('Sys.msg.SysNoticeMainPanel','系统公告',this)">更多</a></div>
+	   	<ul class="mnotice-ul">
+	  		<#if (noticeLists?size>0) >
+	         <#list noticeLists as notice>
+	      		<#if (notice_index<8)>
+	      			<li class="clear">
+	      				<div class="to-left meclipse" style="width:86%;"><a>${notice.title}</a></div>
+	      				<div class="to-right">${notice.createdDate?string("yyyy-MM-dd")}</div>
+	      			</li>
+	      		</#if>
+	         </#list>
+	       <#else>
+	         	<li>没有内容</li>
+	       </#if>
+	   	</ul>
     </div>  
     
     <div class="mytheme2 mcol-md-4">
-    	<div class="mpanel-header">
-    		快捷入口
-    	</div>
+    	<div class="mpanel-header">快捷入口</div>
     	<div class="mpanel-body">
     		<span class="box box-red" onclick="openSysModule('Sys.user.UserMainPanel','用户管理',this)">用户管理</span>
     		<span class="box box-green" onclick="openSysModule('Sys.role.RoleMainPanel','角色管理',this)">角色管理</span>
@@ -68,14 +78,15 @@
     	</div>
     </div>  
     <div class="mytheme2 mcol-md-4">
-    	<div class="mpanel-header">
-    		系统信息
-    	</div>
+    	<div class="mpanel-header">系统信息</div>
     	<div class="mpanel-body">
-    		Spring3+Hibernate4+Shiro+ExtJS4
+    		<ul class="mnotice-ul">
+    			<li>系统：${osName}</li>
+    			<li>运行：${vmName}</li>
+    			<li>内存：init:${initMemory} max:${maxMemory} used:${usedMemory}</li>
+    		</ul>
     	</div>
     </div>  
-</div>
 <!-- <script>
 	document.write("<script src=resources/a.js><\/script>")
 </script> -->
