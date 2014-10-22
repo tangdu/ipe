@@ -57,8 +57,8 @@
 	         <#list noticeLists as notice>
 	      		<#if (notice_index<8)>
 	      			<li class="clear">
-	      				<div class="to-left meclipse" style="width:86%;"><a>${notice.title}</a></div>
-	      				<div class="to-right">${notice.createdDate?string("yyyy-MM-dd")}</div>
+	      				<div class="to-left meclipse" style="width:86%;"><a onclick="openNewTabNotice('${notice.id}')">${notice.title}</a></div>
+	      				<div class="to-right">${notice.createdDate?string("MM-dd")}</div>
 	      			</li>
 	      		</#if>
 	         </#list>

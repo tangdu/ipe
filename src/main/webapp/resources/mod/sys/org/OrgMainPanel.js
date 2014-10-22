@@ -4,6 +4,8 @@ Ext.define('Sys.model.OrgModel',{
         {name : 'id',type:'string'},
         {name : 'orgName',type:'string'},
         {name : 'orgCode',type:'string'},
+        {name : 'orgLevel',type:'int'},
+        {name : 'parent'},
         {name : 'remark',type:'string'},
         {name : 'sno',type:'int'}
     ],
@@ -37,6 +39,14 @@ Ext.define('Sys.org.OrgTreePanel',{
                 text: '根节点',
                 id:'root',
                 expanded: true
+            },
+            listeners:{
+                'beforeload':function(store,oper){
+                    var record=oper.node.data;
+                    if(record.id!='root'){
+                        oper.params.pid=record.id;
+                    }
+                }
             }
         });
 
@@ -44,6 +54,14 @@ Ext.define('Sys.org.OrgTreePanel',{
             text:'机构编号',dataIndex:'orgCode',xtype:'treecolumn',width:300
         },{
             text:'机构名称',dataIndex:'orgName'
+        },{
+            text:'机构层级',dataIndex:'orgLevel'
+        },{
+            text:'父节点',dataIndex:'parent',renderer:function(obj){
+            	if(obj){
+            		return obj.orgName;
+            	}
+            }
         }];
         this.tbar=[{
             text:'新增',
@@ -64,7 +82,20 @@ Ext.define('Sys.org.OrgTreePanel',{
         this.callParent();
     },
     addOrg:function(){
-
+ 		var me=this;
+        var record=this.getSelectionModel().getSelection();
+        if(record && record.length>0){
+            var parent=this.up();
+            parent.orgForm.expand(true);
+            parent.orgForm.show();
+            parent.orgForm.getForm().reset();
+            parent.orgForm.setTitle("新增机构");
+            parent.orgForm.oper="add";
+            parent.orgForm.setInfo(record[0]);
+            parent.doLayout();
+        }else{
+            Ext.Msg.alert('提示','请选择父资源记录!');
+        }
     },
     editOrg:function(){
 
@@ -74,7 +105,7 @@ Ext.define('Sys.org.OrgTreePanel',{
     }
 });
 
-Ext.define('Sys.org.OrgForm',{
+Ext.define('Sys.org.OrgEditForm',{
     extend:'Ext.form.Panel',
     url:'org/add',
     waitTitle:'请稍候....',
@@ -85,9 +116,11 @@ Ext.define('Sys.org.OrgForm',{
     frame:true,
     initComponent:function(){
         this.items=[{
-            fieldLabel:'机构编码',name:'menuName',xtype:'textfield',allowBlank:false
+            fieldLabel:'机构编码',name:'orgName',xtype:'textfield',allowBlank:false
         },{
-            fieldLabel:'机构名称', name:'menuUrl',xtype:'textarea',allowBlank:false
+            fieldLabel:'机构名称', name:'orgCode',xtype:'textfield',allowBlank:false
+        },{
+            fieldLabel:'机构层级', name:'orgLevel',xtype:'textfield',allowBlank:false
         },{
             fieldLabel:'备注', name:'remark',xtype:'textarea'
         },{
@@ -160,7 +193,7 @@ Ext.define('Sys.org.OrgMainPanel',{
     layout:{type:'border',align:'stretch'},
     initComponent:function(){
         this.orgTree=Ext.create('Sys.org.OrgTreePanel',{parent:this,region:'center'});
-        this.orgForm=Ext.create('Sys.org.OrgForm',{parent:this,hidden:true,split:true,region:'east',width:300});
+        this.orgForm=Ext.create('Sys.org.OrgEditForm',{parent:this,hidden:true,split:true,region:'east',width:300});
         this.items=[this.orgTree,this.orgForm];
         this.callParent();
     }

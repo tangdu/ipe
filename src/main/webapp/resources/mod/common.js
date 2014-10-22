@@ -96,6 +96,9 @@ var ipe={
         ]
     },
     fuc:{
+    	openWidow:function(){
+    		return window.open("", "newwin", "height=700, width=600,toolbar=no,scrollbars=no,menubar=no");
+    	},
         downFile:function(filePath){
             if(filePath!=null && filePath!=""){
                 filePath=encodeURI(encodeURI(filePath));

@@ -8,6 +8,8 @@ import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
+import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.serializer.SerializerFeature;
 import com.fasterxml.jackson.annotation.JsonAutoDetect;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.ipe.common.entity.IDEntity;
@@ -103,7 +105,6 @@ public class Notice extends IDEntity {
     }
 
     @Column(name = "user_id")
-
     public String getUserId() {
         return userId;
     }
@@ -111,4 +112,9 @@ public class Notice extends IDEntity {
     public void setUserId(String userId) {
         this.userId = userId;
     }
+
+	@Override
+	public String toString() {
+		return JSON.toJSONString(this,SerializerFeature.UseSingleQuotes,SerializerFeature.UseISO8601DateFormat);
+	}
 }

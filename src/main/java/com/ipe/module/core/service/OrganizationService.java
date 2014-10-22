@@ -4,10 +4,13 @@ import com.ipe.common.dao.BaseDao;
 import com.ipe.common.service.BaseService;
 import com.ipe.module.core.dao.OrganizationDao;
 import com.ipe.module.core.entity.Organization;
+
+import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -29,7 +32,12 @@ public class OrganizationService extends BaseService<Organization,String> {
     }
 
     public List<Organization> getTree(final String pid){
-        List<Organization> all= organizationDao.list("from Organization where parent is null");
+    	List<Organization> all=new ArrayList<Organization>();
+    	if(StringUtils.isBlank(pid)){
+    		all= organizationDao.list("from Organization where parent is null");
+    	}else{
+    		all= organizationDao.list("from Organization where parent.id ='"+pid+"'");
+    	}
         return all;
     }
 }

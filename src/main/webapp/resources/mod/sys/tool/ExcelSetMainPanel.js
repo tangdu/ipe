@@ -31,6 +31,10 @@ Ext.define('Sys.tool.ExlImptplList',{
                 dataIndex:'exlCode',
                 sortable:true
             },{
+                header:'模板类型',
+                dataIndex:'exlType',
+                sortable:true
+            },{
                 header:'映射表名',
                 width:200,
                 dataIndex:'mappingTable',
@@ -112,7 +116,7 @@ Ext.define('Sys.tool.ExlImptplList',{
             },
             remoteSort : true,
             autoLoad:true,
-            fields : ['exlName','exlCode','tableBelongUser','mappingTable','startrowIndex','startcolIndex','sheetIndex','enabled','createdDate','remark','exlFile','tableCot']
+            fields : ['exlName','exlCode','exlType','tableBelongUser','mappingTable','startrowIndex','startcolIndex','sheetIndex','enabled','createdDate','remark','exlFile','tableCot']
         });
 
         this.bbar=Ext.create('Ipe.PagingToolbar',{
@@ -330,7 +334,7 @@ Ext.define('Sys.tool.ExlImpEditList',{
             width:150,
             dataIndex:'defValue',
             editor:{}
-        },{dataIndex:'id',hidden:true}];
+        },{dataIndex:'id',hidden:true},{dataIndex:'exlType',hidden:true,value:'01'}];
 
         Ext.define('ExlImpDetails',{
             extend: 'Ext.data.Model',
