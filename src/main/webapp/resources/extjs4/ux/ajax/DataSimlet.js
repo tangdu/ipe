@@ -35,11 +35,12 @@ Ext.define('Ext.ux.ajax.DataSimlet', function () {
             var me = this,
                 data = me.data,
                 params = ctx.params,
-                order = (params.group||'')+'-'+(params.sort||'')+'-'+(params.dir||''),
+                order = (params.group || '') + '-' + (params.sort || '') + '-' + (params.dir || ''),
                 fields,
                 sortFn;
 
-            if (!order) {
+            // If no order is passed, because of the concat we've done the value will be --
+            if (order === '--') {
                 return data;
             }
 
@@ -58,7 +59,9 @@ Ext.define('Ext.ux.ajax.DataSimlet', function () {
             sortFn = makeSortFns((ctx.sortSpec = fields));
             sortFn = makeSortFns(ctx.groupSpec, sortFn);
 
-            data = data.slice(0); // preserve 'physical' order of raw data...
+            // If a straight Ajax request, data may not be an array.
+            // If an Array, preserve 'physical' order of raw data...
+            data = Ext.isArray(data) ? data.slice(0) : data;
             if (sortFn) {
                 Ext.Array.sort(data, sortFn);
             }

@@ -36,12 +36,9 @@ Ext.define('Ext.ux.grid.menu.ListMenu', {
 
     plain: true,
 
-    constructor : function (cfg) {
+    constructor: function (cfg) {
         var me = this,
-            options,
-            i,
-            len,
-            value;
+            gridStore;
             
         me.selected = [];
         me.addEvents(
@@ -56,45 +53,21 @@ Ext.define('Ext.ux.grid.menu.ListMenu', {
 
         me.callParent(arguments);
 
-        // A ListMenu which is completely unconfigured acquires its store from the unique values of its field in the store
-        if (!me.store && !me.options) {
-            me.options = me.grid.store.collect(me.dataIndex, false, true);
-        }
+        gridStore = me.grid.store;
 
-        if (!me.store && me.options) {
-            options = [];
-            for(i = 0, len = me.options.length; i < len; i++) {
-                value = me.options[i];
-                switch (Ext.type(value)) {
-                    case 'array': 
-                        options.push(value);
-                        break;
-                    case 'object':
-                        options.push([value[me.idField], value[me.labelField]]);
-                        break;
-                    default:
-                        if (value != null) {
-                            options.push([value, value]);
-                        }
-                }
-            }
-
-            me.store = Ext.create('Ext.data.ArrayStore', {
-                fields: [me.idField, me.labelField],
-                data:   options,
-                listeners: {
-                    load: me.onLoad,
-                    scope:  me
-                }
-            });
-            me.loaded = true;
-            me.autoStore = true;
-        } else {
+        if (me.store) {
             me.add({
                 text: me.loadingText,
                 iconCls: 'loading-indicator'
             });
             me.store.on('load', me.onLoad, me);
+
+        // A ListMenu which is completely unconfigured acquires its store from the unique values of its field in the store.
+        // If there are no records in the grid store, then we know it's async and we need to listen for its 'load' event.
+        } else if (gridStore.data.length) {
+            me.createMenuStore();
+        } else {
+            gridStore.on('load', me.createMenuStore, me, {single: true});
         }
     },
 
@@ -128,7 +101,7 @@ Ext.define('Ext.ux.grid.menu.ListMenu', {
     },
 
     /** @private */
-    onLoad : function (store, records) {
+    onLoad: function (store, records) {
         var me = this,
             gid, itemValue, i, len,
             listeners = {
@@ -154,6 +127,46 @@ Ext.define('Ext.ux.grid.menu.ListMenu', {
         me.loaded = true;
         Ext.resumeLayouts(true);
         me.fireEvent('load', me, records);
+    },
+
+    createMenuStore: function () {
+        var me = this,
+            options = me.options || me.grid.store.collect(me.dataIndex, false, true),
+            i = 0,
+            len = options.length,
+            storeOptions = [],
+            idField = me.idField,
+            labelField = me.labelField,
+            value;
+
+        for (; i < len; i++) {
+            value = options[i];
+
+            switch (Ext.type(value)) {
+                case 'array':
+                    storeOptions.push(value);
+                    break;
+                case 'object':
+                    storeOptions.push([value[idField], value[labelField]]);
+                    break;
+                default:
+                    if (value != null) {
+                        storeOptions.push([value, value]);
+                    }
+            }
+        }
+
+        me.store = Ext.create('Ext.data.ArrayStore', {
+            fields: [idField, labelField],
+            data: storeOptions,
+            listeners: {
+                load: me.onLoad,
+                scope: me
+            }
+        });
+
+        me.loaded = true;
+        me.autoStore = true;
     },
 
     /**

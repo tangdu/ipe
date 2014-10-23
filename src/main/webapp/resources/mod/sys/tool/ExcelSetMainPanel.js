@@ -93,7 +93,7 @@ Ext.define('Sys.tool.ExlImptplList',{
             text:'新增',
             iconCls:ipe.sty.add,
             scope:this,
-            handler:this.addExlImptpl
+            handler:this.addExlImpDbtpl
         },{
             text:'编辑',
             iconCls:ipe.sty.edit,
@@ -125,7 +125,10 @@ Ext.define('Sys.tool.ExlImptplList',{
 
         this.callParent();
     },addExlImptpl:function(){
-        var win=Ext.create('Sys.tool.ExcelImpConfigWin',{parent:this,oper:'add'});
+        var win=Ext.create('Sys.tool.ExcelImpConfigWin',{parent:this,oper:'add',ctype:'01'});
+        win.show();
+    },addExlImpDbtpl:function(){
+        var win=Ext.create('Sys.tool.ExcelImpConfigWin',{parent:this,oper:'add',ctype:'02'});
         win.show();
     },editExlImptpl:function(){
         var record=this.getSelectionModel().getSelection();
@@ -311,12 +314,12 @@ Ext.define('Sys.tool.ExlImpEditList',{
             header:'表字段',
             width:250,
             dataIndex:'tableCol',
-            editor:{xtype:'textfield',maxLength:30}
+            editor:(this.ctype=="01" ? {xtype:'textfield',maxLength:30}:null)
         },{
             header:'字段类型',
             width:150,
             dataIndex:'colType',
-            editor:new Ext.form.ComboBox({
+            editor:(this.ctype=="01" ? new Ext.form.ComboBox({
                 store: new Ext.data.SimpleStore({
                     fields:['value','text'],
                     data:ipe.conifg.excelSupType
@@ -328,13 +331,13 @@ Ext.define('Sys.tool.ExlImpEditList',{
                 valueField: 'value',
                 displayField: 'text',
                 editable: true
-            })
+            }) :null)
         },{
             header:'默认值',
             width:150,
             dataIndex:'defValue',
             editor:{}
-        },{dataIndex:'id',hidden:true},{dataIndex:'exlType',hidden:true,value:'01'}];
+        },{dataIndex:'id',hidden:true},{dataIndex:'exlType',hidden:true,value:this.ctype}];
 
         Ext.define('ExlImpDetails',{
             extend: 'Ext.data.Model',
@@ -352,7 +355,9 @@ Ext.define('Sys.tool.ExlImpEditList',{
             model:'ExlImpDetails'
         });
         this.tbar=[
-            {text:'添加',iconCls:ipe.sty.add,scope:this,handler:this.addRow},
+            {text:'添加',iconCls:ipe.sty.add,scope:this,handler:function(){
+            	this.addRow();
+            }},
             {text:'删除',iconCls:ipe.sty.del,scope:this,handler:this.delRow},'->',
             {text:'(注：日期格式：yyyy-MM-dd HH:mm:ss | Double格式请将excel内容格式设置数值，以免导入时损失精度)',xtype:'label',style:{color:'red'}}
         ];
@@ -395,9 +400,9 @@ Ext.define('Sys.tool.ExlImptplEditForm',{
     oper:'add',
     layout:{type:'vbox',align:'stretch'},
     initComponent:function(){
-        this.list=Ext.create('Sys.tool.ExlImpEditList',{flex:.7});
+        this.list=Ext.create('Sys.tool.ExlImpEditList',{flex:11,ctype:this.ctype});
         this.items=[
-            {xtype:'fieldset',title:'详细信息',layout:'column',flex:.3,items:[
+            {xtype:'fieldset',title:'详细信息',layout:'column',flex:4,items:[
                 {columnWidth:.33,xtype:'container',frame:true,border:false,items:[
                     {
                         fieldLabel:'模板名称',
@@ -410,26 +415,43 @@ Ext.define('Sys.tool.ExlImptplEditForm',{
                         xtype:'textfield',
                         allowBlank:false,
                         name:'exlCode'
-                    }
+                    },{
+                    	fieldLabel:'状态',
+	                    xtype:'combo',
+	                    name:'enabled',
+	                    store:ipe.store.enabledStore,
+	                    value:'1',
+	                    displayField:'value',
+	                    valueField:'key',
+	                    hiddenName:'enabled',
+	                    triggerAction:'all',
+	                    editable:false,
+	                    queryMode:'local'
+	                }
                 ]},{columnWidth:.33,xtype:'container',frame:true,border:false,items:[
                     {
-                        fieldLabel:'状态',
-                        xtype:'combo',
-                        name:'enabled',
-                        store:ipe.store.enabledStore,
-                        value:'1',
-                        displayField:'value',
-                        valueField:'key',
-                        hiddenName:'enabled',
-                        triggerAction:'all',
-                        editable:false,
-                        queryMode:'local'
-                    },{
+                        fieldLabel:'所属用户',
+                        xtype:'textfield',
+                        allowBlank:false,
+                        name:'tableBelongUser'
+                    },(this.ctype=="01" ? {
                         fieldLabel:'映射表名',
                         xtype:'textfield',
                         allowBlank:false,
                         name:'mappingTable'
-                    }
+                    } :{
+                    	layout:'table',
+			            xtype: 'container',
+			            anchor:'100%',
+			            defaults:{
+			                border:false,
+			                frame:true
+			            },
+			            items:[
+			               {flex:13,fieldLabel:'映射表名',xtype:'textfield',name:'mappingTable'},
+			               {flex:2,xtype:'button',tooltip:'填入所属用户与表名加载DB表结构',text:'加载',scope:this,handler:this.loadTable}
+			            ]
+                    })
                 ]},{columnWidth:.33,xtype:'container',frame:true,border:false,items:[
                     {
                         fieldLabel:'Excel开始行',
@@ -455,15 +477,27 @@ Ext.define('Sys.tool.ExlImptplEditForm',{
                         name:'exlFile'
                     }
                 ]},{
-                    columnWidth:1,
-                    fieldLabel:'备注',
-                    xtype:'textarea',
-                    allowBlank:true,
-                    name:'remark'
+                    columnWidth:.67,
+                    xtype:'container',
+                    frame:true,
+                    border:false,
+                    items:[{
+	                    fieldLabel:'备注',
+	                    xtype:'textarea',
+	                    allowBlank:true,
+	                    name:'remark'
+                    }]
                 },{xtype:'hidden',name:'id'}]},this.list];
         this.callParent();
     },setData:function(record){
         this.loadRecord(record);
+    },loadTable:function(){
+    	var vals=this.getForm().getValues();
+    	if(vals.mappingTable!="" && vals.tableBelongUser!=""){
+    		
+    	}else{
+    		Ext.Msg.alert('提示','表名称与表所属用户不能为空');
+    	}
     }
 });
 
@@ -476,22 +510,35 @@ Ext.define('Sys.tool.ExcelImpConfigWin',{
     height:600,
     border:false,
     initComponent:function(){
-        this.card1=Ext.create('Sys.tool.ExlImpEditForm',{parent:this});
-        this.card2=Ext.create('Sys.tool.ExlImptplEditForm',{parent:this});
-        this.items=[this.card1,this.card2];
-
-        if(this.oper=="edit"){
-            this.buttons=['->',
-                {text:'保存',iconCls:ipe.sty.save,id:'move-save',disabled:true,handler:this.saveData,scope:this},
+    	if(this.ctype=="01"){
+    		this.card1=Ext.create('Sys.tool.ExlImpEditForm',{parent:this});
+	        this.card2=Ext.create('Sys.tool.ExlImptplEditForm',{parent:this,ctype:this.ctype});
+	        this.items=[this.card1,this.card2];
+	
+	        if(this.oper=="edit"){
+	            this.buttons=['->',
+	                {text:'保存',iconCls:ipe.sty.save,id:'move-save',disabled:true,handler:this.saveData,scope:this},
+	                {text:'取消',iconCls:ipe.sty.cancel,handler:this.close,scope:this}
+	            ];
+	        }else{
+	            this.buttons=['->',
+	                {text:'保存',iconCls:ipe.sty.save,id:'move-save',disabled:true,handler:this.saveData,scope:this},'-',
+	                {text:'上一步',handler:this.prevStep,scope:this,id:'move-prev',disabled:true,iconCls:ipe.sty.prev},'-',
+	                {text:'下一步',handler:this.nextStep,scope:this,id:'move-next',iconCls:ipe.sty.next}];
+	        }
+	        this.on('show',this.editShow,this);
+    	}else if(this.ctype=="02"){
+    		this.card2=Ext.create('Sys.tool.ExlImptplEditForm',{parent:this,ctype:this.ctype});
+	        this.items=[this.card2];
+	
+	        this.buttons=['->',
+                {text:'保存',iconCls:ipe.sty.save,id:'move-save',handler:this.saveData,scope:this},
                 {text:'取消',iconCls:ipe.sty.cancel,handler:this.close,scope:this}
             ];
-        }else{
-            this.buttons=['->',
-                {text:'保存',iconCls:ipe.sty.save,id:'move-save',disabled:true,handler:this.saveData,scope:this},'-',
-                {text:'上一步',handler:this.prevStep,scope:this,id:'move-prev',disabled:true,iconCls:ipe.sty.prev},'-',
-                {text:'下一步',handler:this.nextStep,scope:this,id:'move-next',iconCls:ipe.sty.next}];
-        }
-        this.on('show',this.editShow,this);
+    	}else{
+    		
+    	}
+        
         this.callParent();
     },editShow:function(){ //编辑状态
         if(this.oper=="edit"){

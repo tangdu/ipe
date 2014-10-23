@@ -27,23 +27,28 @@ Ext.define('Ext.ux.ajax.XmlSimlet', {
         var me = this,
             data = me.getData(ctx),
             page = me.getPage(ctx, data),
-            reader = ctx.xhr.options.proxy.reader,
+            reader = ctx.xhr.options.proxy && ctx.xhr.options.proxy.reader,
             ret = me.callParent(arguments), // pick up status/statusText
             response = {
                 data: page,
                 reader: reader,
-                fields: reader.model.getFields(),
-                root: reader.root,
-                record: reader.record
-            };
+                fields: reader && reader.model && reader.model.getFields(),
+                root: reader && reader.root,
+                record: reader && reader.record
+            },
+            tpl, xml, doc;
 
         if (ctx.groupSpec) {
             response.summaryData = me.getSummary(ctx, data, page);
         }
 
-        var tpl = Ext.XTemplate.getTpl(me, 'xmlTpl'),
-            xml = tpl.apply(response),
-            doc;
+        // If a straight Ajax request there won't be an xmlTpl.
+        if (me.xmlTpl) {
+            tpl = Ext.XTemplate.getTpl(me, 'xmlTpl');
+            xml = tpl.apply(response);
+        } else {
+            xml = data;
+        }
 
         if (typeof DOMParser != 'undefined') {
             doc = (new DOMParser()).parseFromString(xml, "text/xml");

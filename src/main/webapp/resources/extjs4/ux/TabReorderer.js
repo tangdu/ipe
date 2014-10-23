@@ -16,7 +16,7 @@ Ext.define('Ext.ux.TabReorderer', {
         tabPanel.onAdd = Ext.Function.createSequence(tabPanel.onAdd, me.onAdd);
     },
 
-    afterFirstLayout: function() {
+    onBoxReady: function() {
         var tabs,
             len,
             i = 0,

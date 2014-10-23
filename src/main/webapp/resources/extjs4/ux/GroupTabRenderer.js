@@ -29,7 +29,7 @@ Ext.define('Ext.ux.GroupTabRenderer', {
             '{rowAttr:attributes}>',
             '<tpl for="columns">' +
                 '{%',
-                    'parent.view.renderCell(values, parent.record, parent.recordIndex, xindex - 1, out, parent)',
+                    'parent.view.renderCell(values, parent.record, parent.recordIndex, parent.rowIndex, xindex - 1, out, parent)',
                  '%}',
             '</tpl>',
         '</div>',
@@ -67,11 +67,7 @@ Ext.define('Ext.ux.GroupTabRenderer', {
         cellSelector: 'div.' + Ext.baseCSSPrefix + 'grouptab-cell', 
 
         getCellSelector: function(header) {
-            var result = 'div.' + Ext.baseCSSPrefix + 'grid-cell';
-            if (header) {
-                result += '-' + header.getItemId();
-            }
-            return result;
+            return header ? header.getCellSelector() : this.cellSelector; 
         }
 
     },

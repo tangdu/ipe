@@ -2,6 +2,10 @@
  * Base class from Ext.ux.TabReorderer.
  */
 Ext.define('Ext.ux.BoxReorderer', {
+    requires: [
+        'Ext.dd.DD'
+    ],
+
     mixins: {
         observable: 'Ext.util.Observable'
     },
@@ -79,7 +83,7 @@ Ext.define('Ext.ux.BoxReorderer', {
         // Initialize the DD on first layout, when the innerCt has been created.
         me.container.on({
             scope: me,
-            boxready: me.afterFirstLayout,
+            boxready: me.onBoxReady,
             beforedestroy: me.onContainerDestroy
         });
     },
@@ -95,7 +99,7 @@ Ext.define('Ext.ux.BoxReorderer', {
         }
     },
 
-    afterFirstLayout: function() {
+    onBoxReady: function() {
         var me = this,
             layout = me.container.getLayout(),
             names = layout.names,
@@ -105,13 +109,13 @@ Ext.define('Ext.ux.BoxReorderer', {
         // TODO: Ext5's DD classes should apply config to themselves.
         // TODO: Ext5's DD classes should not use init internally because it collides with use as a plugin
         // TODO: Ext5's DD classes should be Observable.
-        // TODO: When all the above are trus, this plugin should extend the DD class.
+        // TODO: When all the above are true, this plugin should extend the DD class.
         dd = me.dd = Ext.create('Ext.dd.DD', layout.innerCt, me.container.id + '-reorderer');
         Ext.apply(dd, {
             animate: me.animate,
             reorderer: me,
             container: me.container,
-            getDragCmp: this.getDragCmp,
+            getDragCmp: me.getDragCmp,
             clickValidator: Ext.Function.createInterceptor(dd.clickValidator, me.clickValidator, me, false),
             onMouseDown: me.onMouseDown,
             startDrag: me.startDrag,
@@ -248,7 +252,7 @@ Ext.define('Ext.ux.BoxReorderer', {
             items = me.container.items,
             container = me.container,
             wasRoot = me.container._isLayoutRoot,
-            orig, dest, tmpIndex, temp;
+            orig, dest, tmpIndex;
 
         newIndex = me.findReorderable(newIndex);
 

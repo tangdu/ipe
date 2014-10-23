@@ -10,9 +10,8 @@ Ext.define('Ext.ux.grid.filter.Filter', {
      */
     active : false,
     /**
+     * @property {Boolean} active
      * True if this filter is active.  Use setActive() to alter after configuration.
-     * @type Boolean
-     * @property active
      */
     /**
      * @cfg {String} dataIndex
@@ -21,15 +20,14 @@ Ext.define('Ext.ux.grid.filter.Filter', {
      */
     dataIndex : null,
     /**
+     * @property {Ext.menu.Menu} menu
      * The filter configuration menu that will be installed into the filter submenu of a column menu.
-     * @type Ext.menu.Menu
-     * @property
      */
     menu : null,
     /**
      * @cfg {Number} updateBuffer
      * Number of milliseconds to wait after user interaction to fire an update. Only supported
-     * by filters: 'list', 'numeric', and 'string'. Defaults to 500.
+     * by filters: 'list', 'numeric', and 'string'.
      */
     updateBuffer : 500,
 
@@ -93,7 +91,7 @@ Ext.define('Ext.ux.grid.filter.Filter', {
     init : Ext.emptyFn,
 
     /**
-     * @private @override
+     * @private
      * Creates the Menu for this filter.
      * @param {Object} config Filter configuration
      * @return {Ext.menu.Menu}
@@ -106,7 +104,6 @@ Ext.define('Ext.ux.grid.filter.Filter', {
     /**
      * Template method to be implemented by all subclasses that is to
      * get and return the value of the filter.
-     * Defaults to Ext.emptyFn.
      * @return {Object} The 'serialized' form of this filter
      * @template
      */
@@ -115,7 +112,6 @@ Ext.define('Ext.ux.grid.filter.Filter', {
     /**
      * Template method to be implemented by all subclasses that is to
      * set the value of the filter and fire the 'update' event.
-     * Defaults to Ext.emptyFn.
      * @param {Object} data The value to set the filter
      * @template
      */
@@ -123,8 +119,8 @@ Ext.define('Ext.ux.grid.filter.Filter', {
 
     /**
      * Template method to be implemented by all subclasses that is to
-     * return <tt>true</tt> if the filter has enough configuration information to be activated.
-     * Defaults to <tt>return true</tt>.
+     * return true if the filter has enough configuration information to be activated.
+     * Defaults to always returning true.
      * @return {Boolean}
      */
     isActivatable : function(){
@@ -134,14 +130,13 @@ Ext.define('Ext.ux.grid.filter.Filter', {
     /**
      * Template method to be implemented by all subclasses that is to
      * get and return serialized filter data for transmission to the server.
-     * Defaults to Ext.emptyFn.
      */
     getSerialArgs : Ext.emptyFn,
 
     /**
      * Template method to be implemented by all subclasses that is to
      * validates the provided Ext.data.Record against the filters configuration.
-     * Defaults to <tt>return true</tt>.
+     * Defaults to always returning true.
      * @param {Ext.data.Record} record The record to validate
      * @return {Boolean} true if the record is valid within the bounds
      * of the filter, false otherwise.

@@ -2,15 +2,28 @@
  * This is the base class for {@link Ext.ux.event.Recorder} and {@link Ext.ux.event.Player}.
  */
 Ext.define('Ext.ux.event.Driver', {
+    extend: 'Ext.util.Observable',
+
     active: null,
-    mixins: {
-        observable: 'Ext.util.Observable'
+
+    specialKeysByName: {
+        PGUP:  33,
+        PGDN:  34,
+        END:   35,
+        HOME:  36,
+        LEFT:  37,
+        UP:    38,
+        RIGHT: 39,
+        DOWN:  40
     },
 
-    constructor: function (config) {
+    specialKeysByCode: {
+    },
+
+    constructor: function () {
         var me = this;
 
-        me.mixins.observable.constructor.apply(this, arguments);
+        me.callParent(arguments);
 
         me.addEvents(
             /**
@@ -27,6 +40,26 @@ Ext.define('Ext.ux.event.Driver', {
              */
             'stop'
         );
+    },
+
+    getTextSelection: function (el) {
+        // See https://code.google.com/p/rangyinputs/source/browse/trunk/rangyinputs_jquery.js
+        var doc = el.ownerDocument,
+            range, range2, start, end;
+
+        if (typeof el.selectionStart === "number") {
+            start = el.selectionStart;
+            end = el.selectionEnd;
+        } else if (doc.selection) {
+            range = doc.selection.createRange();
+            range2 = el.createTextRange();
+            range2.setEndPoint('EndToStart', range);
+
+            start = range2.text.length;
+            end = start + range.text.length;
+        }
+
+        return [ start, end ];
     },
 
     getTime: function () {
@@ -71,4 +104,11 @@ Ext.define('Ext.ux.event.Driver', {
             me.fireEvent('stop', me);
         }
     }
+},
+function () {
+    var proto = this.prototype;
+
+    Ext.Object.each(proto.specialKeysByName, function (name, value) {
+        proto.specialKeysByCode[value] = name;
+    });
 });
