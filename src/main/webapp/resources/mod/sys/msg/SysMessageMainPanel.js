@@ -27,7 +27,8 @@ Ext.define('Sys.msg.MessageList',{
         },{
             header:'标记',
             width:40,
-            dataIndex:'read'
+            dataIndex:'read',
+            renderer:ipe.fuc.msgDt
         },{
             header:'创建日期',
             width:150,
@@ -55,7 +56,14 @@ Ext.define('Sys.msg.MessageList',{
 
         this.callParent();
     },readMsg:function(){
-    	
+    	var parent=this.parent;
+        var record=this.getSelectionModel().getSelection();
+        if(record && record.length>0){
+        	var win=Ext.create('Sys.msg.MessageViewWin',{parent:this,data:record[0].data});
+    		win.show();
+        }else{
+        	 Ext.Msg.alert('提示','请选择要查看的记录!');
+        }
     }
 });
 

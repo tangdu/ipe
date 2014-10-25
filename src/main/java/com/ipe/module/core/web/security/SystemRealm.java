@@ -74,9 +74,10 @@ public class SystemRealm extends AuthorizingRealm {
 	protected AuthenticationInfo doGetAuthenticationInfo(
 			AuthenticationToken authenticationToken)
 			throws AuthenticationException {
-		User user = getLoginUser(authenticationToken);
+		CustUsernamePasswordToken upToken = (CustUsernamePasswordToken) authenticationToken;
+		User user = getLoginUser(upToken);
 		if (user != null) {
-			return new SimpleAuthenticationInfo(new UserInfo(user),
+			return new SimpleAuthenticationInfo(new UserInfo(user,upToken.getAccessUrl()),
 					user.getUserPwd(), getName());
 		}
 		return null;
@@ -117,11 +118,13 @@ public class SystemRealm extends AuthorizingRealm {
 		private String userAccount;
 		private String userName;
 		private Date userLoginTime = new Date();
+		private String accessUrl;
 
-		public UserInfo(User user) {
+		public UserInfo(User user,String accessUrl) {
 			this.userId = user.getId();
 			this.userName = user.getUserName();
 			this.userAccount = user.getUserAccount();
+			this.accessUrl = accessUrl;
 		}
 
 		public String getUserId() {
@@ -138,6 +141,14 @@ public class SystemRealm extends AuthorizingRealm {
 
 		public Date getUserLoginTime() {
 			return userLoginTime;
+		}
+
+		public String getAccessUrl() {
+			return accessUrl;
+		}
+
+		public void setAccessUrl(String accessUrl) {
+			this.accessUrl = accessUrl;
 		}
 	}
 }

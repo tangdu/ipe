@@ -96,8 +96,8 @@ var ipe={
         ]
     },
     fuc:{
-    	openWidow:function(){
-    		return window.open("", "newwin", "height=700, width=600,toolbar=no,scrollbars=no,menubar=no");
+    	openWidow:function(url,title){
+    		return window.open(url, title, "height=700, width=815,toolbar=no,menubar=no,scrollbars=no,resizable=no,location=no,status=no");
     	},
         downFile:function(filePath){
             if(filePath!=null && filePath!=""){

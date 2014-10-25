@@ -1,5 +1,21 @@
 package com.ipe.module.ext.web.controller;
 
+import java.util.Iterator;
+import java.util.List;
+import java.util.Map;
+
+import javax.persistence.EntityManagerFactory;
+import javax.persistence.metamodel.Attribute;
+import javax.persistence.metamodel.EntityType;
+import javax.persistence.metamodel.Metamodel;
+
+import org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.ModelMap;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
+
 import com.alibaba.fastjson.JSON;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
@@ -8,21 +24,6 @@ import com.ipe.common.util.SpringContextHolder;
 import com.ipe.module.ext.pojo.ExtColumn;
 import com.ipe.module.ext.pojo.ExtTable;
 import com.ipe.module.ext.web.ExtUtil;
-import org.hibernate.ejb.metamodel.EntityTypeImpl;
-import org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean;
-import org.springframework.stereotype.Controller;
-import org.springframework.ui.ModelMap;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
-
-import javax.persistence.EntityManagerFactory;
-import javax.persistence.metamodel.Attribute;
-import javax.persistence.metamodel.EntityType;
-import javax.persistence.metamodel.Metamodel;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Map;
 
 /**
  * Created by tangdu on 14-2-20.
@@ -60,7 +61,7 @@ public class ExtController {
      */
     @RequestMapping(value="generate_view")
     public String extGenerate(ModelMap mp){
-        //step1:得到系统所有实体对象
+       /* //step1:得到系统所有实体对象
         LocalContainerEntityManagerFactoryBean localContainerEntityManagerFactoryBean= SpringContextHolder.getBean(LocalContainerEntityManagerFactoryBean.class);
         EntityManagerFactory entityManagerFactory=localContainerEntityManagerFactoryBean.getNativeEntityManagerFactory();
         Metamodel metamodel=entityManagerFactory.getMetamodel();
@@ -101,7 +102,7 @@ public class ExtController {
 
         //step2:
         mp.put("entities",extTables);
-        mp.put("entitiesStr",JSON.toJSONString(extTables));
+        mp.put("entitiesStr",JSON.toJSONString(extTables));*/
         return "tools/extgenerate";
     }
 

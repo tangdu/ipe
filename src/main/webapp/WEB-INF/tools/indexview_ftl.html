@@ -1,6 +1,6 @@
 <div class=mcontainer> 
 	<div class="p_header">
-		欢迎您!,${useInfo.userName}  当前时间：${.now} 待审批任务：(<a class="bold">${mtaskLists?size}</a>) 我的消息：(<a class="bold">${messageLists?size}</a>)
+		欢迎您!,${userInfo.userName}  当前时间：${.now} 访问地址：${userInfo.accessUrl} 待审批任务：(<a class="bold">${mtaskLists?size}</a>) 我的消息：(<a class="bold">${messageLists?size}</a>)
 	</div>
     <div class="mytheme mcol-md-6">  
    	  <div class="mpanel-header">
@@ -24,7 +24,7 @@
 	          		</#if>
 	          </#list>
           <#else>
-          		<tr class="text-center"><td colspan="3">没有任务</td></tr>  
+          		<tr class="text-center height-fit"><td colspan="4">没有任务</td></tr>  
         </#if>
         </tbody>  
       </table>
@@ -57,7 +57,7 @@
 	         <#list noticeLists as notice>
 	      		<#if (notice_index<8)>
 	      			<li class="clear">
-	      				<div class="to-left meclipse" style="width:86%;"><a onclick="openNewTabNotice('${notice.id}')">${notice.title}</a></div>
+	      				<div class="to-left meclipse" style="width:86%;"><a onclick="openNewTabNotice('${notice.id}','${notice.title}')">${notice.title}</a></div>
 	      				<div class="to-right">${notice.createdDate?string("MM-dd")}</div>
 	      			</li>
 	      		</#if>

@@ -18,7 +18,7 @@
         <freemarker.version>2.3.19</freemarker.version>
         <ehcache.version>2.6.6</ehcache.version>
         <fastjson.version>1.1.36</fastjson.version>
-        <slf4j.version>1.7.2</slf4j.version>
+        <slf4j.version>1.7.5</slf4j.version>
         <c3p0.version>0.9.1.1</c3p0.version>
         <druid.version>0.2.26</druid.version>
         <servlet.version>3.0-alpha-1</servlet.version>
@@ -46,7 +46,12 @@
             <artifactId>mysql-connector-java</artifactId>
             <version>${mysql.version}</version>
         </dependency>
-
+		<dependency>
+		    <groupId>org.jumpmind.symmetric.jdbc</groupId>
+		    <artifactId>mariadb-java-client</artifactId>
+		    <version>1.1.1</version>
+		</dependency>
+		
         <!-- druid -->
         <dependency>
             <groupId>com.alibaba</groupId>
@@ -114,15 +119,13 @@
         <dependency>
             <groupId>org.slf4j</groupId>
             <artifactId>jcl-over-slf4j</artifactId>
-            <version>1.7.5</version>
-            <scope>runtime</scope>
+            <version>${slf4j.version}</version>
         </dependency>
         <!-- java.util.logging 实际调用slf4j -->
         <dependency>
             <groupId>org.slf4j</groupId>
             <artifactId>jul-to-slf4j</artifactId>
-            <version>1.7.5</version>
-            <scope>runtime</scope>
+            <version>${slf4j.version}</version>
         </dependency>
 
         <!--logback-->
@@ -148,11 +151,6 @@
             <artifactId>ehcache-core</artifactId>
             <version>${ehcache.version}</version>
         </dependency>
-        <!--  <dependency>
-              <groupId>com.googlecode.ehcache-spring-annotations</groupId>
-              <artifactId>ehcache-spring-annotations</artifactId>
-              <version>1.2.0</version>
-          </dependency>-->
 
         <!-- spring -->
         <dependency>
@@ -230,12 +228,13 @@
             <artifactId>hibernate-core</artifactId>
             <version>${hibernate.version}</version>
         </dependency>
+        <!--
         <dependency>
             <groupId>org.hibernate</groupId>
             <artifactId>hibernate-entitymanager</artifactId>
             <version>${hibernate.version}</version>
-        </dependency>
-        <dependency>
+        </dependency>--> 
+        <dependency> 
             <groupId>org.hibernate</groupId>
             <artifactId>hibernate-ehcache</artifactId>
             <version>${hibernate.version}</version>
@@ -300,12 +299,12 @@
             <version>1.1.1</version>
         </dependency>-->
 
-        <!-- google java library -->
+        <!-- google java library
         <dependency>
             <groupId>com.google.guava</groupId>
             <artifactId>guava</artifactId>
             <version>${guava.version}</version>
-        </dependency>
+        </dependency> -->
 
         <!-- Activiti -->
         <dependency>

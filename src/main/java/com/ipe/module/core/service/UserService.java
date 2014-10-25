@@ -9,9 +9,11 @@ import com.ipe.module.core.entity.Resource;
 import com.ipe.module.core.entity.Role;
 import com.ipe.module.core.entity.User;
 import com.ipe.module.core.web.security.SystemRealm;
+
 import org.apache.shiro.SecurityUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Date;
@@ -26,7 +28,7 @@ import java.util.Set;
  * To change this template use File | Settings | File Templates.
  */
 @Service
-@Transactional(readOnly = true)
+@Transactional(propagation = Propagation.REQUIRED, readOnly = false) 
 public class UserService extends BaseService<User, String> {
     @Autowired
     private UserDao userDao;

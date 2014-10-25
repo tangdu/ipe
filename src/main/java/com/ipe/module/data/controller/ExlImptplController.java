@@ -1,12 +1,16 @@
-package com.ipe.module.core.web.controller;
+package com.ipe.module.data.controller;
 
-import com.ipe.common.dao.SpringJdbcDao;
-import com.ipe.common.util.ExcelParse;
-import com.ipe.common.util.PageModel;
-import com.ipe.module.core.entity.ExlImptpl;
-import com.ipe.module.core.service.ExlImptplService;
-import com.ipe.module.core.web.util.BodyWrapper;
-import com.ipe.module.core.web.util.RestRequest;
+import java.io.File;
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+import javax.servlet.ServletOutputStream;
+import javax.servlet.http.HttpServletResponse;
+
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.lang.StringUtils;
 import org.slf4j.Logger;
@@ -20,12 +24,16 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 
-import java.io.File;
-import java.sql.Timestamp;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import com.ipe.common.dao.SpringJdbcDao;
+import com.ipe.common.util.PageModel;
+import com.ipe.module.core.web.controller.AbstractController;
+import com.ipe.module.core.web.util.BodyWrapper;
+import com.ipe.module.core.web.util.RestRequest;
+import com.ipe.module.core.web.util.WebUtil;
+import com.ipe.module.data.ExcelParse;
+import com.ipe.module.data.entity.ExlImptpl;
+import com.ipe.module.data.pojo.TableInfo;
+import com.ipe.module.data.service.ExlImptplService;
 
 /**
  * Created with IntelliJ IDEA.
@@ -76,7 +84,7 @@ public class ExlImptplController extends AbstractController {
     @ResponseBody
     BodyWrapper edit(ExlImptpl exlImptpl,String details) {
         try {
-            exlImptpl.setCreatedDate(new Timestamp(System.currentTimeMillis()));
+            exlImptpl.setCreatedDate(new Date());
             exlImptplService.edit(exlImptpl, details);
             return success(exlImptpl);
         } catch (Exception e) {
@@ -90,7 +98,7 @@ public class ExlImptplController extends AbstractController {
     @ResponseBody
     BodyWrapper add(ExlImptpl exlImptpl,String details) {
         try {
-            exlImptpl.setCreatedDate(new Timestamp(System.currentTimeMillis()));
+            exlImptpl.setCreatedDate(new Date());
             exlImptplService.save(exlImptpl,details);
             return success(exlImptpl);
         } catch (Exception e) {
@@ -167,6 +175,53 @@ public class ExlImptplController extends AbstractController {
                 return success(result);
             }
             return failure();
+        } catch (Exception e) {
+            LOG.error("impexcelData error",e);
+            return failure(e);
+        }
+    }
+    
+
+    /**
+     * 导出Excel数据
+     * @param id
+     * @param multipartHttpServletRequest
+     * @return
+     */
+    @RequestMapping(value = {"/expexcelData"})
+    public void expexcelData(String id,HttpServletResponse response) {
+    	ServletOutputStream outputStream=null;
+        try {
+        	ExlImptpl exlImptpl = exlImptplService.get(id);
+        	outputStream=response.getOutputStream();
+        	WebUtil.setDownHeader(response,exlImptpl.getExlName()+".xlsx");
+        	exlImptplService.expData(id,outputStream );
+        } catch (Exception e) {
+            LOG.error("expexcelData error",e);
+            super.downFileError(response);
+        } finally{
+        	try {
+        		if(outputStream!=null){
+        			outputStream.close();
+        		}
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+        }
+    }
+    
+    /**
+     * 加载数据表结构
+     * @param mappingTable
+     * @param tableBelongUser
+     * @return
+     */
+    @RequestMapping(value = {"/loadFieldByTableUser"})
+    @ResponseBody
+    public BodyWrapper loadFieldByTableUser(String mappingTable,String tableBelongUser) {
+        try {
+        	List<TableInfo> list=exlImptplService.getTableInfo(mappingTable, tableBelongUser);
+        	return success(list);
         } catch (Exception e) {
             LOG.error("edit error",e);
             return failure(e);

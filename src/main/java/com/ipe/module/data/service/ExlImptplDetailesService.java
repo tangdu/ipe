@@ -1,9 +1,10 @@
-package com.ipe.module.core.service;
+package com.ipe.module.data.service;
 
 import com.ipe.common.dao.BaseDao;
 import com.ipe.common.service.BaseService;
 import com.ipe.module.core.dao.ExlImptplDetailesDao;
-import com.ipe.module.core.entity.ExlImptplDetailes;
+import com.ipe.module.data.entity.ExlImptplDetailes;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;

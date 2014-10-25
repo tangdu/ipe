@@ -78,9 +78,9 @@ public class RoleController extends AbstractController {
     @RequestMapping(value = {"/del"})
     public
     @ResponseBody
-    BodyWrapper del(String[] ids, RestRequest rest) {
+    BodyWrapper del(String id, RestRequest rest) {
         try {
-            roleService.delete(ids);
+            roleService.delete(id);
             return success();
         } catch (Exception e) {
             LOG.error("del error",e);

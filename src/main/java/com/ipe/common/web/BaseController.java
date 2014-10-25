@@ -5,6 +5,7 @@ import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.io.PrintWriter;
 import java.math.BigDecimal;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -20,6 +21,7 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.support.ByteArrayMultipartFileEditor;
 
 import com.ipe.common.web.support.DateEditor;
+import com.ipe.module.core.web.util.WebUtil;
 
 
 /**
@@ -68,16 +70,18 @@ public abstract class BaseController {
         downFile(file,file.getName(),response);
     }
 
-    public void downFile(HttpServletResponse response){
+    public void downFileError(HttpServletResponse response){
+    	PrintWriter printWriter=null;
         try {
-            response.setContentType("application/x-download");
-            response.setHeader("Pragma", "public");
-            response.setHeader("Cache-Control","must-revalidate, post-check=0, pre-check=0");
-            response.addHeader("Content-disposition", "attachment;filename="+ new String("下载异常.txt".getBytes("GBK"), "ISO-8859-1"));
-            response.getWriter().print("下载文件找不到，请联系系统管理员");
-            response.getWriter().close();
+        	printWriter=response.getWriter();
+            WebUtil.setDownHeader(response,"下载异常.txt");
+            printWriter.print("下载文件找不到，请联系系统管理员");
         } catch (IOException e) {
             e.printStackTrace();
+        } finally{
+        	if(printWriter!=null){
+        		printWriter.close();
+        	}
         }
     }
 
@@ -114,12 +118,8 @@ public abstract class BaseController {
      * @throws Exception
      */
     public void downFile(File file,String fileName,HttpServletResponse response) throws Exception{
-        response.setContentType("application/x-download");
-        response.setHeader("Pragma", "public");
-        response.setHeader("Cache-Control","must-revalidate, post-check=0, pre-check=0");
         InputStream  in = new FileInputStream(file);
-        fileName = new String(fileName.getBytes("GBK"), "ISO-8859-1");
-        response.addHeader("Content-disposition", "attachment;filename=" +SIMPLEDATEFORMAT.format(new Date())+fileName);
+        WebUtil.setDownHeader(response,fileName);
         downFile(in,response);
     }
 }

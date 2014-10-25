@@ -1,10 +1,9 @@
 package com.ipe.module.core.web.controller;
 
-import com.ipe.common.util.ZipUtil;
-import com.ipe.module.core.entity.Log;
-import com.ipe.module.core.service.LogService;
-import com.ipe.module.core.web.util.BodyWrapper;
-import com.ipe.module.core.web.util.RestRequest;
+import java.io.File;
+
+import javax.servlet.http.HttpServletResponse;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,9 +12,12 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import javax.servlet.http.HttpServletResponse;
-import java.io.File;
-import java.util.Date;
+import com.ipe.common.util.ZipUtil;
+import com.ipe.module.core.entity.Log;
+import com.ipe.module.core.service.LogService;
+import com.ipe.module.core.web.util.BodyWrapper;
+import com.ipe.module.core.web.util.RestRequest;
+import com.ipe.module.core.web.util.WebUtil;
 
 /**
  * Created with IntelliJ IDEA.
@@ -96,18 +98,14 @@ public class LogController extends AbstractController {
         try {
             File file = new File(logsPath);
             if(file.canRead()){
-                response.setContentType("application/x-download");
-                response.setHeader("Pragma", "public");
-                response.setHeader("Cache-Control","must-revalidate, post-check=0, pre-check=0");
-                String  fileName = new String(file.getName().trim().getBytes("GBK"), "ISO-8859-1");
-                response.addHeader("Content-disposition", "attachment;filename="+SIMPLEDATEFORMAT.format(new Date())+"_"+ fileName+".zip");
+                WebUtil.setDownHeader(response, file.getName().trim()+".zip");
                 ZipUtil.zipFiles(logsPath, response.getOutputStream());
             }else{
-            	super.downFile(response);
+            	super.downFileError(response);
             }
         } catch (Exception e) {
             LOG.error("del error", e);
-            super.downFile(response);
+            super.downFileError(response);
         }
     }
 }

@@ -1,4 +1,4 @@
-package com.ipe.module.core.entity;
+package com.ipe.module.data.entity;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;

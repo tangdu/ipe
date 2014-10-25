@@ -87,11 +87,13 @@ Ext.define('Sys.tool.ExlImptplList',{
         this.tbar=[{
             text:'新增',
             iconCls:ipe.sty.add,
+            tooltip:'上传excel创表并导入',
             scope:this,
             handler:this.addExlImptpl
         },{
             text:'新增',
             iconCls:ipe.sty.add,
+            tooltip:'根据excel存在表并导入',
             scope:this,
             handler:this.addExlImpDbtpl
         },{
@@ -104,7 +106,8 @@ Ext.define('Sys.tool.ExlImptplList',{
             iconCls:ipe.sty.del,
             scope:this,
             handler:this.delExlImptpl
-        },'-',{text:'导入',scope:this,handler:this.impExldata,iconCls:ipe.sty["import"]}];
+        },'-',{text:'导入',scope:this,handler:this.impExldata,iconCls:ipe.sty["import"]}
+        ,{text:'导出',scope:this,handler:this.expExldata,iconCls:ipe.sty["import"]}];
 
         this.store=Ext.create('Ext.data.JsonStore', {
             proxy: {
@@ -133,7 +136,7 @@ Ext.define('Sys.tool.ExlImptplList',{
     },editExlImptpl:function(){
         var record=this.getSelectionModel().getSelection();
         if(record.length>0){
-            var win=Ext.create('Sys.tool.ExcelImpConfigWin',{record:record[0],oper:'edit',parent:this});
+            var win=Ext.create('Sys.tool.ExcelImpConfigWin',{record:record[0],oper:'edit',parent:this,ctype:'01'});
             win.show();
         }else{
             Ext.Msg.alert('提示','请选择要编辑的记录!');
@@ -179,6 +182,13 @@ Ext.define('Sys.tool.ExlImptplList',{
         }else{
             Ext.Msg.alert('提示','请选择要执行导入的记录!');
         }
+    },expExldata:function(){
+    	var record=this.getSelectionModel().getSelection();
+        if(record.length>0){
+        	window.location.href="exlImptpl/expexcelData?id="+record[0].data.id;
+        }else{
+            Ext.Msg.alert('提示','请选择要执行导出的记录!');
+        }
     }
 });
 /**
@@ -187,7 +197,6 @@ Ext.define('Sys.tool.ExlImptplList',{
 Ext.define('Sys.tool.ExlImpEditForm',{
     extend:'Ext.FormPanel',
     url:'exlImptpl/impexcel',
-    waitTitle:'请稍候....',
     isFileUpload:true,
     frame:true,
     border:false,
@@ -307,12 +316,12 @@ Ext.define('Sys.tool.ExlImpEditList',{
     initComponent:function(){
         this.columns=[{xtype: 'rownumberer'},{
             header:'Excel索引',
-            width:200,
+            width:100,
             dataIndex:'exlCol',
             editor:{xtype:'numberfield',maxLength:50}
         },{
             header:'表字段',
-            width:250,
+            width:200,
             dataIndex:'tableCol',
             editor:(this.ctype=="01" ? {xtype:'textfield',maxLength:30}:null)
         },{
@@ -337,11 +346,15 @@ Ext.define('Sys.tool.ExlImpEditList',{
             width:150,
             dataIndex:'defValue',
             editor:{}
+        },{
+            header:'表注释',
+            width:150,
+            dataIndex:'colDesc'
         },{dataIndex:'id',hidden:true},{dataIndex:'exlType',hidden:true,value:this.ctype}];
 
         Ext.define('ExlImpDetails',{
             extend: 'Ext.data.Model',
-            fields : ['id','exlCol','defValue','colType','tableCol']
+            fields : ['id','exlCol','defValue','colType','tableCol','colDesc']
         });
         this.store=Ext.create('Ext.data.JsonStore', {
             proxy: {
@@ -384,6 +397,15 @@ Ext.define('Sys.tool.ExlImpEditList',{
                 }
             }
         },this);
+    },clearRows:function(){
+    	Ext.each(this.getSelectionModel().getSelection(),function(i,r){
+    		 this.getStore().remove(r);
+    	},this);
+    },addRow2:function(record){
+    	var record=Ext.create('ExlImpDetails',{
+            id:'',exlCol:record.index,tableCol:record.fieldName,colType:record.fieldType,colDesc:record.fieldDesc
+        });
+        this.getStore().add(record);
     }
 });
 
@@ -493,8 +515,25 @@ Ext.define('Sys.tool.ExlImptplEditForm',{
         this.loadRecord(record);
     },loadTable:function(){
     	var vals=this.getForm().getValues();
+    	var me=this;
     	if(vals.mappingTable!="" && vals.tableBelongUser!=""){
-    		
+    		Ext.Ajax.request({
+    			url:'exlImptpl/loadFieldByTableUser',
+    			params:{mappingTable:vals.mappingTable,tableBelongUser:vals.tableBelongUser},
+    			success:function(resp){
+    				var result=Ext.decode(resp.responseText);
+    				if(result.success){
+    					if(result.rows.size>0){
+							me.list.clearRows();    						
+    					}
+    					Ext.each(result.rows,function(r,i){
+							me.list.addRow2(r);
+						});
+    				}else{
+    					Ext.Msg.alert('提示',result.rows);
+    				}
+    			}
+    		});
     	}else{
     		Ext.Msg.alert('提示','表名称与表所属用户不能为空');
     	}
@@ -506,7 +545,7 @@ Ext.define('Sys.tool.ExcelImpConfigWin',{
     title:'模板设置',
     layout:'card',
     modal:true,
-    width:900,
+    width:850,
     height:600,
     border:false,
     initComponent:function(){

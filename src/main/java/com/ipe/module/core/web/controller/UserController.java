@@ -56,11 +56,8 @@ public class UserController extends AbstractController {
     @ResponseBody
     BodyWrapper edit(User user, RestRequest rest) {
         try {
-            User user1=userService.get(user.getId());
-            user1.setRemark("00000000000");
-            //user.setUpdatedDate(new Date());
-            //user.setUserAccount(user1.getUserAccount());//帐号不能修改掉
-            //userService.update(user);
+            user.setUpdatedDate(new Date());
+            userService.update(user);
             return success(user);
         } catch (Exception e) {
             LOGGER.error("Exception ",e);

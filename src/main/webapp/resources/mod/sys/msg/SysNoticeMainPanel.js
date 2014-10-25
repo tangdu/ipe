@@ -18,18 +18,19 @@ Ext.define('Sys.msg.NoticeList',{
         this.columns=[{xtype: 'rownumberer'},{
             header:'标题',
             dataIndex:'title',
+            width:'50%',
             sortable:true
         },{
             header:'公告类型',
             width:80,
             dataIndex:'type',
             sortable:false
-        },{
+        },/*{
             header:'内容',
             width:400,
             dataIndex:'content',
             sortable:false
-        },{
+        },*/{
             header:'附件',
             width:250,
             dataIndex:'appendixName',
@@ -59,6 +60,11 @@ Ext.define('Sys.msg.NoticeList',{
             iconCls:ipe.sty.del,
             scope:this,
             handler:this.delNotice
+        },{
+            text:'浏览',
+            iconCls:ipe.sty.view,
+            scope:this,
+            handler:this.viewNotice
         }];
 
         this.store=Ext.create('Ext.data.JsonStore', {
@@ -71,7 +77,7 @@ Ext.define('Sys.msg.NoticeList',{
             },
             remoteSort : true,
             autoLoad:true,
-            fields : ['id','title','content','type','appendixPath','userId','createdDate','appendixName']
+            fields : ['id','title',/*'content',*/'type','appendixPath','userId','createdDate','appendixName']
         });
 
         this.bbar=Ext.create('Ipe.PagingToolbar',{
@@ -133,6 +139,14 @@ Ext.define('Sys.msg.NoticeList',{
             });
         }else{
             Ext.Msg.alert('提示','请选择要删除的记录!');
+        }
+    },viewNotice:function(){
+    	var parent=this.parent;
+        var record=this.getSelectionModel().getSelection();
+        if(record && record.length>0){
+        	ipe.fuc.openWidow("notice/getNotice?id="+record[0].data.id,record[0].data.title);
+        }else{
+        	Ext.Msg.alert('提示','请选择要浏览的记录!');
         }
     }
 });

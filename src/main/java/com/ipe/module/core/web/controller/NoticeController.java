@@ -1,10 +1,10 @@
 package com.ipe.module.core.web.controller;
 
-import com.ipe.module.core.entity.Notice;
-import com.ipe.module.core.service.NoticeService;
-import com.ipe.module.core.web.security.SystemRealm;
-import com.ipe.module.core.web.util.BodyWrapper;
-import com.ipe.module.core.web.util.RestRequest;
+import java.io.File;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.Map;
+
 import org.apache.commons.io.FileUtils;
 import org.apache.shiro.SecurityUtils;
 import org.slf4j.Logger;
@@ -17,9 +17,13 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
+import org.springframework.web.servlet.ModelAndView;
 
-import java.io.File;
-import java.util.Date;
+import com.ipe.module.core.entity.Notice;
+import com.ipe.module.core.service.NoticeService;
+import com.ipe.module.core.web.security.SystemRealm;
+import com.ipe.module.core.web.util.BodyWrapper;
+import com.ipe.module.core.web.util.RestRequest;
 
 /**
  * Created with IntelliJ IDEA.
@@ -35,6 +39,8 @@ public class NoticeController extends AbstractController {
     private static final Logger LOG= LoggerFactory.getLogger(NoticeController.class);
     @Autowired
     private NoticeService noticeService;
+    private static final String PATH="tools/";
+    
 
     @RequestMapping(value = {"/list"})
     public
@@ -48,6 +54,15 @@ public class NoticeController extends AbstractController {
             return failure(e);
         }
     }
+    
+    @RequestMapping(value = {"/getNotice"})
+    public ModelAndView getNotice(String id) {
+       Notice notice=noticeService.get(id);
+       Map<String,Object> mp=new HashMap<String,Object>();
+       mp.put("data", notice);
+       return new ModelAndView(PATH+"view_notice", mp);
+    }
+
 
     @Value("#{app.notice_filepath}")
     private String noticeFilePath;

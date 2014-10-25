@@ -95,7 +95,7 @@ Ext.define('Sys.role.RoleList',{
                         Ext.Ajax.request({
                             url: 'role/del',
                             params: {
-                                ids:record[0].data.id
+                                id:record[0].data.id
                             },
                             success: function(response){
                                 var resp =Ext.decode(response.responseText) ;
@@ -151,16 +151,8 @@ Ext.define('Sys.role.RoleForm',{
     extend:'Ext.form.Panel',
     url:'role/add',
     waitTitle:'请稍候....',
-    requires:['Ext.ux.DataTip'],
     defaults:{
         anchor:'98%'
-    },
-    fieldDefaults: {
-        msgTarget: 'side',
-        labelWidth: 75
-    },
-    plugins: {
-        ptype: 'datatip'
     },
     defaultType: 'textfield',
     frame:true,

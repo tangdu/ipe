@@ -10,14 +10,13 @@ Ext.define('Desktop.view.IndexView', {
     		url:'getIndexView',
     		method:'POST',
     		success:function(resp){
-    			var result=Ext.decode(resp.responseText);
     			/*var script=/<script>([\s\S]*?)<\/script>/gi;
     			var match=script.exec(result.rows);
     			while(match!=null){
     				eval('('+match[1]+')');
     				match=script.exec(result.rows);
     			}*/
-    			me.body.update(result.rows);
+    			me.body.update(resp.responseText);
     			me.doRender();
     		}
     	});   

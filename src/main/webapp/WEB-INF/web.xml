@@ -91,6 +91,7 @@
     <servlet-mapping>
         <servlet-name>spring-mvc</servlet-name>
         <url-pattern>/</url-pattern>
+        <load-on-startup>1</load-on-startup>
     </servlet-mapping>
 
     <!-- DruidStatView -->

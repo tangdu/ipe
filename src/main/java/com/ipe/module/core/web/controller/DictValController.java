@@ -32,7 +32,7 @@ public class DictValController extends AbstractController {
     @ResponseBody
     BodyWrapper list(final String dictId, RestRequest rest) {
         try {
-            dictValService.where(rest.getPageModel()," and dictId=?",dictId);
+            dictValService.where(rest.getPageModel()," dictId=?",dictId);
             return success(rest.getPageModel());
         } catch (Exception e) {
             LOG.error("query error",e);

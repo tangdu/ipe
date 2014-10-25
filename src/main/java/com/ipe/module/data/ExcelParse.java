@@ -1,4 +1,4 @@
-package com.ipe.common.util;
+package com.ipe.module.data;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -23,6 +23,7 @@ import com.ipe.common.exception.Exceptions;
  */
 public class ExcelParse {
 	private XSSFWorkbook wb;
+	@SuppressWarnings("unused")
 	private int sheetCot = 0;
 	static SimpleDateFormat DATEFORMAT = new SimpleDateFormat(
 			"yyyy-MM-dd HH:mm:ss", Locale.getDefault());// only support this

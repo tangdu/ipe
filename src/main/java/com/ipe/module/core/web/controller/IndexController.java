@@ -3,15 +3,11 @@ package com.ipe.module.core.web.controller;
 import static org.apache.shiro.SecurityUtils.getSubject;
 
 import java.io.File;
-import java.io.StringWriter;
 import java.lang.management.ManagementFactory;
 import java.lang.management.MemoryMXBean;
 import java.lang.management.OperatingSystemMXBean;
 import java.lang.management.RuntimeMXBean;
-import java.net.URL;
 import java.net.URLDecoder;
-import java.util.HashMap;
-import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -26,11 +22,11 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.ipe.module.bpm.service.ProcessTaskService;
@@ -39,13 +35,8 @@ import com.ipe.module.core.service.NoticeService;
 import com.ipe.module.core.service.UserService;
 import com.ipe.module.core.web.security.CustUsernamePasswordToken;
 import com.ipe.module.core.web.security.SystemRealm;
-import com.ipe.module.core.web.util.BodyWrapper;
 import com.ipe.module.core.web.util.RestRequest;
 import com.ipe.module.core.web.util.WebUtil;
-
-import freemarker.template.Configuration;
-import freemarker.template.DefaultObjectWrapper;
-import freemarker.template.Template;
 
 /**
  * Created with IntelliJ IDEA.
@@ -99,7 +90,7 @@ public class IndexController extends AbstractController {
                 WebUtil.getIpAddr(request),
                 request.getMethod(),
                 request.getParameter("captcha"),
-                request.getRequestURL().toString());
+                WebUtil.getIpAddr(request));
         try {
             getSubject().login(token);
             return "redirect:/";
@@ -131,9 +122,6 @@ public class IndexController extends AbstractController {
         return "signin";
     }
 
-    /**
-     * 渲染首页
-     */
     @Autowired
     private ProcessTaskService taskService;
     @Autowired
@@ -141,51 +129,34 @@ public class IndexController extends AbstractController {
     @Autowired
     private MessageService messageService;
     
-    private static final String INDEX_VIEW="indexview_ftl.html";
-    
-    @RequestMapping(value = "/getIndexView", method = RequestMethod.POST)
-    public @ResponseBody BodyWrapper getIndexView(HttpServletRequest request) {
-    	try {
-    		 Configuration cfg = new Configuration();
-    		 cfg.setObjectWrapper(new DefaultObjectWrapper());  
-    		 cfg.setNumberFormat("0.######"); 
-    		 cfg.setDateFormat("yyyy-MM-dd");
-    		 cfg.setDateTimeFormat("yyyy-MM-dd HH:mm:ss");
-    		 cfg.setBooleanFormat("true,false");
-    		 cfg.setWhitespaceStripping(true);
-    		 URL url=IndexController.class.getClassLoader().getResource("./config/"+INDEX_VIEW);
-    		 Logger.info(url.getPath());
-    		 cfg.setDirectoryForTemplateLoading(new File(url.getPath()).getParentFile());
-    		 Template template=cfg.getTemplate(INDEX_VIEW);
-    		 template.setEncoding("UTF-8");  
-    		 
-    		 StringWriter result =new StringWriter();
-    		 Map<String, Object> data=new HashMap<String, Object>();
-    		 //step1:用户信息
-    		 SystemRealm.UserInfo useInfo=((SystemRealm.UserInfo) SecurityUtils.getSubject().getPrincipal());
-    		 data.put("useInfo", useInfo);
-    		 //step2:任务信息
-    		 data.put("mtaskLists",taskService.userTaskList(null, new RestRequest()).getRows());
-    		 //step3:最新公告
-    		 data.put("noticeLists", noticeService.listAll());
-    		 //step4:最新消息
-    		 data.put("messageLists", messageService.listAll());
-    		 //step5:内存信息
-    		 MemoryMXBean my = ManagementFactory.getMemoryMXBean();
-    		 data.put("initMemory", my.getHeapMemoryUsage().getInit() / 1000000 + " M");
-    		 data.put("maxMemory", my.getHeapMemoryUsage().getMax() / 1000000 + " M");
-    		 data.put("usedMemory", my.getHeapMemoryUsage().getUsed() / 1000000 + " M");
-    		 OperatingSystemMXBean os = ManagementFactory.getOperatingSystemMXBean();
-    		 data.put("osName", os.getName());
-    		 RuntimeMXBean rt = ManagementFactory.getRuntimeMXBean();
-    		 data.put("vmName", rt.getVmName());
-    		 
-    		 template.process(data, result);
-    		 return success(result.toString());
-		} catch (Exception e) {
-			 Logger.error("Exception {}", e);
-			 return failure(e);
-		}
+    private static final String PATH="tools/";
+    /**
+     * 首页展示
+     * @param request
+     * @param data
+     * @return
+     */
+    @RequestMapping(value = "/getIndexView")
+    public String getIndexView(HttpServletRequest request,ModelMap data) {
+		 //step1:用户信息
+		 SystemRealm.UserInfo userInfo=((SystemRealm.UserInfo) SecurityUtils.getSubject().getPrincipal());
+		 data.put("userInfo", userInfo);
+		 //step2:任务信息
+		 data.put("mtaskLists",taskService.userTaskList(null, new RestRequest()).getRows());
+		 //step3:最新公告
+		 data.put("noticeLists", noticeService.listAll());
+		 //step4:最新消息
+		 data.put("messageLists", messageService.listAll());
+		 //step5:内存信息
+		 MemoryMXBean my = ManagementFactory.getMemoryMXBean();
+		 data.put("initMemory", my.getHeapMemoryUsage().getInit() / 1000000 + " M");
+		 data.put("maxMemory", my.getHeapMemoryUsage().getMax() / 1000000 + " M");
+		 data.put("usedMemory", my.getHeapMemoryUsage().getUsed() / 1000000 + " M");
+		 OperatingSystemMXBean os = ManagementFactory.getOperatingSystemMXBean();
+		 data.put("osName", os.getName());
+		 RuntimeMXBean rt = ManagementFactory.getRuntimeMXBean();
+		 data.put("vmName", rt.getVmName());
+		 return PATH+"indexview_ftl";
     }
     
     /**
@@ -202,11 +173,11 @@ public class IndexController extends AbstractController {
             if (file.canRead() && file.exists()) {
                 super.downFile(file, response);
             }else{
-                super.downFile(response);
+                super.downFileError(response);
             }
         } catch (Exception e) {
             Logger.error("del error", e);
-            super.downFile(response);
+            super.downFileError(response);
         }
     }
 }

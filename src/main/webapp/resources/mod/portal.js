@@ -24,8 +24,6 @@ function showMyMsgWin(obj){
 	win.show();
 }
 /*打开新Tab页*/
-function openNewTabNotice(obj){
-	var win=ipe.fuc.openWidow();
-	win.document.write(obj);
-	win.document.close();
+function openNewTabNotice(id,title){
+	ipe.fuc.openWidow("notice/getNotice?id="+id,title);
 }

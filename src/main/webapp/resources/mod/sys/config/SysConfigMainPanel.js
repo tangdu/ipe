@@ -1,48 +1,106 @@
-/**
- * 用户表格列表
- */
-Ext.define('Sys.config.ConfigList',{
-    extend:'Ext.grid.property.Grid',
-    nameColumnWidth:300,
-    sourceConfig:{
-       created:{
-           type:'date',
-           editor: Ext.create('Ext.form.field.Date', {selectOnFocus: true,format:'Y-m-d',altFormats:'Y-m-d'})
-       }
+Ext.define('Sys.config.SysConfigEditForm',{
+	extend:'Ext.FormPanel',
+    url:'sysConfig/add',
+    frame:true,
+    defaults:{
+        anchor:'28%'
     },
-    initComponent:function(){
-        this.tbar=[{text:'保存',scope:this,handler:this.saveData,iconCls:ipe.sty.save}];
-        this.on('render',this.afterLoad,this);
-        this.callParent();
-    },afterLoad:function(){
-        Ext.Ajax.request({
-            url:'sysConfig/list',
-            async:false,
-            scope:this,
-            success:function(re){
-                var result=Ext.decode(re.responseText);
-                if(result.success){
-                    this.setSource(result.rows);
-                }
-            }
-        });
-    },
-    saveData:function(){
-        var source=this.getSource();
-        Ext.Ajax.request({
-            url:'sysConfig/edit',
-            async:false,
-            params:{params:Ext.encode(source)},
-            scope:this,
-            success:function(re){
-                var result=Ext.decode(re.responseText);
-                if(result.success){
-                    Ext.Msg.alert('提示','操作成功');
-                    this.afterLoad();
-                }
-            }
-        });
-    }
+    bodyPadding: 5,
+    buttonAlign:'center',
+    layout:{type:'vbox',align:'stretch'},
+	initComponent:function(){
+		this.items=[
+            {xtype:'fieldset',title:'作者信息',layout:'column',flex:2,items:[
+            	{layout:'form',columnWidth:.3,defaultType: 'textfield',frame:true,border:false,xtype:'container',items:[
+	            		{fieldLabel:'作者',name:'author'},
+	            		{fieldLabel:'QQ',name:'qq'}
+            		]}
+            ]},
+            {xtype:'fieldset',title:'系统信息',layout:'column',flex:2,items:[
+            	{layout:'form',columnWidth:.3,defaultType: 'textfield',frame:true,border:false,xtype:'container',items:[
+	            		{fieldLabel:'描述',name:'description',xtype:'textarea'},
+            			{fieldLabel:'版本',name:'version'}
+            		]}
+            ]},
+            {xtype:'fieldset',title:'开发者选项',layout:'column',flex:2,items:[
+            	{layout:'form',columnWidth:.3,defaultType: 'combo',frame:true,border:false,xtype:'container',items:[
+	            	{
+			        	fieldLabel:'启用多Tab',
+			            store: ipe.store.flagStore,
+			            allowBlank:false,
+			            emptyText: '请选择',
+			            hideField:'ena_mtab',
+			            name:'ena_mtab',
+			            mode: 'local',
+			            triggerAction: 'all',
+			            valueField: 'key',
+			            displayField: 'value',
+			            editable: true
+			        },{
+			        	fieldLabel:'启用开发模式',
+			            store: ipe.store.flagStore,
+			            emptyText: '请选择',
+			            hideField:'ena_dev',
+			            name:'ena_dev',
+			            allowBlank:false,
+			            mode: 'local',
+			            triggerAction: 'all',
+			            valueField: 'key',
+			            displayField: 'value',
+			            editable: true
+			        },{
+			        	fieldLabel:'桌面风格',
+			            store: ipe.store.flagStore,
+			            emptyText: '请选择',
+			            hideField:'sys_style',
+			            name:'sys_style',
+			            mode: 'local',
+			            triggerAction: 'all',
+			            allowBlank:false,
+			            valueField: 'key',
+			            displayField: 'value',
+			            editable: true
+			        }
+		        ]},{layout:'form',columnWidth:.3,defaultType: 'displayfield',frame:true,border:false,xtype:'container',items:[
+		        	{value:'(选择‘是’多个Tab页，‘否’只显示一个Tab页)'},
+		        	{value:'(开发模式没有权限控制)'},
+		        	{value:'(风格提供两种)'}
+		        ]}
+            ]}
+		]
+		
+		this.buttons=[{text:'保存',tooltip:'生效请重新刷新页面',handler:this.saveData,scope:this,iconCls:ipe.sty.save}];
+		this.callParent();
+		this.on('render',this.loadData,this);
+	},saveData:function(){
+		var me=this;
+		if(this.getForm().isValid()){
+			Ext.Ajax.request({
+				url:'sysConfig/edit',
+				params:{params:Ext.encode(this.getForm().getValues())},
+				success:function(resp){
+					var result=Ext.decode(resp.responseText);
+					if(result.success){
+						Ext.Msg.alert('提示','保存成功');
+						me.loadData();
+					}else{
+						Ext.Msg.alert('提示','保存失败');
+					}
+				}
+			});
+		}
+	},loadData:function(){
+		var me=this;
+		Ext.Ajax.request({
+			url:'sysConfig/list',
+			success:function(resp){
+				var result=Ext.decode(resp.responseText);
+				if(result.success){
+					me.getForm().setValues(result.rows);
+				}
+			}
+		});
+	}
 });
 
 /**
@@ -53,8 +111,8 @@ Ext.define('Sys.config.SysConfigMainPanel',{
     //bodyPadding: 5,
     layout:'fit',
     initComponent:function(){
-        this.configList=Ext.create('Sys.config.ConfigList',{parent:this,region:'center'});
-        this.items=[this.configList];
+        this.sysConfigEditForm=Ext.create('Sys.config.SysConfigEditForm',{parent:this});
+        this.items=[this.sysConfigEditForm];
         this.callParent();
     }
 });

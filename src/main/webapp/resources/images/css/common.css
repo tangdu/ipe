@@ -79,3 +79,6 @@ html,body{
 .clear{
 	clear:both;
 }
+.height-fit{
+	height:100% !important; 
+}

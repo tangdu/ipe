@@ -1,0 +1,74 @@
+<!DOCTYPE>
+<html lang="zh_CN">
+<head>
+    <title>系统公告-${data.title}</title>
+</head>
+<style>
+html,body{
+	font-size: 13px;
+	font-family: 宋体, Arial, Helvetica, sans-serif;
+	background-color:#EFEFEF;
+}
+.center{
+	margin: 0px auto 0 auto;
+	width:800px;
+	font-size:13px !important;
+}
+.container{
+	border:1px #5D9CEC solid;
+	height:80%;
+}
+.panel-header{
+	padding:6px;
+	background-color: #99bce8;
+	overflow: hidden;
+}
+a:hover{
+	color:#ffffff;
+}
+.panel-header-warn{
+	background-color: red;
+}
+.panel-body{
+	padding:3px;
+	overflow: auto;
+}
+.left{
+	float:left;
+}
+.right{
+	float:right;
+}
+.clear{
+	clear:both;
+}
+</style>
+<div class="center">
+	<div class="tools right">
+		<span class="panel-header panel-header-warn" onclick=window.close()><a>关闭</a></span>
+	</div>
+	<div class="container clear">
+		<div class="panel-header">
+		${data.title}
+		</div>
+		<div class="panel-body">
+		${data.content}
+		</div>
+	</div>
+	<span class="left">发布于：${data.createdDate?string("YYYY-MM-dd HH:mm")}</span>
+	<#if (data.appendixPath)??>
+	<span class="right panel-header" onclick="downFile('${data.appendixPath}')"><a>下载附件</a></span>
+	<#else>
+	<span class="right panel-header"><a>无附件</a></span>
+	</#if>
+</div>
+<#assign basePath=req.contextPath>
+<script type="text/javascript">
+var basePath="${basePath}";
+var downFile=function(filePath){
+    if(filePath!=null && filePath!=""){
+        filePath=encodeURI(encodeURI(filePath));
+        window.location.href=basePath+"/downFile?filePath="+filePath;
+    }
+}
+</script>

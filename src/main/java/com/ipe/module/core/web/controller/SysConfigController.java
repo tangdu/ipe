@@ -1,10 +1,10 @@
 package com.ipe.module.core.web.controller;
 
-import com.ipe.module.core.entity.SysConfig;
-import com.ipe.module.core.service.SysConfigService;
-import com.ipe.module.core.web.util.BodyWrapper;
-import com.ipe.module.core.web.util.RestRequest;
-import org.apache.commons.lang.StringUtils;
+import java.text.SimpleDateFormat;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,10 +13,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import java.text.SimpleDateFormat;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import com.ipe.module.core.entity.SysConfig;
+import com.ipe.module.core.service.SysConfigService;
+import com.ipe.module.core.web.util.BodyWrapper;
+import com.ipe.module.core.web.util.RestRequest;
 
 /**
  * Created with IntelliJ IDEA.
@@ -42,20 +42,8 @@ public class SysConfigController extends AbstractController {
             List<SysConfig> data = sysConfigService.listAll();
             Map<String, Object> map = new HashMap<String, Object>();
             if (data != null) {
-                for (SysConfig obj : data) {//只区分Bool & string
-                    if ("bool".equals(obj.getType())) {
-                        if (StringUtils.isNotBlank(obj.getRemark())) {
-                            map.put(obj.getKey() + obj.getRemark(), Boolean.valueOf(obj.getValue()));
-                        } else {
-                            map.put(obj.getKey(), Boolean.valueOf(obj.getValue()));
-                        }
-                    } else {//string
-                        if (StringUtils.isNotBlank(obj.getRemark())) {
-                            map.put(obj.getKey() + obj.getRemark(), obj.getValue());
-                        } else {
-                            map.put(obj.getKey(), obj.getValue());
-                        }
-                    }
+                for (SysConfig obj : data) {
+                	map.put(obj.getKey(), obj.getValue());
                 }
             }
             return success(map);
@@ -70,7 +58,7 @@ public class SysConfigController extends AbstractController {
     @ResponseBody
     BodyWrapper edit(String params, RestRequest rest) {
         try {
-            sysConfigService.save(params);
+            sysConfigService.update(params);
             return success();
         } catch (Exception e) {
             LOG.error("edit error", e);

@@ -1,6 +1,13 @@
 package com.ipe.module.core.web.util;
 
+import java.io.UnsupportedEncodingException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
+import org.apache.commons.lang.StringUtils;
 
 /**
  * Created with IntelliJ IDEA.
@@ -11,6 +18,27 @@ import javax.servlet.http.HttpServletRequest;
  */
 public class WebUtil {
 
+	protected static final SimpleDateFormat SIMPLEDATEFORMAT=new SimpleDateFormat("yyyyMMdd");
+	public static void setDownHeader(HttpServletResponse response,final String filename){
+		 response.setContentType("application/x-download");
+         response.setHeader("Pragma", "public");
+         response.setHeader("Cache-Control","must-revalidate, post-check=0, pre-check=0");
+         try {
+        	 if(StringUtils.isNotBlank(filename)){
+        		 response.addHeader("Content-disposition", "attachment;filename="+
+        				 SIMPLEDATEFORMAT.format(new Date())+"_"+new String(filename.getBytes("GBK"), "ISO-8859-1"));
+        	 }else{
+        		 response.addHeader("Content-disposition", "attachment;filename="+ 
+        				 SIMPLEDATEFORMAT.format(new Date())+"_"+new String("下载文件".getBytes("GBK"), "ISO-8859-1"));
+        	 }
+		} catch (UnsupportedEncodingException e) {
+			e.printStackTrace();
+		}
+	}
+	public static void setExcelHeader(HttpServletResponse response){
+		response.setContentType("application/x-download");
+	}
+	
     public static String getIpAddr(HttpServletRequest request) {
         if (request == null) {
             return "unknown";

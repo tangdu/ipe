@@ -1,9 +1,11 @@
-package com.ipe.module.core.web.controller;
+package com.ipe.module.data.controller;
 
-import com.ipe.module.core.entity.ExlImptplDetailes;
-import com.ipe.module.core.service.ExlImptplDetailesService;
+import com.ipe.module.core.web.controller.AbstractController;
 import com.ipe.module.core.web.util.BodyWrapper;
 import com.ipe.module.core.web.util.RestRequest;
+import com.ipe.module.data.entity.ExlImptplDetailes;
+import com.ipe.module.data.service.ExlImptplDetailesService;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;

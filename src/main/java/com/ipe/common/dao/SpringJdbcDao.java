@@ -1,11 +1,13 @@
 package com.ipe.common.dao;
 
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.jdbc.core.JdbcTemplate;
-import org.springframework.stereotype.Component;
-
+import java.lang.reflect.Field;
 import java.util.List;
 import java.util.Map;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.jdbc.core.BeanPropertyRowMapper;
+import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.stereotype.Component;
 
 @Component
 public class SpringJdbcDao {
@@ -14,6 +16,10 @@ public class SpringJdbcDao {
     @Autowired
     JdbcTemplate jdbcTemplate;
 
+    public void update(String sql,Object[] args){
+    	jdbcTemplate.update(sql, args);
+    }
+    
     public void execute(String sql) {
        jdbcTemplate.execute(sql);
     }
@@ -53,12 +59,21 @@ public class SpringJdbcDao {
     }
 
     private List<?> queryForList(String sql, List<Object> conditions,
-                                 Class<?> elementType) {
-        if (conditions != null && conditions.size() > 0) {
-            return jdbcTemplate.queryForList(sql, conditions.toArray(),
-                    elementType);
-        }
-        return jdbcTemplate.queryForList(sql, elementType);
+                                 Class<?> mappedClass) {
+    	Field [] f=mappedClass.getDeclaredFields();
+    	if(f.length>1){
+    		if (conditions != null && conditions.size() > 0) {
+                return jdbcTemplate.query(sql, conditions.toArray(),
+                		BeanPropertyRowMapper.newInstance(mappedClass));
+            }
+            return jdbcTemplate.query(sql, BeanPropertyRowMapper.newInstance(mappedClass));
+    	}else{
+    		if (conditions != null && conditions.size() > 0) {
+                return jdbcTemplate.queryForList(sql, conditions.toArray(),
+                		mappedClass);
+            }
+            return jdbcTemplate.queryForList(sql, mappedClass);
+    	}
     }
 
     private long queryForLong(String sql, List<Object> conditions) {
