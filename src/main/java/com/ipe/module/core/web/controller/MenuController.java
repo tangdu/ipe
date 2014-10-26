@@ -3,9 +3,6 @@ package com.ipe.module.core.web.controller;
 import java.util.Date;
 import java.util.List;
 
-import org.apache.shiro.SecurityUtils;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -14,7 +11,6 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.ipe.module.core.entity.Menu;
 import com.ipe.module.core.service.MenuService;
-import com.ipe.module.core.web.security.SystemRealm;
 import com.ipe.module.core.web.util.BodyWrapper;
 import com.ipe.module.core.web.util.RestRequest;
 
@@ -28,8 +24,6 @@ import com.ipe.module.core.web.util.RestRequest;
 @Controller
 @RequestMapping("/menu")
 public class MenuController extends AbstractController {
-    private static final Logger LOG= LoggerFactory.getLogger(MenuController.class);
-
     @Autowired
     private MenuService menuService;
 
@@ -39,7 +33,7 @@ public class MenuController extends AbstractController {
             menuService.where(rest.getPageModel());
             return success(rest.getPageModel());
         }catch (Exception e){
-            LOG.error("Exception {}",e);
+            LOGGER.error("Exception {}",e);
             return failure(e);
         }
     }
@@ -51,19 +45,7 @@ public class MenuController extends AbstractController {
             List<Menu> data= menuService.getMenus(pid);
             return success(data);
         }catch (Exception e){
-            LOG.error("Exception {}",e);
-            return failure(e);
-        }
-    }
-
-    @RequestMapping(value={"/getRoleMenus"})
-    public @ResponseBody BodyWrapper getRoleMenus(){
-        try {
-            SystemRealm.UserInfo userInfo= (SystemRealm.UserInfo) SecurityUtils.getSubject().getPrincipal();
-            String result=menuService.getUserMenu(userInfo.getUserId());
-            return success(result);
-        }catch (Exception e){
-            LOG.error("Exception {}",e);
+            LOGGER.error("Exception {}",e);
             return failure(e);
         }
     }
@@ -76,7 +58,7 @@ public class MenuController extends AbstractController {
             menuService.update(menu);
             return success(menu);
         }catch (Exception e){
-            LOG.error("Exception {}",e);
+            LOGGER.error("Exception {}",e);
             return failure(e);
         }
     }
@@ -87,7 +69,7 @@ public class MenuController extends AbstractController {
             menuService.saveMenu(menu);
             return success(menu);
         }catch (Exception e){
-            LOG.error("Exception {}",e);
+            LOGGER.error("Exception {}",e);
             return failure(e);
         }
     }
@@ -98,7 +80,7 @@ public class MenuController extends AbstractController {
             menuService.delete(ids);
             return success();
         }catch (Exception e){
-            LOG.error("Exception {}",e);
+            LOGGER.error("Exception {}",e);
             return failure(e);
         }
     }
@@ -114,7 +96,7 @@ public class MenuController extends AbstractController {
             menuService.updateMenus(ids,pid);
             return success();
         }catch (Exception e){
-            LOG.error("Exception {}",e);
+            LOGGER.error("Exception {}",e);
             return failure(e);
         }
     }

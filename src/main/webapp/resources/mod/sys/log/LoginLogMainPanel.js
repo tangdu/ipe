@@ -1,4 +1,4 @@
-Ext.define('Sys.config.LogList',{
+Ext.define('Sys.log.LogList',{
     extend:'Ext.grid.Panel',
     enableColumnMove : false,
     columnLines : true,
@@ -87,7 +87,7 @@ Ext.define('Sys.log.LoginLogMainPanel',{
     extend:'Ext.Panel',
     layout:{type:'border',align:'stretch'},
     initComponent:function(){
-        this.logList=Ext.create('Sys.config.LogList',{parent:this,region:'center'});
+        this.logList=Ext.create('Sys.log.LogList',{parent:this,region:'center'});
         this.items=[this.logList];
         this.callParent();
     }

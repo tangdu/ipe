@@ -1,7 +1,5 @@
 package com.ipe.module.core.web.controller;
 
-import java.util.List;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,7 +8,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import com.alibaba.fastjson.JSON;
 import com.ipe.common.util.Logs;
 import com.ipe.module.core.entity.Dict;
 import com.ipe.module.core.service.DictService;
@@ -45,19 +42,6 @@ public class DictController extends AbstractController {
         }
     }
 
-    @RequestMapping(value = {"/allList"})
-    public
-    @ResponseBody
-    BodyWrapper allList() {
-        try {
-            List<Dict> list=dictService.listAll();
-            return success(JSON.toJSONString(list));
-        } catch (Exception e) {
-            LOG.error("query error",e);
-            return failure(e);
-        }
-    }
-    
     @Logs(opdesc = "编辑字典库")
     @RequestMapping(value = {"/edit"}, method = RequestMethod.POST)
     public

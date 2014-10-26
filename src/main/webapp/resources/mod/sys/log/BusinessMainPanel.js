@@ -1,7 +1,7 @@
 /**
  * Created by tangdu on 14-2-16.
  */
-Ext.define('Sys.config.BusLogList',{
+Ext.define('Sys.log.BusLogList',{
     extend:'Ext.grid.Panel',
     enableColumnMove : false,
     columnLines : true,
@@ -73,7 +73,7 @@ Ext.define('Sys.log.BusinessMainPanel',{
     extend:'Ext.Panel',
     layout:{type:'border',align:'stretch'},
     initComponent:function(){
-        this.busLogList=Ext.create('Sys.config.BusLogList',{parent:this,region:'center'});
+        this.busLogList=Ext.create('Sys.log.BusLogList',{parent:this,region:'center'});
         this.items=[this.busLogList];
         this.callParent();
     }

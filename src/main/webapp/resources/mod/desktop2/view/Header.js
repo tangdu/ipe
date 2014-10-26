@@ -8,27 +8,27 @@ Ext.define('Desktop.view.Header', {
     layout:{type:'hbox',align:'stretch'},
     border:false,
     initComponent : function(){
-        ipe.conifg.userMenu=[
+        ipe.config.userMenu=[
             {width:20,xtype:'tbspacer'},
             {text:'IPE脚手架1.0',xtype:'label',style:{fontSize:16,color:'red'}}
-        ].concat(ipe.conifg.userMenu);
-        this.eachMenu(ipe.conifg.userMenu);
+        ].concat(ipe.config.userMenu);
+        this.eachMenu(ipe.config.userMenu);
 
         //任务
-        ipe.conifg.userMenu=ipe.conifg.userMenu.concat(['->',{
+        ipe.config.userMenu=ipe.config.userMenu.concat(['->',{
             text:'待办项',
             iconCls:ipe.sty.comment,
             handler:this.showTask
         }]);
         //日历
-        /*ipe.conifg.userMenu=ipe.conifg.userMenu.concat(['-',{
+        /*ipe.config.userMenu=ipe.config.userMenu.concat(['-',{
             text:'办公日历',
             iconCls:ipe.sty.calendar,
             handler:this.workCanlendar
         }]);*/
 
         //用户
-        ipe.conifg.userMenu=ipe.conifg.userMenu.concat(['-',{
+        ipe.config.userMenu=ipe.config.userMenu.concat(['-',{
             text:user.userName,
             iconCls:ipe.sty.user,
             menu:[
@@ -36,12 +36,12 @@ Ext.define('Desktop.view.Header', {
                 {iconCls : 'icon-power-off',text:'退出',handler:this.logout}
             ]
         }]);
-        ipe.conifg.userMenu.push({width:50,xtype:'tbspacer'});
+        ipe.config.userMenu.push({width:50,xtype:'tbspacer'});
 
         this.bbar = Ext.create('Ext.toolbar.Toolbar',{
             parent:this,
             enableOverflow:true,
-            items:ipe.conifg.userMenu
+            items:ipe.config.userMenu
         });
         this.callParent();
     },

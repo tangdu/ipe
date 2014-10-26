@@ -19,8 +19,8 @@ Ext.define('Desktop.view.Navigation', {
     split : true,
     initComponent : function(){
         this.items=[];
-        this.makeTreeMenu(ipe.conifg.userMenu);
-        this.makeTree(ipe.conifg.userMenu);
+        this.makeTreeMenu(ipe.config.userMenu);
+        this.makeTree(ipe.config.userMenu);
         this.callParent();
     },makeTreeMenu:function(menu){
         Ext.each(menu,function(r,i){
@@ -56,7 +56,11 @@ Ext.define('Desktop.view.Navigation', {
                 var ipeCont=(this.parent.ipeCon);
                 var tname_=ts.menuUrl.replace(/\.|\-|_|\//gi,'');
                 var sheetId="Tab_Panel_"+tname_;
-                this.singTabView(ipeCont,ts,sheetId);
+                if(ipe.config.sysConfig.ena_mtab=="1"){
+        			this.mutiTabView(ipeCont,ts,sheetId);
+        		}else{
+        			this.singTabView(ipeCont,ts,sheetId);
+        		}
             }
         }
     },getTabView:function(ts){

@@ -77,7 +77,7 @@ public class SystemRealm extends AuthorizingRealm {
 		CustUsernamePasswordToken upToken = (CustUsernamePasswordToken) authenticationToken;
 		User user = getLoginUser(upToken);
 		if (user != null) {
-			return new SimpleAuthenticationInfo(new UserInfo(user,upToken.getAccessUrl()),
+			return new SimpleAuthenticationInfo(new UserInfo(user,upToken.getAccessIp()),
 					user.getUserPwd(), getName());
 		}
 		return null;
@@ -118,13 +118,13 @@ public class SystemRealm extends AuthorizingRealm {
 		private String userAccount;
 		private String userName;
 		private Date userLoginTime = new Date();
-		private String accessUrl;
+		private String accessIp;
 
-		public UserInfo(User user,String accessUrl) {
+		public UserInfo(User user,String accessIp) {
 			this.userId = user.getId();
 			this.userName = user.getUserName();
 			this.userAccount = user.getUserAccount();
-			this.accessUrl = accessUrl;
+			this.accessIp = accessIp;
 		}
 
 		public String getUserId() {
@@ -143,12 +143,13 @@ public class SystemRealm extends AuthorizingRealm {
 			return userLoginTime;
 		}
 
-		public String getAccessUrl() {
-			return accessUrl;
+		public String getAccessIp() {
+			return accessIp;
 		}
 
-		public void setAccessUrl(String accessUrl) {
-			this.accessUrl = accessUrl;
+		public void setAccessIp(String accessIp) {
+			this.accessIp = accessIp;
 		}
+
 	}
 }

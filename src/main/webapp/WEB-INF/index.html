@@ -11,18 +11,17 @@
     Ext.onReady(function(){
         Ext.QuickTips.init();
         Ext.form.Field.prototype.msgTarget = "side";
-        //加载菜单
-        Ext.Ajax.request({
-            url:'menu/getRoleMenus',
-            method:'post',
-            success:function(res){
-                var result=Ext.decode(res.responseText);
-                if(result.success){
-                    ipe.conifg.userMenu=Ext.decode(result.rows);
-                    Ext.create('Ipe.desktop.Desktop');
-                }
-            }
-        });
+        
+        ipe.config.userMenu=${menus};
+        ipe.config.dictData=${dicts};
+        ipe.config.sysConfig=${configs};
+        //创建菜单-字典-初始化-
+        if(ipe.config.sysConfig.sys_style=="1"){
+        	Ext.create('Ipe.desktop2.Desktop');
+        }else{
+        	Ext.create('Ipe.desktop.Desktop');
+        }
+        init();
     });
 </script>
 </html>

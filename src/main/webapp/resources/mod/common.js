@@ -8,7 +8,6 @@ Ext.Loader.setConfig({
     disableCaching:true,
     paths:{
         'Ext.ux' : basePath + '/resources/extjs4/ux',
-        'Ext.calendar' : basePath + '/resources/extjs4/ux/calendar',
         'Ipe' : basePath+'/resources/mod',
         'Sys':basePath+'/resources/mod/sys',
         'Bpm':basePath+'/resources/mod/bpm',
@@ -20,7 +19,7 @@ Ext.Loader.setConfig({
  * @type {{conifg: {}, fuc: {flagDt: Function}, store: {flagStore: *}}}
  */
 var ipe={
-	viewID:'IPE_Viewport_ID',
+	viewID:'IPE_Viewport_ID',//系统TAB全局ID-不要重名(唯一ID命名)
     sty:{
         add:'btn_add',
         app:'btn_app',
@@ -85,9 +84,13 @@ var ipe={
         zoomin:'btn_zoomin',
         zoomout:'btn_zoomout'
     },
-    conifg:{
+    config:{
         userMenu:[],
-        defImpType:'varchar(100)',
+        sysConfig:{},
+        dictData:{}
+    },
+    exl:{//excel配置-MySQL
+    	defImpType:'varchar(100)',
         excelSupType:[
             ['varchar(100)','varchar(100)'],
             ['timestamp','timestamp'],
@@ -179,48 +182,37 @@ var ipe={
         })
     }
 }
-////初始化///
+////初始化-字典数据///
 function init(){
-	Ext.Ajax.request({
-		url:'dict/allList',
-		method:'POST',
-		success:function(resp){
-			var result=Ext.decode(resp.responseText);
-			if(result.success){
-				var dt=Ext.decode(result.rows);
-				Ext.each(dt,function(r,i){
-					//step1:初始化STORE
-					var arr=[];
-			        if(r.dictVals!=null){
-			        	Ext.each(r.dictVals,function(r2,i2){
-			        		arr.push({key:r2.dictValCode,value:r2.dictValName});
-			        	});
-			        }
-			        ipe.store[r.dictCode+"Store"]=Ext.create('Ext.data.Store',{
-			            fields:['key','value'],
-			            data:arr
-			        })
-			        //step2:初始化FUC
-			        ipe.fuc[r.dictCode+"Dt"]=function(v){
-			        	return (function(){
-			        		this.data=arr;
-				        	for(var i=0;i<arr.length;i++){
-				        		if(arr[i].key==v){
-				        			return arr[i].value;
-				        		}
-				        	}
-				        	return "";
-			        	})();
-			        }
-				});
-				//console.log(ipe.store);
-				//console.log(ipe.fuc);
-				//console.log(ipe.fuc.enabledDt('01'));
-			}
-		}
+	Ext.each(ipe.config.dictData,function(r,i){
+		//step1:初始化STORE
+		var arr=[];
+        if(r.dictVals!=null){
+        	Ext.each(r.dictVals,function(r2,i2){
+        		arr.push({key:r2.dictValCode,value:r2.dictValName});
+        	});
+        }
+        ipe.store[r.dictCode+"Store"]=Ext.create('Ext.data.Store',{
+            fields:['key','value'],
+            data:arr
+        })
+        //step2:初始化FUC
+        ipe.fuc[r.dictCode+"Dt"]=function(v){
+        	return (function(){
+        		this.data=arr;
+	        	for(var i=0;i<arr.length;i++){
+	        		if(arr[i].key==v){
+	        			return arr[i].value;
+	        		}
+	        	}
+	        	return "";
+        	})();
+        }
 	});
-};init();
-////初始化///
+	//console.log(ipe.store);
+	//console.log(ipe.fuc);
+	//console.log(ipe.fuc.enabledDt('01'));
+}
 
 /**
  * 分页条

@@ -46,7 +46,7 @@ Ext.define('Sys.tool.ExlImptplList',{
             },{
             	header:'表所属用户',
             	width:80,
-            	dataInde:'tableBelongUser',
+            	dataIndex:'tableBelongUser',
             	sortable:true
             },{
                 header:'Excel开始行',
@@ -207,10 +207,10 @@ Ext.define('Sys.tool.ExlImpEditForm',{
         	fieldLabel:'默认类型',
             store: new Ext.data.SimpleStore({
                 fields:['value','text'],
-                data: ipe.conifg.excelSupType
+                data: ipe.exl.excelSupType
             }),
             emptyText: '请选择',
-            value:ipe.conifg.defImpType,//默认类型
+            value:ipe.exl.defImpType,//默认类型
             hideField:'colType',
             mode: 'local',
             triggerAction: 'all',
@@ -331,7 +331,7 @@ Ext.define('Sys.tool.ExlImpEditList',{
             editor:(this.ctype=="01" ? new Ext.form.ComboBox({
                 store: new Ext.data.SimpleStore({
                     fields:['value','text'],
-                    data:ipe.conifg.excelSupType
+                    data:ipe.exl.excelSupType
                 }),
                 emptyText: '请选择',
                 hideField:'colType',
@@ -350,7 +350,7 @@ Ext.define('Sys.tool.ExlImpEditList',{
             header:'表注释',
             width:150,
             dataIndex:'colDesc'
-        },{dataIndex:'id',hidden:true},{dataIndex:'exlType',hidden:true,value:this.ctype}];
+        },{dataIndex:'id',hidden:true}];
 
         Ext.define('ExlImpDetails',{
             extend: 'Ext.data.Model',
@@ -382,7 +382,7 @@ Ext.define('Sys.tool.ExlImpEditList',{
         	_tableCol=title;
         }
         if(defType==null || defType==""){
-        	defType=ipe.conifg.defImpType;
+        	defType=ipe.exl.defImpType;
         }
         var record=Ext.create('ExlImpDetails',{
             id:'',exlCol:cot,tableCol:_tableCol,colType:defType,defValue:''
@@ -509,7 +509,7 @@ Ext.define('Sys.tool.ExlImptplEditForm',{
 	                    allowBlank:true,
 	                    name:'remark'
                     }]
-                },{xtype:'hidden',name:'id'}]},this.list];
+                },{xtype:'hidden',name:'id'},{name:'exlType',xtype:'hidden',value:this.ctype}]},this.list];
         this.callParent();
     },setData:function(record){
         this.loadRecord(record);

@@ -52,6 +52,41 @@
         <url-pattern>/*</url-pattern>
     </filter-mapping>
 
+	<!--druid-->
+	<filter>
+		<filter-name>DruidWebStatFilter</filter-name>
+		<filter-class>com.alibaba.druid.support.http.WebStatFilter</filter-class>
+		 <!-- 排除一些不必要的url -->
+        <init-param>
+            <param-name>exclusions</param-name>
+            <param-value>*.js,*.gif,*.jpg,*.png,*.css,*.ico,/druid/*</param-value>
+        </init-param>
+        <!--session最大保存量-->
+        <init-param>
+            <param-name>sessionStatMaxCount</param-name>
+            <param-value>1000</param-value>
+        </init-param>
+        <!-- 是否开启session统计功能 -->
+        <init-param>
+            <param-name>sessionStatEnable</param-name>
+            <param-value>true</param-value>
+        </init-param>
+        <!--session保存用户是谁-->
+        <init-param>
+            <param-name>principalSessionName</param-name>
+            <param-value>user</param-value>
+        </init-param>
+        <!-- 监控单个url调用的sql列表-->
+        <init-param>
+            <param-name>profileEnable</param-name>
+            <param-value>true</param-value>
+        </init-param>
+	</filter>
+	<filter-mapping>
+        <filter-name>DruidWebStatFilter</filter-name>
+        <url-pattern>/*</url-pattern>
+    </filter-mapping>
+	
     <!-- shiro-->
     <filter>
         <filter-name>shiroFilter</filter-name>
@@ -65,6 +100,7 @@
         <filter-name>shiroFilter</filter-name>
         <url-pattern>/*</url-pattern>
     </filter-mapping>
+    
 
     <listener>
         <listener-class>ch.qos.logback.ext.spring.web.LogbackConfigListener</listener-class>
@@ -102,25 +138,6 @@
             <param-name>allow</param-name>
             <param-value>127.0.0.1</param-value>
         </init-param>
-        <!-- 排除一些不必要的url -->
-        <init-param>
-            <param-name>exclusions</param-name>
-            <param-value>*.js,*.gif,*.jpg,*.png,*.css,*.ico,/druid/*</param-value>
-        </init-param>
-        <init-param>
-            <param-name>sessionStatMaxCount</param-name>
-            <param-value>1000</param-value>
-        </init-param>
-        <!-- 是否开启session统计功能 -->
-        <init-param>
-            <param-name>sessionStatEnable</param-name>
-            <param-value>true</param-value>
-        </init-param>
-        <!-- 监控单个url调用的sql列表
-        <init-param>
-            <param-name>profileEnable</param-name>
-            <param-value>true</param-value>
-        </init-param>-->
     </servlet>
     <servlet-mapping>
         <servlet-name>DruidStatView</servlet-name>
