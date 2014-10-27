@@ -45,6 +45,19 @@ Ext.define('Sys.msg.NoticeList',{
             sortable:true
         }];
 
+        this.store=Ext.create('Ext.data.JsonStore', {
+            proxy: {
+                type: 'ajax',
+                url: 'notice/list',
+                reader: {
+                    root: 'rows'
+                }
+            },
+            remoteSort : true,
+            autoLoad:true,
+            fields : ['id','title',/*'content',*/'type','appendixPath','userId','createdDate','appendixName']
+        });
+        
         this.tbar=[{
             text:'新增',
             iconCls:ipe.sty.add,
@@ -65,20 +78,15 @@ Ext.define('Sys.msg.NoticeList',{
             iconCls:ipe.sty.view,
             scope:this,
             handler:this.viewNotice
-        }];
-
-        this.store=Ext.create('Ext.data.JsonStore', {
-            proxy: {
-                type: 'ajax',
-                url: 'notice/list',
-                reader: {
-                    root: 'rows'
-                }
-            },
-            remoteSort : true,
-            autoLoad:true,
-            fields : ['id','title',/*'content',*/'type','appendixPath','userId','createdDate','appendixName']
-        });
+        },'->',{xtype:'label',text:'查询:'},{
+        	xtype:'searchfield',
+            emptyText:'输入标题查询',
+            scope:this,
+            name:'query',
+            store:this.store,
+            width:150,
+            handler:this.searchUser
+        },{width:ipe.config.paddingWidth,xtype:'tbspacer'}];
 
         this.bbar=Ext.create('Ipe.PagingToolbar',{
             store:this.store,pageSize:this.pageSize

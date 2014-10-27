@@ -37,7 +37,7 @@ Ext.define('Desktop.view.Header', {
        
         this.btn1=Ext.create('Ext.Toolbar',{flex:1,border:false,cls:'toolbar',items:[
 			'->',{
-				xtype:'label',html:"欢迎您，"+user.userName,padding:'0 5 0 5'
+				xtype:'label',html:"欢迎您，"+ipe.config.user.userName,padding:'0 5 0 5'
 			},'-',{
 				xtype:'label',text:"我的消息",padding:'0 5 0 5',
 				listeners:{'click':{
@@ -70,8 +70,8 @@ Ext.define('Desktop.view.Header', {
     	this.title=Ext.create('Ext.Container',{flex:1,html:
     		'<span class="sys_title bold">IPE系统平台1.0</span>' +
     		'<span class="to-right list-groups">' +
-    			/*'<span class="list-item">欢迎您，'+user.userName+'</span>|' +*/
-    			'<span class="list-item bold"><a href="javascript:ipe.fuc.showMsg()">我的消息</a></span>|' +
+    			/*'<span class="list-item">欢迎您，'+ipe.config.user.userName+'</span>|' +*/
+    			'<span class="list-item bold"><a href="javascript:ipe.fuc.changeRole()">切换角色</a></span>|' +
     			'<span class="list-item bold"><a href="javascript:ipe.fuc.upPwd()">修改密码</a></span>|' +
     			'<span class="list-item bold"><a href="javascript:ipe.fuc.logout()">退出系统</a></span>' +
     			/*'<div class="m_time">'+new Date().toLocaleString()+'</div>'+*/

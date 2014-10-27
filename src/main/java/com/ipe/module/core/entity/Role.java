@@ -39,6 +39,17 @@ public class Role extends IDEntity {
 	public void setRoleName(String roleName) {
 		this.roleName = roleName;
 	}
+	
+	private String roleCode;
+	
+	@Column(name = "role_code")
+	public String getRoleCode() {
+		return roleCode;
+	}
+
+	public void setRoleCode(String roleCode) {
+		this.roleCode = roleCode;
+	}
 
 	private String enabled;
 

@@ -50,7 +50,15 @@ Ext.define('Sys.menu.MenuTreePanel',{
                 text: '根节点',
                 id:'root',
                 expanded: true
-            },
+            },/*
+            listeners:{
+                'beforeload':function(store,oper){
+                    var record=oper.node.data;
+                    if(record.id!='root'){
+                        oper.params.pid=record.id;
+                    }
+                }
+            },*/
             fields:['menuName','menuType','id','parent','enabled','remark','sno','menuStyle','resource','menuUrl','resourceId']/*,
             listeners:{
                 'beforeload':function(store,oper){
@@ -72,7 +80,6 @@ Ext.define('Sys.menu.MenuTreePanel',{
             text:'状态',dataIndex:'enabled',renderer:ipe.fuc.enabledDt
         },{
             text:'关联资源',dataIndex:'resource',renderer:function(val){
-            	console.log(val);
             	if(val){
             		return val.resourceName;
             	}
@@ -225,8 +232,10 @@ Ext.define('Sys.menu.MenuForm',{
     		this.getForm().setValues({'parent.id':data.data.id});
     		this.getForm().setValues({'parentMenuName':data.data.menuName});
     	}else{
-    		this.getForm().setValues({'parent.id':data.parentNode.data.id});
-    		this.getForm().setValues({'parentMenuName':data.parentNode.data.menuName});
+    		if(data.parentNode.data.id!="root"){
+    			this.getForm().setValues({'parent.id':data.parentNode.data.id});
+    			this.getForm().setValues({'parentMenuName':data.parentNode.data.menuName});
+    		}
     	}
     },setData:function(record){
         this.loadRecord(record);
@@ -236,7 +245,7 @@ Ext.define('Sys.menu.MenuForm',{
         }
     },chooseResource:function(){
         var resourceName=this.getForm().findField('resourceName');
-        var resourceId=this.getForm().findField('resource.id');
+        var resourceId=this.getForm().findField('resourceId');
         var win=Ext.create('Sys.resource.ResourceChooseWin',{parent:this,nameField:resourceName,valueField:resourceId});
         win.show();
     },saveData:function(){
@@ -248,7 +257,6 @@ Ext.define('Sys.menu.MenuForm',{
                     success: function(form, action) {
                         Ext.Msg.alert('提示', '保存成功');
                         parent.menuTree.getStore().load();
-
                         me.hide();
                     },
                     failure: function(form, action) {

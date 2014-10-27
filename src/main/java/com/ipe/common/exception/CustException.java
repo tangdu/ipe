@@ -8,12 +8,17 @@ public class CustException extends Exception {
 	 * 
 	 */
 	private static final long serialVersionUID = 5241526710121081092L;
-	private int code;
+	private int code=000;
 
     public int getCode() {
         return code;
     }
 
+    public CustException(String e) {
+        super("CustException "+e);
+        this.code = 200;
+    }
+    
     public CustException(Exception e) {
         super("CustException ", e);
         this.code = 200;

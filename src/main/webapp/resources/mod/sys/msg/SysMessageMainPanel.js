@@ -35,8 +35,6 @@ Ext.define('Sys.msg.MessageList',{
             dataIndex:'createdDate'
         }];
 
-        this.tbar=[{text:'浏览',iconCls:ipe.sty.view,handler:this.readMsg,scope:this}];
-
         this.store=Ext.create('Ext.data.JsonStore', {
             proxy: {
                 type: 'ajax',
@@ -49,6 +47,17 @@ Ext.define('Sys.msg.MessageList',{
             autoLoad:true,
             fields : ['id','userId','msgContent','msgType','createdDate','read']
         });
+        
+        this.tbar=[{text:'浏览',iconCls:ipe.sty.view,handler:this.readMsg,scope:this},
+        '->',{xtype:'label',text:'查询:'},{
+        	xtype:'searchfield',
+            emptyText:'输入编号/名称查询',
+            scope:this,
+            name:'query',
+            store:this.store,
+            width:150,
+            handler:this.searchUser
+        },{width:ipe.config.paddingWidth,xtype:'tbspacer'}];
 
         this.bbar=Ext.create('Ipe.PagingToolbar',{
             store:this.store,pageSize:this.pageSize

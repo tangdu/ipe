@@ -20,7 +20,12 @@ import com.fasterxml.jackson.databind.SerializationFeature;
  * Created by tangdu on 14-2-16.
  */
 public class HibernateObjectMapper extends ObjectMapper {
-    public HibernateObjectMapper() {
+    /**
+	 * 
+	 */
+	private static final long serialVersionUID = 5554184830666473202L;
+
+	public HibernateObjectMapper() {
         disable(SerializationFeature.FAIL_ON_EMPTY_BEANS);
     }
 }

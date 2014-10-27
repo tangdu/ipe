@@ -1,7 +1,6 @@
 package com.ipe.module.core.web.controller;
 
 import java.util.Date;
-import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -42,8 +41,8 @@ public class MenuController extends AbstractController {
     @RequestMapping(value={"/getMenus"})
     public @ResponseBody BodyWrapper getMenus(String pid){
         try {
-            List<Menu> data= menuService.getMenus(pid);
-            return success(data);
+            Menu menu= menuService.getTreeMenus();
+            return success(menu);
         }catch (Exception e){
             LOGGER.error("Exception {}",e);
             return failure(e);

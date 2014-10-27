@@ -1,20 +1,4 @@
 /**
- * 首文件加载
- * @authr tangdu
- */
-Ext.Loader.setConfig({
-    enabled : true,
-    scriptCharset:'UTF-8',
-    disableCaching:true,
-    paths:{
-        'Ext.ux' : basePath + '/resources/extjs4/ux',
-        'Ipe' : basePath+'/resources/mod',
-        'Sys':basePath+'/resources/mod/sys',
-        'Bpm':basePath+'/resources/mod/bpm',
-        'Pot':basePath+'/resources/mod/portal'
-    }
-});
-/**
  * 系统常量
  * @type {{conifg: {}, fuc: {flagDt: Function}, store: {flagStore: *}}}
  */
@@ -82,12 +66,16 @@ var ipe={
         view:'btn_view',
         warn:'btn_warn',
         zoomin:'btn_zoomin',
-        zoomout:'btn_zoomout'
+        zoomout:'btn_zoomout',
+        query:'btn_query'
     },
     config:{
         userMenu:[],
         sysConfig:{},
-        dictData:{}
+        dictData:{},
+        user:{},
+        basePath:'',
+        paddingWidth:30
     },
     exl:{//excel配置-MySQL
     	defImpType:'varchar(100)',
@@ -105,7 +93,7 @@ var ipe={
         downFile:function(filePath){
             if(filePath!=null && filePath!=""){
                 filePath=encodeURI(encodeURI(filePath));
-                window.location.href=basePath+"/downFile?filePath="+filePath;
+                window.location.href=_basePath+"/downFile?filePath="+filePath;
             }
         },
         /*enabledDt:function(val){
@@ -155,12 +143,13 @@ var ipe={
 	        window.location.href="logout";
 	    },
 	    upPwd:function(){
-	        var win=Ext.create('Desktop.view.UpPwdWin');
+	        var win=Ext.create('Ipe.view.UpPwdWin');
 	        win.show();
 	        win.form.getForm().findField('userName').setValue(user.userName);
 	    },
-	    showMsg:function(){
-	    	
+	    changeRole:function(){
+	    	var win=Ext.create('Ipe.view.ChangeRoleWin');
+	        win.show();
 	    }
     },
     store:{
@@ -213,6 +202,18 @@ function init(){
 	//console.log(ipe.fuc);
 	//console.log(ipe.fuc.enabledDt('01'));
 }
+
+Ext.Loader.setConfig({
+    enabled : true,
+    scriptCharset:'UTF-8',
+    disableCaching:true,
+    paths:{
+        'Ext.ux' : _basePath + '/resources/extjs4/ux',
+        'Ipe' : _basePath+'/resources/mod',
+        'Sys':_basePath+'/resources/mod/sys',
+        'Bpm':_basePath+'/resources/mod/bpm'
+    }
+});
 
 /**
  * 分页条
@@ -379,7 +380,10 @@ Ext.Ajax.on('requestcomplete',function(conn,response,options){
     }
 });*/
 
-Ext.define('Desktop.view.UpPwdWin', {
+/**
+ * 修改密码
+ */
+Ext.define('Ipe.view.UpPwdWin', {
     title : '修改密码',
     plain:true,
     extend:'Ext.Window',
@@ -403,7 +407,7 @@ Ext.define('Desktop.view.UpPwdWin', {
 		        anchor:'98%'
 		    },
             items:[
-                {fieldLabel:'用户名',value:user.userName,name:'userName',readOnly:true},
+                {fieldLabel:'用户名',value:ipe.config.user.userName,name:'userName',readOnly:true},
                 {fieldLabel:'原密码',allowBlank:false,inputType:'password',name:'ouserPwd'},
                 {fieldLabel:'新密码',allowBlank:false,inputType:'password',name:'userPwd'},
                 {fieldLabel:'重复密码',allowBlank:false,inputType:'password',name:'userPwd2'}
@@ -445,6 +449,40 @@ Ext.define('Desktop.view.UpPwdWin', {
             });
 
         }
+    }
+});
+
+/**
+ * 切换角色
+ */
+Ext.define('Ipe.view.ChangeRoleWin', {
+    title : '切换角色',
+    plain:true,
+    extend:'Ext.Window',
+    width : 500,
+    height : 400,
+    modal:true,
+    layout:'fit',
+    closeAction:'hide',
+    buttonAlign:'center',
+    resizable:false,
+    border:false,
+    initComponent : function() {
+    	
+    	this.buttons = [{
+            text : "确定",
+            iconCls:ipe.sty.save,
+            handler:this.submitFrom,
+            scope : this
+        }, {
+            text : "关闭",
+            scope : this,
+            iconCls:ipe.sty.cancel,
+            handler:this.close
+        }];
+    	this.callParent();
+    },submitFrom:function(){
+    	
     }
 });
 

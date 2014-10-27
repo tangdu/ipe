@@ -1,5 +1,22 @@
 package com.ipe.module.core.web.security;
 
+import java.io.Serializable;
+import java.util.Date;
+import java.util.List;
+import java.util.Set;
+
+import org.apache.commons.lang.StringUtils;
+import org.apache.shiro.SecurityUtils;
+import org.apache.shiro.authc.AuthenticationException;
+import org.apache.shiro.authc.AuthenticationInfo;
+import org.apache.shiro.authc.AuthenticationToken;
+import org.apache.shiro.authc.SimpleAuthenticationInfo;
+import org.apache.shiro.authz.AuthorizationInfo;
+import org.apache.shiro.authz.SimpleAuthorizationInfo;
+import org.apache.shiro.realm.AuthorizingRealm;
+import org.apache.shiro.session.Session;
+import org.apache.shiro.subject.PrincipalCollection;
+
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.serializer.SerializerFeature;
 import com.ipe.module.core.entity.Log;
@@ -8,20 +25,6 @@ import com.ipe.module.core.entity.Role;
 import com.ipe.module.core.entity.User;
 import com.ipe.module.core.service.LogService;
 import com.ipe.module.core.service.UserService;
-
-import org.apache.commons.lang.StringUtils;
-import org.apache.shiro.SecurityUtils;
-import org.apache.shiro.authc.*;
-import org.apache.shiro.authz.AuthorizationInfo;
-import org.apache.shiro.authz.SimpleAuthorizationInfo;
-import org.apache.shiro.realm.AuthorizingRealm;
-import org.apache.shiro.session.Session;
-import org.apache.shiro.subject.PrincipalCollection;
-
-import java.io.Serializable;
-import java.util.Date;
-import java.util.List;
-import java.util.Set;
 
 /**
  * Created with IntelliJ IDEA. User: tangdu Date: 13-6-30 Time: 下午9:26 To change
@@ -55,7 +58,7 @@ public class SystemRealm extends AuthorizingRealm {
 		// 得到用户所拥有有角色
 		List<Role> roles = userService.getUserRole(userId);
 		for (Role role : roles) {
-			info.addRole(role.getRoleName());
+			info.addRole(role.getRoleCode());
 			// 得到用户所拥有的资源权限
 			Set<Resource> resources = userService
 					.getUserAuthority(role.getId());
@@ -116,16 +119,47 @@ public class SystemRealm extends AuthorizingRealm {
 		private static final long serialVersionUID = 6116630372427460576L;
 		private String userId;
 		private String userAccount;
+		private String admin;
+		private String roleId;
 		private String userName;
 		private Date userLoginTime = new Date();
 		private String accessIp;
 
 		public UserInfo(User user,String accessIp) {
 			this.userId = user.getId();
+			this.admin=user.getAdmin();
 			this.userName = user.getUserName();
 			this.userAccount = user.getUserAccount();
 			this.accessIp = accessIp;
 		}
+		public UserInfo(User user,String accessIp,String roleId) {
+			this.userId = user.getId();
+			this.roleId=roleId;
+			this.admin=user.getAdmin();
+			this.userName = user.getUserName();
+			this.userAccount = user.getUserAccount();
+			this.accessIp = accessIp;
+		}
+
+		public String getRoleId() {
+			return roleId;
+		}
+
+
+		public void setRoleId(String roleId) {
+			this.roleId = roleId;
+		}
+
+
+		public String getAdmin() {
+			return admin;
+		}
+
+
+		public void setAdmin(String admin) {
+			this.admin = admin;
+		}
+
 
 		public String getUserId() {
 			return userId;

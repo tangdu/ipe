@@ -1,15 +1,19 @@
 package com.ipe.module.core.service;
 
-import com.ipe.common.dao.BaseDao;
-import com.ipe.common.service.BaseService;
-import com.ipe.module.core.dao.ResourceDao;
-import com.ipe.module.core.entity.Resource;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
+
+import org.apache.commons.lang.StringUtils;
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.Date;
-import java.util.List;
+import com.ipe.common.dao.BaseDao;
+import com.ipe.common.service.BaseService;
+import com.ipe.module.core.dao.ResourceDao;
+import com.ipe.module.core.entity.Resource;
 
 /**
  * Created with IntelliJ IDEA.
@@ -30,10 +34,56 @@ public class ResourceService extends BaseService<Resource, String> {
     }
 
     public List<Resource> getResources(final String pid) {
-        List<Resource> all = resourceDao.list("from Resource where parent is null");
+    	List<Resource> all =null;
+    	if(StringUtils.isBlank(pid)){
+    		all = resourceDao.list("from Resource where parent is null");
+    	}else{
+    		all = resourceDao.list("from Resource where parent.id =?",pid);
+    	}
         return all;
     }
+    
+    
+    private Resource getRootResource(List<Resource> resources){
+    	Resource root=null;
+    	for (Resource resource : resources) {
+            if (resource.getParent() == null && resource.getId()!=null) {
+                root = new Resource();
+                BeanUtils.copyProperties(resource, root);
+                break;
+            }
+        }
+    	return root;
+    }
+    
+    void eachResouce(List<Resource> resources, Resource root) {
+        for (Resource m1 : resources) {
+            if (m1.getParent() != null && root.getId().equals(m1.getParent().getId())) {
+                if (root.getRows() == null) {
+                    root.setRows(new ArrayList<Resource>());
+                }
+                root.getRows().add(m1);
+                eachResouce(resources, m1);
+            }
+        }
+    }
+    
+    /**
+     * 返回资源树
+     * @return
+     */
+    public Resource getTreeResources(){
+    	List<Resource> resources=resourceDao.listAll();
+    	Resource root=getRootResource(resources);
+    	eachResouce(resources, root);
+    	return root;
+    }
 
+    /**
+     * 保存资源
+     * @param resource
+     * @return
+     */
     public Resource saveResource(Resource resource) {
         Resource parent = resourceDao.get(resource.getParent().getId());
         resource.setParent(parent);

@@ -29,7 +29,7 @@ Ext.define('Desktop.view.Header', {
 
         //用户
         ipe.config.userMenu=ipe.config.userMenu.concat(['-',{
-            text:user.userName,
+            text:ipe.config.user.userName,
             iconCls:ipe.sty.user,
             menu:[
                 {text:'修改密码',scope:this,handler:this.upPwd},

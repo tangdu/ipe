@@ -62,7 +62,7 @@ public class IndexController extends AbstractController {
 		// 1_加载菜单
 		SystemRealm.UserInfo userInfo = (SystemRealm.UserInfo) SecurityUtils
 				.getSubject().getPrincipal();
-		String menus = menuService.getUserMenu(userInfo.getUserId());
+		String menus = menuService.getUserMenu(userInfo.getUserId(),userInfo.getRoleId(),userInfo.getAdmin());
 		// 2_字典表
 		List<Dict> list = dictService.listAll();
 		data.put("dicts", JSON.toJSONString(list));

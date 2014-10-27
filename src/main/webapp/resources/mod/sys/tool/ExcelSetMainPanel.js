@@ -17,7 +17,6 @@ Ext.define('Sys.tool.ExlImptplList',{
         forceFit:true,
         enableRowBody:true
     },
-    border:false,
     pageSize : 20,
     initComponent:function(){
         this.columns=[{xtype: 'rownumberer'},
@@ -82,7 +81,20 @@ Ext.define('Sys.tool.ExlImptplList',{
                 header:'备注',
                 dataIndex:'remark',
                 sortable:true
-            }];
+        }];
+
+        this.store=Ext.create('Ext.data.JsonStore', {
+            proxy: {
+                type: 'ajax',
+                url: 'exlImptpl/list',
+                reader: {
+                    root: 'rows'
+                }
+            },
+            remoteSort : true,
+            autoLoad:true,
+            fields : ['exlName','exlCode','exlType','tableBelongUser','mappingTable','startrowIndex','startcolIndex','sheetIndex','enabled','createdDate','remark','exlFile','tableCot']
+        });
 
         this.tbar=[{
             text:'新增',
@@ -107,20 +119,16 @@ Ext.define('Sys.tool.ExlImptplList',{
             scope:this,
             handler:this.delExlImptpl
         },'-',{text:'导入',scope:this,handler:this.impExldata,iconCls:ipe.sty["import"]}
-        ,{text:'导出',scope:this,handler:this.expExldata,iconCls:ipe.sty["import"]}];
-
-        this.store=Ext.create('Ext.data.JsonStore', {
-            proxy: {
-                type: 'ajax',
-                url: 'exlImptpl/list',
-                reader: {
-                    root: 'rows'
-                }
-            },
-            remoteSort : true,
-            autoLoad:true,
-            fields : ['exlName','exlCode','exlType','tableBelongUser','mappingTable','startrowIndex','startcolIndex','sheetIndex','enabled','createdDate','remark','exlFile','tableCot']
-        });
+        ,{text:'导出',scope:this,handler:this.expExldata,iconCls:ipe.sty["import"]},
+        '->',{xtype:'label',text:'查询:'},{
+        	xtype:'searchfield',
+            emptyText:'输入编号/名称查询',
+            scope:this,
+            name:'query',
+            store:this.store,
+            width:150,
+            handler:this.searchUser
+        },{width:ipe.config.paddingWidth,xtype:'tbspacer'}];
 
         this.bbar=Ext.create('Ipe.PagingToolbar',{
             store:this.store,pageSize:this.pageSize
@@ -318,7 +326,7 @@ Ext.define('Sys.tool.ExlImpEditList',{
             header:'Excel索引',
             width:100,
             dataIndex:'exlCol',
-            editor:{xtype:'numberfield',maxLength:50}
+            editor:{xtype:'numberfield',max:100}
         },{
             header:'表字段',
             width:200,
@@ -349,7 +357,8 @@ Ext.define('Sys.tool.ExlImpEditList',{
         },{
             header:'表注释',
             width:150,
-            dataIndex:'colDesc'
+            dataIndex:'colDesc',
+            editor:{xtype:'textfield',maxLength:50}
         },{dataIndex:'id',hidden:true}];
 
         Ext.define('ExlImpDetails',{
@@ -505,7 +514,7 @@ Ext.define('Sys.tool.ExlImptplEditForm',{
                     border:false,
                     items:[{
 	                    fieldLabel:'备注',
-	                    xtype:'textarea',
+	                    xtype:'textareafield',
 	                    allowBlank:true,
 	                    name:'remark'
                     }]

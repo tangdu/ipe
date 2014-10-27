@@ -96,9 +96,6 @@ public class RoleService extends BaseService<Role, String> {
     public void eachAuthoritys(Collection<Resource> lists) {
         for (Resource r1 : lists) {
             r1.setChecked(false);
-            if (r1.getRows() != null && !r1.getRows().isEmpty()) {
-                eachAuthoritys(r1.getRows());
-            }
         }
     }
 
@@ -108,9 +105,6 @@ public class RoleService extends BaseService<Role, String> {
                 if (r2.getId().equals(r1.getId())) {
                     r1.setChecked(true);
                 }
-            }
-            if (r1.getRows() != null && !r1.getRows().isEmpty()) {
-                eachAuthoritys(mylist, r1.getRows());
             }
         }
     }

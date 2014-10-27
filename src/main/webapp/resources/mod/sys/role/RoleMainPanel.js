@@ -12,6 +12,10 @@ Ext.define('Sys.role.RoleList',{
     enabledSearch:true,
     initComponent:function(){
         this.columns=[{xtype: 'rownumberer'},{
+            header:'角色代码',
+            dataIndex:'roleCode',
+            sortable:true
+        },{
             header:'角色名',
             dataIndex:'roleName',
             sortable:true
@@ -31,7 +35,34 @@ Ext.define('Sys.role.RoleList',{
             width:300
         }];
 
+        
+        this.store=Ext.create('Ext.data.JsonStore', {
+            proxy: {
+                type: 'ajax',
+                url: 'role/list',
+                reader: {
+                    root: 'rows'
+                }
+            },
+            remoteSort : true,
+            autoLoad:true,
+            fields : [
+                { name: 'id', type: 'string' },
+                { name: 'roleName', type: 'string' },
+                { name: 'roleCode', type: 'string' },
+                { name: 'createdDate', type: 'string' },
+                { name: 'enabled', type: 'string' },
+                { name: 'remark', type: 'string' },
+                { name: 'updatedDate', type: 'string' }
+            ]
+        });
+
         this.tbar=[{
+            text:'查询',
+            iconCls:ipe.sty.query,
+            scope:this,
+            handler:this.queryRole
+        },{
             text:'新增',
             iconCls:ipe.sty.add,
             scope:this,
@@ -51,27 +82,15 @@ Ext.define('Sys.role.RoleList',{
             iconCls:ipe.sty.set,
             scope:this,
             handler:this.setPermission
-        }];
-
-        this.store=Ext.create('Ext.data.JsonStore', {
-            proxy: {
-                type: 'ajax',
-                url: 'role/list',
-                reader: {
-                    root: 'rows'
-                }
-            },
-            remoteSort : true,
-            autoLoad:true,
-            fields : [
-                { name: 'id', type: 'string' },
-                { name: 'roleName', type: 'string' },
-                { name: 'createdDate', type: 'string' },
-                { name: 'enabled', type: 'string' },
-                { name: 'remark', type: 'string' },
-                { name: 'updatedDate', type: 'string' }
-            ]
-        });
+        }/*,'->',{xtype:'label',text:'查询:'},{
+        	xtype:'searchfield',
+            emptyText:'输入角色名查询',
+            scope:this,
+            name:'query',
+            store:this.store,
+            width:150,
+            handler:this.searchUser
+        },{width:ipe.config.paddingWidth,xtype:'tbspacer'}*/];
 
         this.bbar=Ext.create('Ipe.PagingToolbar',{
             store:this.store,
@@ -79,6 +98,9 @@ Ext.define('Sys.role.RoleList',{
             parent:this
         });
         this.callParent();
+    },queryRole:function(){
+    	var obj=this.parent.queryForm;
+    	obj.isVisible() ? obj.hide():obj.show();
     },delRole:function(){
         var me=this;
         var parent=this.up();
@@ -159,6 +181,8 @@ Ext.define('Sys.role.RoleForm',{
     bodyPadding: 5,
     initComponent:function(){
         this.items=[{
+            fieldLabel:'角色代码',name:'roleCode',allowBlank:false
+        },{
             fieldLabel:'角色名称',name:'roleName',allowBlank:false
         },{
             fieldLabel:'状态',xtype:'combo',name:'enabled',store:ipe.store.enabledStore,value:'1',
@@ -225,6 +249,34 @@ Ext.define('Sys.role.RoleForm',{
     }
 });
 
+Ext.define('Sys.role.RoleQueryForm',{
+    extend:'Ext.FormPanel',
+    frame:true,
+    bodyPadding: 5,
+    border:false,
+    layout:'column',
+    initComponent:function(){
+        this.items=[{
+            columnWidth:.25,xtype:'container',border:false,frame:true,items:[
+            	{fieldLabel:'角色代码',xtype:'textfield',name:'roleCode'}]
+        },{
+            columnWidth:.25,xtype:'container',border:false,frame:true,items:[
+            	{fieldLabel:'角色名称',xtype:'textfield',name:'roleName'}]
+        },{
+            columnWidth:.25,xtype:'container',border:false,frame:true,items:[
+            	{fieldLabel:'状态',xtype:'combo',name:'enabled',store:ipe.store.enabledStore,value:'1',
+            	displayField:'value',valueField:'key',hiddenName:'enabled',triggerAction:'all',editable:false,queryMode:'local'
+        	}]
+        },{
+            columnWidth:.25,layout:'table',xtype:'container',border:false,frame:true,items:[
+            	{text:'查询',xtype:'button',iconCls:ipe.sty.query,margin:'0 20 0 0'},
+            	{text:'重置',xtype:'button',iconCls:ipe.sty.reset,scope:this,handler:function(){this.getForm().reset();}
+            }]
+        }]
+        this.callParent();
+    }
+});
+
 /**
  * 组合-用户管理首页
  */
@@ -233,9 +285,10 @@ Ext.define('Sys.role.RoleMainPanel',{
     //bodyPadding: 5,
     layout:'border',
     initComponent:function(){
-        this.roleList=Ext.create('Sys.role.RoleList',{region:'center'});
-        this.roleForm=Ext.create('Sys.role.RoleForm',{region:'east',width:300,minWidth:300,hidden:true,split:true})
-        this.items=[this.roleList,this.roleForm];
+    	this.queryForm=Ext.create('Sys.role.RoleQueryForm',{parent:this,region:'north',height:40,hidden:true});
+        this.roleList=Ext.create('Sys.role.RoleList',{parent:this,region:'center'});
+        this.roleForm=Ext.create('Sys.role.RoleForm',{parent:this,region:'east',width:300,minWidth:300,hidden:true,split:true})
+        this.items=[this.queryForm,this.roleList,this.roleForm];
         this.callParent();
     }
 });

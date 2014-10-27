@@ -1,3 +1,14 @@
+/*重写EXTJS样式*/
+.x-form-text {
+	color: black;
+	padding: 1px 3px 2px 3px;
+	background: white repeat-x 0 0;
+	border-width: 1px;
+	border-style: solid;
+	border-color: #b5b8c8;
+	background-image: none !important;
+}
+/****/
 #loading{
 	margin:0 auto 0 auto;
 	width:110px;
@@ -5,7 +16,7 @@
 	font-size: 13px;
     text-align: center;
     margin-top: 200px;
-    -webkit-border-radius:11px;
+    border-radius:11px;
     opacity:6;
     z-index: 99999;
 }

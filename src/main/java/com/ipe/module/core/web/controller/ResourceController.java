@@ -1,7 +1,6 @@
 package com.ipe.module.core.web.controller;
 
 import java.util.Date;
-import java.util.List;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -82,7 +81,8 @@ public class ResourceController extends AbstractController {
     @RequestMapping(value={"/getResources"})
     public @ResponseBody BodyWrapper getMenus(String pid){
         try {
-            List<Resource> data= resourceService.getResources(pid);
+        	Resource  data= resourceService.getTreeResources();
+        	data.setLeaf(false);
             return success(data);
         }catch (Exception e){
             LOGGER.error("ERROR",e);

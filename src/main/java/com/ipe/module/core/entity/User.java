@@ -34,7 +34,7 @@ public class User extends IDEntity {
 
 	private String userAccount;
 
-    @Column(name = "user_account")
+    @Column(name = "user_account",updatable=false)
     @JSONField(serialize = false)
     public String getUserAccount() {
         return userAccount;

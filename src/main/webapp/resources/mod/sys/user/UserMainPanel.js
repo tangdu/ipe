@@ -40,7 +40,34 @@ Ext.define('Sys.user.UserList',{
             width:300
         }];
 
+        
+        this.store=Ext.create('Ext.data.JsonStore', {
+            proxy: {
+                type: 'ajax',
+                url: 'user/list',
+                reader: {
+                    root: 'rows'
+                }
+            },
+            remoteSort : true,
+            autoLoad:true,
+            fields : [
+                { name: 'id', type: 'string' },
+                { name: 'userName', type: 'string' },
+                { name: 'userAccount', type: 'string' },
+                { name: 'enabled', type: 'string' },
+                { name: 'admin', type: 'string' },
+                { name: 'remark', type: 'string' },
+                { name: 'updatedDate', type: 'string' }
+            ]
+        });
+
         this.tbar=[{
+            text:'查询',
+            iconCls:ipe.sty.query,
+            scope:this,
+            handler:this.queryUser
+        },{
             text:'新增',
             iconCls:ipe.sty.add,
             scope:this,
@@ -65,34 +92,24 @@ Ext.define('Sys.user.UserList',{
             iconCls:ipe.sty.set,
             scope:this,
             handler:this.setRole
-        }];
-        this.store=Ext.create('Ext.data.JsonStore', {
-            proxy: {
-                type: 'ajax',
-                url: 'user/list',
-                reader: {
-                    root: 'rows'
-                }
-            },
-            remoteSort : true,
-            autoLoad:true,
-            fields : [
-                { name: 'id', type: 'string' },
-                { name: 'userName', type: 'string' },
-                { name: 'userAccount', type: 'string' },
-                { name: 'enabled', type: 'string' },
-                { name: 'admin', type: 'string' },
-                { name: 'remark', type: 'string' },
-                { name: 'updatedDate', type: 'string' }
-            ]
-        });
-
+        }/*,'->',{xtype:'label',text:'查询:'},{
+        	xtype:'searchfield',
+            emptyText:'输入帐号/用户名查询',
+            scope:this,
+            name:'query',
+            store:this.store,
+            width:150,
+            handler:this.searchUser
+        },{width:ipe.config.paddingWidth,xtype:'tbspacer'}*/];
         this.bbar=Ext.create('Ipe.PagingToolbar',{
             store:this.store,
             pageSize:this.pageSize,
             parent:this
         });
         this.callParent();
+    },queryUser:function(){
+    	var obj=this.parent.queryForm;
+    	obj.isVisible() ? obj.hide():obj.show();
     },delUser:function(){
         var me=this;
         var record=this.getSelectionModel().getSelection();
@@ -259,6 +276,33 @@ Ext.define('Sys.user.userEditForm',{
     }
 });
 
+Ext.define('Sys.user.UserQueryForm',{
+    extend:'Ext.FormPanel',
+    frame:true,
+    bodyPadding: 5,
+    border:false,
+    layout:'column',
+    initComponent:function(){
+        this.items=[{
+            columnWidth:.25,xtype:'container',border:false,frame:true,items:[
+            	{fieldLabel:'用户名',xtype:'textfield',name:'userName'}]
+        },{
+            columnWidth:.25,xtype:'container',border:false,frame:true,items:[
+            	{fieldLabel:'账号',xtype:'textfield',name:'userAccount'}]
+        },{
+            columnWidth:.25,xtype:'container',border:false,frame:true,items:[
+            	{fieldLabel:'状态',xtype:'combo',name:'enabled',store:ipe.store.enabledStore,value:'1',
+            	displayField:'value',valueField:'key',hiddenName:'enabled',triggerAction:'all',editable:false,queryMode:'local'
+        	}]
+        },{
+            columnWidth:.25,layout:'table',xtype:'container',border:false,frame:true,items:[
+            	{text:'查询',xtype:'button',iconCls:ipe.sty.query,margin:'0 20 0 0'},
+            	{text:'重置',xtype:'button',iconCls:ipe.sty.reset,handler:function(){this.up("form").getForm().reset()}
+            }]
+        }]
+        this.callParent();
+    }
+});
 /**
  * 组合-用户管理首页
  */
@@ -266,12 +310,14 @@ Ext.define('Sys.user.UserMainPanel',{
     extend:'Ext.Panel',
     //bodyPadding: 5,
     layout:'border',
+    //layout:{type:'vbox',align:'stretch'},
     initComponent:function(){
         //this.orgTree=Ext.create('Sys.com.OrgTreePanel',{parent:this,flag:'1'});//浏览状态
+    	this.queryForm=Ext.create('Sys.user.UserQueryForm',{parent:this,region:'north',height:40,hidden:true});
         this.userForm=Ext.create('Sys.user.userEditForm',{parent:this,region:'east',width:400,hidden:true,split:true});
         this.userList=Ext.create('Sys.user.UserList',{parent:this,region:'center'});
 
-        this.items=[this.userList,this.userForm];
+        this.items=[this.queryForm,this.userList,this.userForm];
         this.callParent();
     }
 });

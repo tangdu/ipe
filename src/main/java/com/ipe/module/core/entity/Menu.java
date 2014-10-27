@@ -1,16 +1,13 @@
 package com.ipe.module.core.entity;
 
 import java.util.Date;
-import java.util.Set;
+import java.util.List;
 
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
-import javax.persistence.OneToMany;
-import javax.persistence.OrderBy;
 import javax.persistence.Table;
 import javax.persistence.Transient;
 
@@ -117,7 +114,7 @@ public class Menu extends IDEntity {
 
 	private Date createdDate;
 
-	@Column(name = "created_date",updatable=false)
+	@Column(name = "created_date", updatable = false)
 	@JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
 	public Date getCreatedDate() {
 		return createdDate;
@@ -139,7 +136,7 @@ public class Menu extends IDEntity {
 		this.updatedDate = updatedDate;
 	}
 
-	//关联资源
+	// 关联资源
 	private String resourceId;
 	private Resource resource;
 
@@ -161,8 +158,6 @@ public class Menu extends IDEntity {
 		this.resource = resource;
 	}
 
-	//tree 配置
-	private Set<Menu> rows;
 	private Menu parent;
 
 	@ManyToOne(fetch = FetchType.LAZY)
@@ -175,25 +170,14 @@ public class Menu extends IDEntity {
 		this.parent = parent;
 	}
 
-	@OneToMany(cascade = CascadeType.REMOVE, mappedBy = "parent", fetch = FetchType.LAZY)
-	@OrderBy(value = "sno")
-	@JSONField(name = "menu")
-	public Set<Menu> getRows() {
-		return rows;
-	}
-
-	public void setRows(Set<Menu> rows) {
-		this.rows = rows;
-		if (rows == null || rows.isEmpty()) {
-			this.leaf = true;
-		}
-	}
-
 	private boolean leaf = false;
 
 	@Transient
 	public boolean isLeaf() {
-		return leaf;
+		if(this.rows==null || this.rows.isEmpty()){
+			this.leaf=true;
+		}
+		return this.leaf;
 	}
 
 	public void setLeaf(boolean leaf) {
@@ -221,4 +205,22 @@ public class Menu extends IDEntity {
 	public void setChecked(Boolean checked) {
 		this.checked = checked;
 	}
+	
+	private List<Menu> rows;
+	
+	@Transient
+	@JSONField(name = "menu")
+	public List<Menu> getRows() {
+		if(this.rows==null || this.rows.isEmpty()){
+			this.leaf=true;
+		}else{
+			this.leaf=false;
+		}
+		return rows;
+	}
+
+	public void setRows(List<Menu> rows) {
+		this.rows = rows;
+	}
+	
 }

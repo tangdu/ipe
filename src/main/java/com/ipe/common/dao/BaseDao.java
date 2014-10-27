@@ -121,7 +121,7 @@ public abstract class BaseDao<M extends Serializable, PK extends Serializable> {
 
 	@SuppressWarnings("unchecked")
 	public M get(PK id) {
-		return (M) getSession().load(this.entityClass, id);
+		return (M) getSession().get(this.entityClass, id);
 	}
 
 	public Long countAll() {

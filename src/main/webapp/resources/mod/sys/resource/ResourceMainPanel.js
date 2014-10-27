@@ -17,14 +17,7 @@ Ext.define('Sys.resource.ResourceTreePanel',{
     initComponent:function(){
         this.store= Ext.create('Ext.data.TreeStore', {
             //nodeParam:'pid',
-            fields: [
-                {name : 'id',type:'string'},
-                {name : 'resourceUrl',type:'string'},
-                {name : 'resourceName',type:'string'},
-                {name : 'resourceType',type:'string'},
-                {name : 'remark',type:'string'},
-                {name : 'sno',type:'int'}
-            ],
+            fields: ['id','resourceUrl','resourceName','resourceType','remark','sno'],
             proxy : {
                 type: 'ajax',
                 url: 'resource/getResources',

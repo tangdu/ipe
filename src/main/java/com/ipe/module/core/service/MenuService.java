@@ -1,11 +1,12 @@
 package com.ipe.module.core.service;
 
+import java.util.ArrayList;
 import java.util.Date;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 
 import org.apache.commons.lang.StringUtils;
+import org.hibernate.service.spi.ServiceException;
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -45,43 +46,83 @@ public class MenuService extends BaseService<Menu, String> {
         return menuDao;
     }
 
-
     public List<Menu> getMenus(final String pid) {
-        List<Menu> all=menuDao.list("from Menu where parent is null");
-		Set<Menu> sets =toSet(all);
-        eachMenu(sets);
+    	List<Menu> all=null;
+    	if(StringUtils.isBlank(pid)){
+    		all=menuDao.list("from Menu where parent is null");
+    	}else{
+    		all=menuDao.list("from Menu where parent =?",pid);
+    	}
+        eachMenu(all);
         return all;
     }
     
-    public Set<Menu> toSet(List<Menu> menus){
-    	Set<Menu> sets = new HashSet<Menu>();
+    /**
+     * 查询菜单关联资源
+     * @param menus
+     */
+    void eachMenu(List<Menu> menus) {
     	for(Menu menu :menus){
-    		sets.add(menu);
-    	}
-    	return sets;
-    }
-    
-    void eachMenu(Set<Menu> menus) {
-    	for(Menu menu :menus){
-    		if(menu.getRows()==null || menu.getRows().isEmpty()){
-    			String resourceId=menu.getResourceId();
-    			if(StringUtils.isNotBlank(resourceId)){
-    				Resource resource=resourceDao.sqlFindOne("select * from t_cor_resource where id_='"+resourceId+"'");
-    				menu.setResource(resource);
-    			}
-    		}else{
-    			eachMenu(menu.getRows());
-    		}
+    		String resourceId=menu.getResourceId();
+			if(StringUtils.isNotBlank(resourceId)){
+				Resource resource=resourceDao.sqlFindOne("select * from t_cor_resource where id_='"+resourceId+"'");
+				menu.setResource(resource);
+			}
     	}
     }
 
+    /**
+     * 保存
+     * @param menu
+     * @return
+     */
     public Menu saveMenu(Menu menu) {
         menu.setParent(menuDao.get(menu.getParent().getId()));
         menu.setCreatedDate(new Date());
         menu.setSno(menuDao.getMaxSno());
         return menuDao.save(menu);
     }
-
+    
+    /**
+     * 返回菜单树
+     * @return
+     */
+    public Menu getTreeMenus(){
+    	List<Menu> menus=menuDao.listAll();
+    	Menu root=getRootMenu(menus);
+    	eachMenu(menus, root);
+    	return root;
+    }
+    
+    /**
+     * 返回菜单树+关联资源
+     * @return
+     */
+    public Menu getTreeResourceMenus(){
+    	List<Menu> menus=menuDao.listAll();
+    	eachMenu(menus);
+    	Menu root=getRootMenu(menus);
+    	eachMenu(menus, root);
+    	return root;
+    }
+    
+    /**
+     * 根据为空取得菜单根节点
+     * @param menus
+     * @return
+     */
+    private Menu getRootMenu(List<Menu> menus){
+    	Menu root=null;
+    	for (Menu menu : menus) {
+            if (menu.getParent() == null && menu.getId()!=null) {
+                root = new Menu();
+                BeanUtils.copyProperties(menu, root);
+                break;
+            }
+        }
+    	return root;
+    }
+    
     /**
      * 用户所具有的菜单，关联权限
      *
@@ -89,39 +130,30 @@ public class MenuService extends BaseService<Menu, String> {
      * @return
      */
     @Transactional(readOnly = true)
-    public String getUserMenu(String userId) {
-        Menu root = null;
-        boolean isAdmin=true;
-        if (isAdmin) {
-            String sql = "select * from ( select t01.* from t_cor_menu t01 left join (\n" +
+    public String getUserMenu(String userId,String roleId,String isAdmin) {
+        List<Menu> menus=null;
+        Menu root=null;
+        if (!"1".equals(isAdmin)) {
+            String sql = "select * from ( select t01.* from t_cor_menu t01 join (\n" +
                     "SELECT t4.resource_id from t_cor_user t1 join \n" +
                     "t_cor_user_role t2 on t1.id_=t2.user_id\n" +
                     "join t_cor_role t3 on t2.role_id=t3.id_\n" +
-                    "join t_cor_authority t4 on t4.role_id=t3.id_ where t1.id_='"+userId+"' and t3.enabled_='1' and t1.enabled_='1') t02 \n" +
+                    "join t_cor_authority t4 on t4.role_id=t3.id_ where t1.id_=? and t3.enabled_='1' and t1.enabled_='1') t02 \n" +
                     "on t01.resource_id=t02.resource_id) t  order by t.sno_ asc";
-            List<Menu> menus = menuDao.listBySql(sql);
-            CollectionSort.sortList(menus, "sno", true);
-            if (menus == null || menus.isEmpty()) {
-                return "[]";
-            }
-            for (Menu menu : menus) {
-                if (menu.getParent() == null) {
-                    root = new Menu();
-                    root.setId(menu.getId());
-                    root.setMenuName(menu.getMenuName());
-                    root.setParent(null);
-                    root.setMenuUrl(menu.getMenuUrl());
-                    root.setMenuType(menu.getMenuType());
-                    root.setLeaf(menu.isLeaf());
-                }
-            }
-            eachMenu(menus, root);
+			menus = menuDao.listBySql(sql, userId);
         } else {
-            root= (Menu) menuDao.findOne("from Menu where parent is null");
+        	menus=menuDao.listAll();
         }
+        
+        if (menus == null || menus.isEmpty()) {
+            return "[]";
+        }
+        root=getRootMenu(menus);
         if (root == null) {
-            throw new RuntimeException("root is null");
+            throw new ServiceException("root is null");
         }
+        eachMenu(menus, root);
+        
         PropertyFilter propertyFilter = new PropertyFilter() {
             @Override
             public boolean apply(Object source, String name, Object value) {
@@ -141,15 +173,21 @@ public class MenuService extends BaseService<Menu, String> {
                 return false;
             }
         };
-        eachMenu(root);
-        return JSON.toJSONString(root.getRows(), propertyFilter, SerializerFeature.UseSingleQuotes, SerializerFeature.WriteNullListAsEmpty);
+        CollectionSort.sortList(menus, "sno", true);
+        String result=JSON.toJSONString(menus, propertyFilter, SerializerFeature.UseSingleQuotes, SerializerFeature.WriteNullListAsEmpty);
+        return result;
     }
 
+    /**
+     * 将菜单组装成树
+     * @param menus
+     * @param root
+     */
     void eachMenu(List<Menu> menus, Menu root) {
         for (Menu m1 : menus) {
             if (m1.getParent() != null && root.getId().equals(m1.getParent().getId())) {
                 if (root.getRows() == null) {
-                    root.setRows(new HashSet<Menu>());
+                    root.setRows(new ArrayList<Menu>());
                 }
                 root.getRows().add(m1);
                 eachMenu(menus, m1);
@@ -157,17 +195,7 @@ public class MenuService extends BaseService<Menu, String> {
         }
     }
 
-    void eachMenu(Menu root){
-        if(root.getRows()==null || root.getRows().isEmpty()){
-            root.setRows(null);
-        }else{
-            for (Menu m1 : root.getRows()) {
-                eachMenu(m1);
-            }
-        }
-    }
-
-    void eachTreeMenu(Menu root, StringBuffer sbt) {
+    /*void eachTreeMenu(Menu root, StringBuffer sbt) {
         sbt.append("{text:'" + root.getMenuName() + "',scope:this");
         if (!root.isLeaf()) {
             StringBuffer sbr = new StringBuffer(",menu:[");
@@ -180,7 +208,7 @@ public class MenuService extends BaseService<Menu, String> {
             sbt.append(",handler:this.menuClick,attr:{menuUrl:'" + root.getMenuUrl() + "',menuType:'" + root.getMenuType() + "'}");
         }
         sbt.append("},");
-    }
+    }*/
 
     @Transactional(readOnly = false)
     public void updateMenus(String[] ids, String pid) {
