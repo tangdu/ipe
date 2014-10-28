@@ -56,26 +56,40 @@ public class ResourceService extends BaseService<Resource, String> {
     	return root;
     }
     
-    void eachResouce(List<Resource> resources, Resource root) {
+    void eachResouce(List<Resource> resources, Resource root,Boolean checked) {
         for (Resource m1 : resources) {
+        	m1.setChecked(checked);
             if (m1.getParent() != null && root.getId().equals(m1.getParent().getId())) {
                 if (root.getRows() == null) {
                     root.setRows(new ArrayList<Resource>());
                 }
                 root.getRows().add(m1);
-                eachResouce(resources, m1);
+                root.setLeaf(false);
+                eachResouce(resources, m1,checked);
             }
         }
+    }
+    
+    /**
+     * 返回资源树,没有checked复选框
+     * @return
+     */
+    public Resource getTreeResources(){
+    	List<Resource> resources=resourceDao.listAll();
+    	Resource root=getRootResource(resources);
+    	eachResouce(resources, root,null);
+    	return root;
     }
     
     /**
      * 返回资源树
      * @return
      */
-    public Resource getTreeResources(){
+    public Resource getChecdkboxTreeResources(){
     	List<Resource> resources=resourceDao.listAll();
     	Resource root=getRootResource(resources);
-    	eachResouce(resources, root);
+    	root.setChecked(false);
+    	eachResouce(resources, root,false);
     	return root;
     }
 
@@ -90,5 +104,12 @@ public class ResourceService extends BaseService<Resource, String> {
         resource.setSno(resourceDao.getMaxSno());
         resource.setCreatedDate(new Date());
         return resourceDao.save(resource);
+    }
+    
+    @Transactional(readOnly = false)
+    public void updateSort(String[] ids, String pid) {
+        for (int i = 0; i < ids.length; i++) {
+        	resourceDao.updateParent(pid, i, ids[i]);
+        }
     }
 }

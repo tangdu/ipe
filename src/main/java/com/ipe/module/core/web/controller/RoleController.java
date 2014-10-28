@@ -1,7 +1,6 @@
 package com.ipe.module.core.web.controller;
 
 import java.util.Date;
-import java.util.List;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -136,8 +135,8 @@ public class RoleController extends AbstractController {
     @ResponseBody
     BodyWrapper getAuthority(@RequestParam String roleId) {
         try {
-            List<Resource> lists=roleService.getAuthoritys(roleId);
-            return success(lists);
+            Resource root=roleService.getAuthoritys(roleId);
+            return success(root);
         } catch (Exception e) {
             LOG.error("getAuthority error",e);
             return failure(e);

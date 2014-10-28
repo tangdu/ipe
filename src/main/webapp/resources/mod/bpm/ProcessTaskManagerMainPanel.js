@@ -176,7 +176,7 @@ Ext.define('Bpm.ProcessTaskManagerMainPanel',{
     layout:'border',
     initComponent:function(){
         this.todoTaskList=Ext.create('Bpm.ProcessTodoTaskList',{parent:this,region:'center'});
-        this.reciveTasklist=Ext.create('Bpm.ProcessReceiveTaskList',{parent:this,region:'south',height:200,split:true,collapseMode:'omitted',collapsible:true});
+        this.reciveTasklist=Ext.create('Bpm.ProcessReceiveTaskList',{parent:this,region:'south',height:300,split:true,collapseMode:'omitted',collapsible:true});
         this.items=[this.todoTaskList,this.reciveTasklist];
         this.callParent();
     }

@@ -8,12 +8,33 @@ Ext.define('Sys.resource.ResourceTreePanel',{
     lines:true,
     singleExpand: true,
     useArrows: true,
-    /*viewConfig: {
+    viewConfig: {
         plugins: {
             ptype: 'treeviewdragdrop',
             containerScroll: true
+        }, 
+        listeners: {
+            drop: function(node, data, dropRec, dropPosition) {
+                //通过data得到parent，然后把childer全部全新
+                var ids=[];
+                var pid=data.records[0].parentNode.data.id;
+                Ext.each(data.records[0].parentNode.childNodes,function(r){
+                        ids.push(r.data.id);
+                });
+                if(pid=="root"){
+                    Ext.Msg.alert('提示','禁止操作');
+                    return;
+                }
+                Ext.Ajax.request({
+                    url: 'resource/updateSort',
+                    params: {
+                        ids:ids,
+                        pid:pid
+                    }
+                });
+            }
         }
-    },*/
+    },
     initComponent:function(){
         this.store= Ext.create('Ext.data.TreeStore', {
             //nodeParam:'pid',
@@ -77,7 +98,7 @@ Ext.define('Sys.resource.ResourceTreePanel',{
             parent.resourceForm.getForm().reset();
             parent.resourceForm.setTitle("新增资源");
             parent.resourceForm.oper="add";
-            parent.resourceForm.setPid(record[0]);
+            parent.resourceForm.setInfo(record[0]);
             parent.doLayout();
         }else{
             Ext.Msg.alert('提示','请选择父资源记录!');
@@ -191,7 +212,7 @@ Ext.define('Sys.resource.ResourceForm',{
     		this.getForm().setValues({'parent.id':data.data.id});
     		this.getForm().setValues({'resourcePName':data.data.resourceName});
     	}else{
-    		 this.getForm().setValues({'parent.id':data.data.id});
+    		 this.getForm().setValues({'parent.id':data.parentNode.data.id});
        		 this.getForm().setValues({'resourcePName':data.parentNode.data.resourceName});
     	}
     },setData:function(record){

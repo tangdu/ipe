@@ -115,7 +115,7 @@ Ext.define('Sys.user.UserRoleSetWin',{
     modal:true,
     extend:'Ext.Window',
     layout:{type:'border',align:'stretch'},
-    //buttonAlign:'center',
+    buttonAlign:'left',
     border:false,
     initComponent:function(){
         this.roleList=Ext.create('Sys.user.RoleList',{parent:this,region:'center'});
@@ -123,6 +123,9 @@ Ext.define('Sys.user.UserRoleSetWin',{
 
         this.items=[this.roleList,this.roleSetList];
         this.buttons=[{
+            html:'<span style="color:red">[将左侧角色托入右侧列表]</span>',
+            xtype:'label'
+        },'->',{
             text:'确定',
             scope:this,
             iconCls:ipe.sty.save,

@@ -64,7 +64,7 @@ public abstract class BaseDao<M extends Serializable, PK extends Serializable> {
 	}
 
 	public void update(M model) {
-		getSession().update(model);
+		getSession().merge(model);
 		getSession().flush();
 	}
 

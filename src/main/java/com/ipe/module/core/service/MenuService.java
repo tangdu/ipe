@@ -173,8 +173,9 @@ public class MenuService extends BaseService<Menu, String> {
                 return false;
             }
         };
-        CollectionSort.sortList(menus, "sno", true);
-        String result=JSON.toJSONString(menus, propertyFilter, SerializerFeature.UseSingleQuotes, SerializerFeature.WriteNullListAsEmpty);
+        List<Menu> trees=root.getRows();
+        CollectionSort.sortList(trees, "sno", true);
+        String result=JSON.toJSONString(trees, propertyFilter, SerializerFeature.UseSingleQuotes, SerializerFeature.WriteNullListAsEmpty);
         return result;
     }
 
@@ -190,6 +191,7 @@ public class MenuService extends BaseService<Menu, String> {
                     root.setRows(new ArrayList<Menu>());
                 }
                 root.getRows().add(m1);
+                root.setLeaf(false);
                 eachMenu(menus, m1);
             }
         }
@@ -211,7 +213,7 @@ public class MenuService extends BaseService<Menu, String> {
     }*/
 
     @Transactional(readOnly = false)
-    public void updateMenus(String[] ids, String pid) {
+    public void updateSort(String[] ids, String pid) {
         for (int i = 0; i < ids.length; i++) {
             menuDao.updateParent(pid, i, ids[i]);
         }

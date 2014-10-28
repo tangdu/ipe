@@ -35,7 +35,7 @@ Ext.define('Desktop.view.Navigation', {
     },makeTree:function(menu){
         //绑定方法
         Ext.each(menu,function(r,i){
-            if(r.menu==null|| r.menu.length<1){
+            /*if(r.menu==null|| r.menu.length<1){
             }else{
                 var store = Ext.create('Ext.data.TreeStore', {
                     root: {
@@ -47,7 +47,17 @@ Ext.define('Desktop.view.Navigation', {
                 var treePanel=Ext.create('Ext.TreePanel',{store:store,rootVisible: false,title:r.text});
                 treePanel.on('itemdblclick',this.treeClick,this);
                 this.items.push(treePanel);
-            }
+            }*/
+        	var store = Ext.create('Ext.data.TreeStore', {
+                root: {
+                    expanded: true,
+                    children: r.children
+                },
+                fields:['text','leaf','jsClass',"menuUrl","menuType"]
+            });
+            var treePanel=Ext.create('Ext.TreePanel',{store:store,rootVisible: false,title:r.text});
+            treePanel.on('itemdblclick',this.treeClick,this);
+            this.items.push(treePanel);
         },this);
     },treeClick:function(view,record){
         if(record.childNodes.length==0){

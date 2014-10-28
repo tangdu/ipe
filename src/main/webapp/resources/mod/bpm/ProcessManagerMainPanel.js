@@ -5,7 +5,7 @@
 Ext.define('Bpm.ProcessDefList',{
     extend:'Ext.grid.Panel',
     alias : 'widget.processMlist',
-    //title : '角色列表',
+    title : '流程定义',
     autoScroll : false,
     enableColumnMove : false,
     columnLines : true,
@@ -205,7 +205,7 @@ Ext.define('Bpm.ProcessDefList',{
 Ext.define('Bpm.ProcessDefHisList',{
     extend:'Ext.grid.Panel',
     alias : 'widget.processMHislist',
-    //title : '角色列表',
+    title : '流程定义历史',
     autoScroll : false,
     enableColumnMove : false,
     columnLines : true,
@@ -373,8 +373,8 @@ Ext.define('Bpm.ProcessManagerMainPanel',{
     extend:'Ext.Panel',
     layout:{type:'vbox',align:'stretch'},
     initComponent:function(){
-        this.processList=Ext.create('Bpm.ProcessDefList',{parent:this,flex:7});
-        this.processHisList=Ext.create('Bpm.ProcessDefHisList',{parent:this,flex:3});
+        this.processList=Ext.create('Bpm.ProcessDefList',{parent:this,flex:6});
+        this.processHisList=Ext.create('Bpm.ProcessDefHisList',{parent:this,flex:4});
         this.items=[this.processList,this.processHisList];
         this.callParent();
     }

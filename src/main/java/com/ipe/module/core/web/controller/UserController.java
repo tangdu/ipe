@@ -70,6 +70,7 @@ public class UserController extends AbstractController {
     @ResponseBody
     BodyWrapper add(User user, RestRequest rest) {
         try {
+        	user.setUserPwd(MD5.digest(defaultUserPwd));
             user.setCreatedDate(new Date());
             userService.save(user);
             return success(user);

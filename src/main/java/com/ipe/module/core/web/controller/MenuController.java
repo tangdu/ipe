@@ -41,7 +41,7 @@ public class MenuController extends AbstractController {
     @RequestMapping(value={"/getMenus"})
     public @ResponseBody BodyWrapper getMenus(String pid){
         try {
-            Menu menu= menuService.getTreeMenus();
+            Menu menu= menuService.getTreeResourceMenus();
             return success(menu);
         }catch (Exception e){
             LOGGER.error("Exception {}",e);
@@ -89,10 +89,10 @@ public class MenuController extends AbstractController {
      * @param ids
      * @param pid
      */
-    @RequestMapping(value={"/update"})
-    public @ResponseBody BodyWrapper update(String [] ids,String pid){
+    @RequestMapping(value={"/updateSort"})
+    public @ResponseBody BodyWrapper updateSort(String [] ids,String pid){
         try {
-            menuService.updateMenus(ids,pid);
+            menuService.updateSort(ids,pid);
             return success();
         }catch (Exception e){
             LOGGER.error("Exception {}",e);

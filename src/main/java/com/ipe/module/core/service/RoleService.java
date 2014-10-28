@@ -1,17 +1,24 @@
 package com.ipe.module.core.service;
 
-import com.ipe.common.dao.BaseDao;
-import com.ipe.common.service.BaseService;
-import com.ipe.module.core.dao.*;
-import com.ipe.module.core.entity.*;
+import java.util.Set;
+
 import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.Collection;
-import java.util.List;
-import java.util.Set;
+import com.ipe.common.dao.BaseDao;
+import com.ipe.common.service.BaseService;
+import com.ipe.module.core.dao.AuthorityDao;
+import com.ipe.module.core.dao.ResourceDao;
+import com.ipe.module.core.dao.RoleDao;
+import com.ipe.module.core.dao.UserDao;
+import com.ipe.module.core.dao.UserRoleDao;
+import com.ipe.module.core.entity.Authority;
+import com.ipe.module.core.entity.Resource;
+import com.ipe.module.core.entity.Role;
+import com.ipe.module.core.entity.User;
+import com.ipe.module.core.entity.UserRole;
 
 /**
  * Created with IntelliJ IDEA.
@@ -79,33 +86,28 @@ public class RoleService extends BaseService<Role, String> {
     }
 
     //巳有权限
-    public List<Resource> getAuthoritys(final String roleId) {
-        //查询所有资源-树结构
-        List<Resource> lists = resourceService.getResources(null);
+    public Resource getAuthoritys(final String roleId) {
+        //查询所有资源-树结构-带复选框
+    	Resource root = resourceService.getChecdkboxTreeResources();
         //查询角色资源
         Set<Resource> mylist = authorityDao.getRoleByAuthority(roleId);
-        if (mylist == null || mylist.isEmpty()) {
-            eachAuthoritys(lists);
-        } else {
-            eachAuthoritys(lists);//
-            eachAuthoritys(mylist, lists);
+        if (mylist != null && !mylist.isEmpty()) {
+            eachAuthoritys(mylist, root);
         }
-        return lists;
+        return root;
     }
 
-    public void eachAuthoritys(Collection<Resource> lists) {
-        for (Resource r1 : lists) {
-            r1.setChecked(false);
-        }
-    }
-
-    public void eachAuthoritys(Set<Resource> mylist, Collection<Resource> lists) {
-        for (Resource r1 : lists) {
-            for (Resource r2 : mylist) {
-                if (r2.getId().equals(r1.getId())) {
-                    r1.setChecked(true);
-                }
+    public void eachAuthoritys(Set<Resource> mylist, Resource root) {
+    	for (Resource r2 : mylist) {
+            if (r2.getId().equals(root.getId())) {
+            	root.setChecked(true);
+                break;
             }
         }
+    	if(root.getRows()!=null && !root.getRows().isEmpty()){
+    		for(Resource r1:root.getRows()){
+    			eachAuthoritys(mylist,r1);
+    		}
+    	}
     }
 }

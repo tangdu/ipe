@@ -89,4 +89,20 @@ public class ResourceController extends AbstractController {
             return failure(e);
         }
     }
+    
+    /**
+     * 更新排序及位置
+     * @param ids
+     * @param pid
+     */
+    @RequestMapping(value={"/updateSort"})
+    public @ResponseBody BodyWrapper updateSort(String [] ids,String pid){
+        try {
+        	resourceService.updateSort(ids,pid);
+            return success();
+        }catch (Exception e){
+            LOGGER.error("Exception {}",e);
+            return failure(e);
+        }
+    }
 }

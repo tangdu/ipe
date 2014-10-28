@@ -26,7 +26,7 @@ Ext.define('Sys.menu.MenuTreePanel',{
                     return;
                 }
                 Ext.Ajax.request({
-                    url: 'menu/update',
+                    url: 'menu/updateSort',
                     params: {
                         ids:ids,
                         pid:pid
@@ -242,6 +242,9 @@ Ext.define('Sys.menu.MenuForm',{
         if(record.data.resource){
             this.getForm().findField('resourceName').setValue(record.data.resource.resourceName);
             this.getForm().findField('resourceId').setValue(record.data.resource.id);
+        }else{
+        	this.getForm().findField('resourceName').setValue(null);
+            this.getForm().findField('resourceId').setValue(null);
         }
     },chooseResource:function(){
         var resourceName=this.getForm().findField('resourceName');
