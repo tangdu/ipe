@@ -8,6 +8,46 @@
 	border-color: #b5b8c8;
 	background-image: none !important;
 }
+.x-window-default{
+	-webkit-border-radius: 0;
+	-moz-border-radius: 0;
+	-ms-border-radius: 0;
+	-o-border-radius: 0;
+	border-radius: 0;
+}
+.x-window-header-default-top{
+	-moz-border-radius-topleft: 0;
+	-webkit-border-top-left-radius: 0;
+	border-top-left-radius: 0;
+	-moz-border-radius-topright: 0;
+	-webkit-border-top-right-radius: 0;
+	border-top-right-radius: 0;
+	-moz-border-radius-bottomright: 0;
+	-webkit-border-bottom-right-radius: 0;
+	border-bottom-right-radius: 0;
+	-moz-border-radius-bottomleft: 0;
+	-webkit-border-bottom-left-radius: 0;
+	border-bottom-left-radius: 0;
+}
+.x-panel-default-framed{
+	-webkit-border-radius: 0;
+	-moz-border-radius: 0;
+	-ms-border-radius: 0;
+	-o-border-radius: 0;
+	border-radius: 0;
+}
+.x-btn-default-small{
+	-webkit-border-radius: 0;
+	-moz-border-radius: 0;
+	-ms-border-radius: 0;
+	-o-border-radius: 0;
+	border-radius: 0;
+}
+.x-mask{
+	opacity: .4;
+background: #ccc;
+cursor: default;
+}
 /****/
 #loading{
 	margin:0 auto 0 auto;

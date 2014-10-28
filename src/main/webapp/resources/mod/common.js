@@ -25,6 +25,8 @@ var ipe={
         help:'btn_help',
         home:'btn_home',
         'import':'btn_import',
+        'bell':'btn_bell',
+        'export':'btn_export',
         info:'btn_info',
         'interface':'btn_interface',
         lock:'btn_lock',
@@ -459,8 +461,8 @@ Ext.define('Ipe.view.ChangeRoleWin', {
     title : '切换角色',
     plain:true,
     extend:'Ext.Window',
-    width : 500,
-    height : 400,
+    width : 300,
+    height : 200,
     modal:true,
     layout:'fit',
     closeAction:'hide',
@@ -505,3 +507,23 @@ ipe.Alert=function(){
 ipe.FormMsg=function(){
     ipe.Alert.show('提示','必填项为空或是输入值受限！');
 }
+
+//扩展ExtJS提醒方法
+Ext.override(Ext.Msg,{
+	Err:function(msg){
+		Ext.Msg.show({
+            title : '提示',
+            msg : msg,
+            buttons : Ext.Msg.OK,
+            icon : Ext.Msg.ERROR
+        });
+	},
+	Suc:function(msg){
+		Ext.Msg.show({
+            title : '提示',
+            msg : msg,
+            buttons : Ext.Msg.OK,
+            icon : Ext.Msg.INFO
+        });
+	}
+});

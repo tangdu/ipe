@@ -78,6 +78,14 @@
 {
     background-image:url(import.gif)!important;
 }
+.btn_export
+{
+    background-image:url(export.png)!important;
+}
+.btn_bell
+{
+    background-image:url(bell.png)!important;
+}
 .btn_info
 {
     background-image:url(info.png)!important;

@@ -119,7 +119,7 @@ Ext.define('Sys.tool.ExlImptplList',{
             scope:this,
             handler:this.delExlImptpl
         },'-',{text:'导入',scope:this,handler:this.impExldata,iconCls:ipe.sty["import"]}
-        ,{text:'导出',scope:this,handler:this.expExldata,iconCls:ipe.sty["import"]},
+        ,{text:'导出',scope:this,handler:this.expExldata,iconCls:ipe.sty["export"]},
         '->',{xtype:'label',text:'查询:'},{
         	xtype:'searchfield',
             emptyText:'输入编号/名称查询',
