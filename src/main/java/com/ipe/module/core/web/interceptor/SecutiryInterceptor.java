@@ -30,14 +30,21 @@ import com.ipe.module.core.web.util.WebUtil;
 public class SecutiryInterceptor extends HandlerInterceptorAdapter {
     @Autowired
     private LogService logService;
+    private static final String FILTERS=".js,.png,.css,.jpg,.jpeg";
 
     @SuppressWarnings({"unused" })
 	@Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
         String url = request.getRequestURL().toString();
-        if(url.endsWith(".js")||url.endsWith(".png")||url.endsWith(".css")||url.endsWith(".jpg")||url.endsWith(".jpeg")){
-            return true;
+        String f_[]=FILTERS.split("[,]");
+        boolean f_flag=false;
+        for(int i=0;i<f_.length;i++){
+        	if(url.endsWith(f_[i])){
+        		return true;
+        	}
         }
+        
+        //拦截方法日志//
         if(handler instanceof  HandlerMethod){
             HandlerMethod method=(HandlerMethod)handler;
             //日志注释

@@ -142,4 +142,22 @@ public class RoleController extends AbstractController {
             return failure(e);
         }
     }
+    
+    /**
+     * 得到用户所有角色列表
+     * @param roleId
+     * @return
+     */
+    @RequestMapping(value = {"/getUserRoles"})
+    public
+    @ResponseBody
+    BodyWrapper getUserRoles(@RequestParam String userId) {
+        try {
+            Resource root=roleService.getAuthoritys(userId);
+            return success(root);
+        } catch (Exception e) {
+            LOG.error("getAuthority error",e);
+            return failure(e);
+        }
+    }
 }

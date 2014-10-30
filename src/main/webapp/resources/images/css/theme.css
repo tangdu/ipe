@@ -96,23 +96,23 @@
 }
 .mpanel-body .box:hover{
 	box-shadow:0 2px 4px #cbcbcb;
-	color:#ffffff;
+	color:#99bce8;
 }
 .box-red{
-	background-color: #E68364;
-	background-image: url("../user accounts.png") ;
+	/* background-color: #E68364; */
+	background-image: url("../yonghu.png") ;
 }
 .box-green{
-	background-color: #87D37C;
-	background-image: url("../contacts.png") ;
+	/* background-color: #87D37C; */
+	background-image: url("../jiaose.png") ;
 }
 .box-blue{
-	background-color: #89C4F4;
-	background-image: url("../system alt.png") ;
+	/* background-color: #89C4F4; */
+	background-image: url("../ziyuan.png") ;
 }
 .box-gray{
-	background-color: #BDC3C7;
-	background-image: url("../performance.png") ;
+	/* background-color: #BDC3C7; */
+	background-image: url("../jiankong.png") ;
 }
 
 /*公告CSS*/

@@ -81,6 +81,7 @@ Ext.define('Desktop.view.Navigation', {
             if(ts.menuType=='1'){//类实例
                 pcontainer=Ext.create(
                     ts.menuUrl,{
+                    	bodyCls:'defaultColor',
                         border:false,
                         parent:this
                     });

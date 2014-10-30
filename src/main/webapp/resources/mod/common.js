@@ -152,6 +152,16 @@ var ipe={
 	    changeRole:function(){
 	    	var win=Ext.create('Ipe.view.ChangeRoleWin');
 	        win.show();
+	    },
+	    refreshIndexView:function(panel){
+	    	Ext.Ajax.request({
+	    		url:'getIndexView',
+	    		method:'POST',
+	    		success:function(resp){
+	    			Ext.Loader.loadScript('resources/mod/portal.js');
+	    			panel.body.update(resp.responseText);
+	    		}
+	    	});   
 	    }
     },
     store:{
@@ -510,20 +520,28 @@ ipe.FormMsg=function(){
 
 //扩展ExtJS提醒方法
 Ext.override(Ext.Msg,{
-	Err:function(msg){
+	error:function(msg){
 		Ext.Msg.show({
             title : '提示',
-            msg : msg,
+            msg : msg||'',
             buttons : Ext.Msg.OK,
             icon : Ext.Msg.ERROR
         });
 	},
-	Suc:function(msg){
+	success:function(msg){
 		Ext.Msg.show({
             title : '提示',
-            msg : msg,
+            msg : msg||'',
             buttons : Ext.Msg.OK,
             icon : Ext.Msg.INFO
+        });
+	},
+	warnin:function(msg){
+		Ext.Msg.show({
+            title : '提示',
+            msg : msg||'',
+            buttons : Ext.Msg.OK,
+            icon : Ext.Msg.WARNING
         });
 	}
 });

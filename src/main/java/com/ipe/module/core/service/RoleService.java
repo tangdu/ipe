@@ -1,5 +1,6 @@
 package com.ipe.module.core.service;
 
+import java.util.List;
 import java.util.Set;
 
 import org.apache.commons.lang.StringUtils;
@@ -109,5 +110,15 @@ public class RoleService extends BaseService<Role, String> {
     			eachAuthoritys(mylist,r1);
     		}
     	}
+    }
+    
+    /**
+     * 得到用户所有权限
+     * @param userId
+     * @return
+     */
+    public List<Role> getUserRoles(String userId){
+    	String hql="select t.role from UserRole t where t.user.id=?";
+    	return this.roleDao.list(hql, userId);
     }
 }

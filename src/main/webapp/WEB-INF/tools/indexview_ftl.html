@@ -1,6 +1,8 @@
 <div class=mcontainer> 
 	<div class="p_header">
-		欢迎您!,${userInfo.userName}  当前时间：${.now} 访问地址：${userInfo.accessIp} 待审批任务：(<a class="bold">${mtaskLists?size}</a>) 我的消息：(<a class="bold">${messageLists?size}</a>)
+		欢迎您!,${userInfo.userName}  当前时间：${.now} 访问地址：${userInfo.accessIp} 
+		待审批任务：(<a class="bold" onclick="openSysModule('Bpm.ProcessTaskManagerMainPanel','我的任务',this)">${mtaskLists?size}</a>) 
+		我的消息：(<a class="bold" onclick="openSysModule('Sys.msg.SysMessageMainPanel','我的消息',this)">${messageLists?size}</a>)
 	</div>
     <div class="mytheme mcol-md-6">  
    	  <div class="mpanel-header">
@@ -83,7 +85,7 @@
     		<ul class="mnotice-ul">
     			<li>系统：${osName}</li>
     			<li>运行：${vmName}</li>
-    			<li>内存：init:${initMemory} max:${maxMemory} used:${usedMemory}</li>
+    			<li>JVM：初始:${initMemory} 最大:${maxMemory} 使用:${usedMemory}</li>
     		</ul>
     	</div>
     </div>  

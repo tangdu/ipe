@@ -115,7 +115,7 @@ Ext.define('Sys.menu.MenuTreePanel',{
             parent.menuForm.oper="add";
             parent.menuForm.setInfo(record[0]);
         }else{
-            Ext.Msg.alert('提示','请选择父菜单记录!');
+            Ext.Msg.success('请选择父菜单记录!');
         }
     },editMenu:function(){
         var record=this.getSelectionModel().getSelection();

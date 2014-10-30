@@ -118,6 +118,8 @@ Ext.define('Desktop.view.Footer', {
     height : 20,
     region : 'south',
     border:false,
+    //bodyCls:"defaultColor",
+    bodyStyle:'background-color:#D9E7F8',//D9E7F8 D3E8ED
     initComponent : function(){
         this.html="<div style='text-align:center;margin:0 auto;'>© 2014 tdu</div>";
         this.callParent();

@@ -5,25 +5,7 @@ Ext.define('Desktop.view.IndexView', {
     autoScroll : true,
     initComponent : function(){
     	this.html="正在加载.....";
-    	var me=this;
-    	Ext.Ajax.request({
-    		url:'getIndexView',
-    		method:'POST',
-    		success:function(resp){
-    			/*var script=/<script>([\s\S]*?)<\/script>/gi;
-    			var match=script.exec(result.rows);
-    			while(match!=null){
-    				eval('('+match[1]+')');
-    				match=script.exec(result.rows);
-    			}*/
-    			me.body.update(resp.responseText);
-    			me.doRender();
-    		}
-    	});   
+		ipe.fuc.refreshIndexView(this);    	
         this.callParent();
-    },doRender:function(){
-    	Ext.Loader.loadScript('resources/mod/portal.js');
-    	//Ext.get("i-more-msg").on('click',this.getMoreMsg,this);
-    	//Ext.get("i-more-task").on('click',this.getMoreTask,this);
     }
 });

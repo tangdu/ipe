@@ -45,8 +45,26 @@
 }
 .x-mask{
 	opacity: .4;
-background: #ccc;
-cursor: default;
+	background: #ccc;
+	cursor: default;
+}
+.x-tab-default-top{
+	-moz-border-radius-topleft: 0;
+	-webkit-border-top-left-radius: 0;
+	border-top-left-radius: 0;
+	-moz-border-radius-topright: 0;
+	-webkit-border-top-right-radius: 0;
+	border-top-right-radius: 0;
+	-moz-border-radius-bottomright: 0;
+	-webkit-border-bottom-right-radius: 0;
+	border-bottom-right-radius: 0;
+	-moz-border-radius-bottomleft: 0;
+	-webkit-border-bottom-left-radius: 0;
+	padding: 3px 11px 3px 11px;
+}
+.x-btn-default-small-icon-text-left .x-btn-inner{
+	line-height: 16px;
+    padding-left: 15px;
 }
 /****/
 #loading{
@@ -132,4 +150,7 @@ html,body{
 }
 .height-fit{
 	height:100% !important; 
+}
+.defaultColor{
+	background-color: #f8f8f8;
 }
