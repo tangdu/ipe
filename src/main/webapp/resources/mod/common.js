@@ -141,6 +141,21 @@ var ipe={
 				});
         	}
         },
+        openMenu:function(murl,mtype,mtext,cls,record){
+        	mtext=mtext||'';
+        	mtype=mtype||'1';
+        	cls=cls||'';
+        	if(murl){
+        		Ext.getCmp(ipe.viewID).ipeHd
+					.menuClick({
+						menuUrl:murl,
+						menuType:mtype,
+						cls:cls,
+						record:record,
+						text:mtext
+				});
+        	}
+        },
         logout:function(){
 	        window.location.href="logout";
 	    },

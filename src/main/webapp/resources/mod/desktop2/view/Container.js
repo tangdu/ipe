@@ -15,15 +15,6 @@ Ext.define('Desktop.view.Container', {
     //split : true,
     initComponent:function(){
         this.portal=Ext.create('Ext.Panel');
-
-        this.items = [Ext.create('Ext.Panel',{
-            iconCls:ipe.sty.home,
-            frame:true,
-            autoScroll: false,
-            layout:'fit',
-            menuType:'1',
-            menuUrl:'Pot.Portal',
-            refreabled:true,parent:this,title:'首页',items:this.portal})];
         this.plugins=[Ext.create('Ext.ux.TabReorderer'),
             Ext.create('Ext.ux.TabCloseMenu',{
             parent:this,

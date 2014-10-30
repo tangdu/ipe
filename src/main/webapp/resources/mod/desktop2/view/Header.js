@@ -20,20 +20,14 @@ Ext.define('Desktop.view.Header', {
             iconCls:ipe.sty.comment,
             handler:this.showTask
         }]);
-        //日历
-        /*ipe.config.userMenu=ipe.config.userMenu.concat(['-',{
-            text:'办公日历',
-            iconCls:ipe.sty.calendar,
-            handler:this.workCanlendar
-        }]);*/
 
         //用户
         ipe.config.userMenu=ipe.config.userMenu.concat(['-',{
             text:ipe.config.user.userName,
             iconCls:ipe.sty.user,
             menu:[
-                {text:'修改密码',scope:this,handler:this.upPwd},
-                {iconCls : 'icon-power-off',text:'退出',handler:this.logout}
+                {text:'修改密码',scope:this,handler:ipe.fuc.upPwd},
+                {iconCls : 'icon-power-off',text:'退出',handler:ipe.fuc.logout}
             ]
         }]);
         ipe.config.userMenu.push({width:50,xtype:'tbspacer'});
@@ -45,64 +39,70 @@ Ext.define('Desktop.view.Header', {
         });
         this.callParent();
     },
-    workCanlendar:function(){
-        var panel=Ext.create('Sys.tool.CalendarPanel');
-        var win=Ext.getCmp("c_CalendarPanel");
-        if(!win){
-            win=Ext.create('Ext.Window',{id:'c_CalendarPanel',title:'办公日历',closeAction:'hide',items:[panel],maximizable:true,height:600,width:600,layout:'fit',buttons:[{text:'取消',iconCls:ipe.sty.cancel,handler:function(){win.hide();}}]});
-        }
-        win.show();
-    },
     showTask:function(){
 
-    },
-    logout:function(){
-        window.location.href="logout";
-    },
-    upPwd:function(){
-        var win=Ext.create('Desktop.view.UpPwdWin',{parent:this});
-        win.show();
-        win.form.getForm().findField('userName').setValue(user.userName);
     },
     menuClick:function(ts){
         if(ts.menuUrl){
             var ipeCont=(this.parent.ipeCon);
             var tname_=ts.menuUrl.replace(/\.|\-|_|\//gi,'');
             var sheetId="Tab_Panel_"+tname_;
-            var sheet=Ext.getCmp(sheetId);
-            //////////////////
-            if(sheet){
-                ipeCont.setActiveTab(sheetId);
-            }else{
-                //Ext.get('loading').update('加载系统组件...');
-                Ext.applyIf(ipeCont,{getTabView:this.getTabView});
-                var pcontainer=ipeCont.getTabView(ts);
-                if(pcontainer==null){
-                    return;
-                }
-                /////////////
-                var panel=Ext.create('Ext.Panel',{
-                    layout:{type:'fit',align:'stretch'},
-                    iconCls:ipe.sty.app,
-                    closable:true,
-                    refreable:true,
-                    border:false,
-                    frame:true,
-                    title:ts.text,
-                    menuUrl:ts.menuUrl,
-                    menuType:ts.menuType,
-                    id:sheetId,
-                    items:pcontainer,
-                    mattr:ts
-                });
-
-                ipeCont.add(panel);
-                ipeCont.setActiveTab(panel);
+            if(ipe.config.sysConfig.ena_mtab=="1"){
+    			this.mutiTabView(ipeCont,ts,sheetId);
+    		}else{
+    			this.singTabView(ipeCont,ts,sheetId);
+    		}
+        }
+    },
+    singTabView:function(ipeCont,ts,sheetId){
+    	var sheet=ipeCont.getComponent(1);
+    	if(sheet){
+        	Ext.applyIf(ipeCont,{getTabView:this.getTabView});
+            var pcontainer=ipeCont.getTabView(ts);
+            if(pcontainer==null){
+                return;
             }
+            sheet.removeAll();
+            sheet.setTitle(ts.text);
+            sheet.add(pcontainer);
+            sheet.mattr=ts;
+            ipeCont.setActiveTab(sheet);
+    	}else{
+    		this.mutiTabView(ipeCont,ts);
+    	}
+    },
+    mutiTabView:function(ipeCont,ts,sheetId){
+    	var sheet=Ext.getCmp(sheetId);
+        if(sheet){
+            ipeCont.setActiveTab(sheetId);
+        }else{
+            //Ext.get('loading').update('加载系统组件...');
+            Ext.applyIf(ipeCont,{getTabView:this.getTabView});
+            var pcontainer=ipeCont.getTabView(ts);
+            if(pcontainer==null){
+                return;
+            }
+            /////////////
+            var panel=Ext.create('Ext.Panel',{
+                layout:{type:'fit',align:'stretch'},
+                iconCls:ipe.sty.app,
+                closable:true,
+                refreable:true,
+                border:false,
+                frame:true,
+                title:ts.text,
+                menuUrl:ts.menuUrl,
+                menuType:ts.menuType,
+                id:sheetId,
+                items:pcontainer,
+                mattr:ts
+            });
+
+            ipeCont.add(panel);
+            ipeCont.setActiveTab(panel);
         }
     },eachMenu:function(menu){
-        //绑定方法
-        Ext.each(menu,function(r,i){
+        Ext.each(menu,function(r,i){//绑定方法
             if(r.menu==null|| r.menu.length<1){
                 Ext.apply(r,{scope:this,handler:this.menuClick,scale: 'large',rowspan: 3,height:30,shadow:true});
             }else{
