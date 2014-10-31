@@ -77,7 +77,7 @@ var ipe={
         dictData:{},
         user:{},
         basePath:'',
-        paddingWidth:30
+        paddingWidth:20
     },
     exl:{//excel配置-MySQL
     	defImpType:'varchar(100)',
@@ -371,7 +371,23 @@ Ext.override(Ext.form.field.HtmlEditor,{
     ],
     defaultValue:'Arial'
 });
-
+Ext.override(Ext.button.Button,{
+	fireHandler:function(e){
+		var me = this,
+            handler = me.handler;
+        if (me.fireEvent('click', me, e) !== false) {
+            if (handler) {
+                handler.call(me.scope || me, me, e);
+            }
+        }
+        ////////add delay////////
+		me.setDisabled(true);
+		var task=new Ext.util.DelayedTask(function(){
+			me.setDisabled(false);
+		});
+		task.delay(1000);
+	}
+});
 /*Ext.Ajax.on('requestexception', function(conn, response, options) {
     var msg = '访问系统资源时发生异常<br/>' + '异常状态:' + response.status + '('
         + response.statusText + ')<br/>' + '异常信息:'

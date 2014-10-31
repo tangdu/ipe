@@ -26,8 +26,22 @@ Ext.define('Sys.config.DictList',{
             sortable:true
         },{
             header:'备注',
+            width:300,
             dataIndex:'remark'
         }];
+
+        this.store=Ext.create('Ext.data.JsonStore', {
+            proxy: {
+                type: 'ajax',
+                url: 'dict/list',
+                reader: {
+                    root: 'rows'
+                }
+            },
+            remoteSort : true,
+            autoLoad:true,
+            fields : ['id','dictName','dictCode','remark','status']
+        });
 
         this.tbar=[{
             text:'新增',
@@ -45,23 +59,16 @@ Ext.define('Sys.config.DictList',{
             scope:this,
             handler:this.delDict
         },'->',{
-            text:'生成【ipe.fuc.${code}Dt  -  ipe.store.${code}Store】',
-            xtype:'label',
-            style:'color:red'
-        }];
-
-        this.store=Ext.create('Ext.data.JsonStore', {
-            proxy: {
-                type: 'ajax',
-                url: 'dict/list',
-                reader: {
-                    root: 'rows'
-                }
-            },
-            remoteSort : true,
-            autoLoad:true,
-            fields : ['id','dictName','dictCode','remark','status']
-        });
+        	xtype:'searchfield',
+            emptyText:'名称/编号查询',
+            fieldLabel:'查询:',
+            labelWidth:30,
+            scope:this,
+            name:'query',
+            store:this.store,
+            width:150,
+            handler:this.searchUser
+        },{width:ipe.config.paddingWidth,xtype:'tbspacer'}];
 
         this.bbar=Ext.create('Ipe.PagingToolbar',{
             store:this.store,pageSize:this.pageSize,parent:this
@@ -156,6 +163,18 @@ Ext.define('Sys.config.DictValList',{
             dataIndex:'remark'
         }];
 
+        this.store=Ext.create('Ext.data.JsonStore', {
+            proxy: {
+                type: 'ajax',
+                url: 'dictVal/list',
+                reader: {
+                    root: 'rows'
+                }
+            },
+            remoteSort : true,
+            fields : ['id','dictValName','dictValCode','remark','dictId']
+        });
+        
         this.tbar=[{
             text:'新增',
             iconCls:ipe.sty.add,
@@ -171,19 +190,17 @@ Ext.define('Sys.config.DictValList',{
             iconCls:ipe.sty.del,
             scope:this,
             handler:this.delDitVal
-        }];
-
-        this.store=Ext.create('Ext.data.JsonStore', {
-            proxy: {
-                type: 'ajax',
-                url: 'dictVal/list',
-                reader: {
-                    root: 'rows'
-                }
-            },
-            remoteSort : true,
-            fields : ['id','dictValName','dictValCode','remark','dictId']
-        });
+        },'->',{
+        	xtype:'searchfield',
+            emptyText:'名称/编号查询',
+            fieldLabel:'查询:',
+            labelWidth:30,
+            scope:this,
+            name:'query',
+            store:this.store,
+            width:150,
+            handler:this.searchUser
+        },{width:ipe.config.paddingWidth,xtype:'tbspacer'}];
 
         this.bbar=Ext.create('Ipe.PagingToolbar',{
             store:this.store,pageSize:this.pageSize
