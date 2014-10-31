@@ -169,6 +169,7 @@ var ipe={
 	        win.show();
 	    },
 	    refreshIndexView:function(panel){
+	    	panel.body.update("正在加载.......");
 	    	Ext.Ajax.request({
 	    		url:'getIndexView',
 	    		method:'POST',

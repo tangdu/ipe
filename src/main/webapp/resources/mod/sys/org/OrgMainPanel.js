@@ -91,6 +91,7 @@ Ext.define('Sys.org.OrgTreePanel',{
             parent.orgForm.getForm().reset();
             parent.orgForm.setTitle("新增机构");
             parent.orgForm.oper="add";
+            parent.orgForm.setData(record[0]);
             parent.orgForm.setInfo(record[0]);
             parent.doLayout();
         }else{
@@ -98,10 +99,54 @@ Ext.define('Sys.org.OrgTreePanel',{
         }
     },
     editOrg:function(){
-
+		var me=this;
+        var record=this.getSelectionModel().getSelection();
+        if(record && record.length>0){
+            var parent=this.up();
+            parent.orgForm.expand(true);
+            parent.orgForm.show();
+            parent.orgForm.getForm().reset();
+            parent.orgForm.setTitle("修改机构");
+            parent.orgForm.oper="edit";
+            parent.orgForm.setData(record[0]);
+            parent.orgForm.setInfo(record[0]);
+            parent.doLayout();
+        }else{
+            Ext.Msg.alert('提示','请选择要编辑的记录!');
+        }
     },
     delOrg:function(){
-
+		var me=this;
+        var record=this.getSelectionModel().getSelection();
+        if(record && record.length>0){
+            Ext.Msg.show({
+                title:'提示',
+                msg: '你确认删除此记录?',
+                buttons: Ext.Msg.YESNO,
+                icon: Ext.Msg.QUESTION,
+                scope:this,
+                fn:function(bt){
+                    if(bt=='yes'){
+                        Ext.Ajax.request({
+                            url: 'org/del',
+                            params: {
+                                ids:record[0].data.id
+                            },
+                            success: function(response){
+                                var resp =Ext.decode(response.responseText) ;
+                                if(resp.success){
+                                    me.getStore().load();
+                                }else{
+                                    Ext.Msg.alert('提示',resp.rows);
+                                }
+                            }
+                        });
+                    }
+                }
+            });
+        }else{
+            Ext.Msg.alert('提示','请选择要删除的记录!');
+        }
     }
 });
 
@@ -116,11 +161,11 @@ Ext.define('Sys.org.OrgEditForm',{
     frame:true,
     initComponent:function(){
         this.items=[{
-            fieldLabel:'机构编码',name:'orgName',xtype:'textfield',allowBlank:false
+            fieldLabel:'机构编码',name:'orgCode',xtype:'textfield',allowBlank:false
         },{
-            fieldLabel:'机构名称', name:'orgCode',xtype:'textfield',allowBlank:false
+            fieldLabel:'机构名称', name:'orgName',xtype:'textfield',allowBlank:false
         },{
-            fieldLabel:'机构层级', name:'orgLevel',xtype:'textfield',allowBlank:false
+            fieldLabel:'机构层级', name:'orgLevel',xtype:'textfield',allowBlank:false,readOnly:true
         },{
             fieldLabel:'备注', name:'remark',xtype:'textarea'
         },{
@@ -146,8 +191,14 @@ Ext.define('Sys.org.OrgEditForm',{
             }
         }];
         this.callParent();
-    },setPid:function(data){
-        this.getForm().setValues({'parent.id':data});
+    },setInfo:function(re){
+    	if(this.oper=="add"){
+    		this.getForm().setValues({'parent.id':re.data.id});
+    		this.getForm().setValues({'orgLevel':re.data.orgLevel+1});
+    	}else if(this.oper=="edit"){
+    		this.getForm().setValues({'parent.id':re.data.parent.id});
+    		this.getForm().setValues({'orgLevel':re.data.orgLevel});
+    	}
     },setData:function(record){
         this.loadRecord(record);
     },saveData:function(){
@@ -170,7 +221,7 @@ Ext.define('Sys.org.OrgEditForm',{
         }else if(this.oper=='edit'){
             if(me.getForm().isValid()){
                 me.getForm().submit({
-                    url:'menu/edit',
+                    url:'org/edit',
                     success: function(form, action) {
                         Ext.Msg.alert('提示', '修改成功');
                         parent.orgTree.getStore().load();

@@ -22,6 +22,21 @@ Ext.define('Desktop.view.Viewport', {
     }
 });
 
+/*首页展示内容*/
+Ext.define('Desktop.view.IndexView', {
+    extend : 'Ext.panel.Panel',
+    border:false,
+    bodyCls:'index_img',
+    autoScroll : true,
+    initComponent : function(){
+		
+		this.on('afterrender',this.initIndexView,this);
+        this.callParent();
+    },initIndexView:function(){
+    	ipe.fuc.refreshIndexView(this);
+    }
+});
+
 //Header
 Ext.define('Desktop.view.Header', {
     extend : 'Ext.Container',
