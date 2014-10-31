@@ -31,6 +31,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.alibaba.fastjson.JSON;
+import com.ipe.common.util.Anonymous;
 import com.ipe.module.bpm.service.ProcessTaskService;
 import com.ipe.module.core.entity.Dict;
 import com.ipe.module.core.entity.SysConfig;
@@ -57,6 +58,7 @@ public class IndexController extends AbstractController {
 	@Autowired
 	private MenuService menuService;
 
+	@Anonymous
 	@RequestMapping(value = "/", method = RequestMethod.GET)
 	public String index(ModelMap data) {
 		// 1_加载菜单
@@ -79,6 +81,7 @@ public class IndexController extends AbstractController {
 		return "index";
 	}
 
+	@Anonymous
 	@RequestMapping(value = "/signin", method = RequestMethod.GET)
 	public String signin() {
 		return "signin";
@@ -103,6 +106,7 @@ public class IndexController extends AbstractController {
 	 * @param request
 	 * @return
 	 */
+	@Anonymous
 	@RequestMapping(value = "/login", method = RequestMethod.POST)
 	public String login(@RequestParam String useraccount,
 			@RequestParam String password, HttpServletRequest request,
@@ -134,6 +138,7 @@ public class IndexController extends AbstractController {
 	 * @param request
 	 * @return
 	 */
+	@Anonymous
 	@RequestMapping(value = "/logout", method = RequestMethod.GET)
 	public String logout(HttpServletRequest request) {
 		request.getSession().removeAttribute("user");
@@ -167,6 +172,7 @@ public class IndexController extends AbstractController {
 	 * @param data
 	 * @return
 	 */
+	@Anonymous
 	@RequestMapping(value = "/getIndexView")
 	public String getIndexView(HttpServletRequest request, ModelMap data) {
 		// step1:用户信息
@@ -201,6 +207,7 @@ public class IndexController extends AbstractController {
 	 *            文件路径
 	 * @param response
 	 */
+	@Anonymous
 	@RequestMapping(value = { "/downFile" })
 	public void downFile(@RequestParam String filePath,
 			HttpServletResponse response) {

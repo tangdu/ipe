@@ -223,14 +223,14 @@ input[type=submit]:active {
 <section class="container">
     <div class="login">
       <h1>Login to IPE项目脚手架平台</h1>
-      <form method="post" action="login">
+      <form method="post" action="login" target="_top">
         <p><input type="text" name="useraccount" value="" placeholder="用户名" required="required" autofocus="autofocus"></p>
         <p><input type="password" name="password" onchange="encrypt(this)" value="" placeholder="密码" required="required"></p>
         <p class="submit"><input type="submit" value="Login"></p>
       </form>
     </div>
 </section>
-s</body>
+</body>
 <script type="text/javascript">
 	function encrypt(obj) {
 		obj.value = CryptoJS.MD5(obj.value);

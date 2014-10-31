@@ -50,7 +50,7 @@ Ext.define('Sys.config.SysConfigEditForm',{
 			            editable: true
 			        },{
 			        	fieldLabel:'桌面风格',
-			            store: ipe.store.flagStore,
+			            store: ipe.store.sysStyleStore,
 			            emptyText: '请选择',
 			            hideField:'sys_style',
 			            name:'sys_style',
@@ -64,9 +64,13 @@ Ext.define('Sys.config.SysConfigEditForm',{
 		        ]},{layout:'form',columnWidth:.3,defaultType: 'displayfield',frame:true,border:false,xtype:'container',items:[
 		        	{value:'(选择‘是’多个Tab页，‘否’只显示一个Tab页)'},
 		        	{value:'(开发模式没有权限控制)'},
-		        	{value:'(风格提供两种)'}
+		        	{value:'(选择系统风格)'}
 		        ]}
-            ]}
+            ]},{
+            	xtype:'label',
+            	text:'*修改后请重新登入系统',
+            	style:'color:red'
+            }
 		]
 		
 		this.buttons=[{text:'保存',tooltip:'生效请重新刷新页面',handler:this.saveData,scope:this,iconCls:ipe.sty.save}];

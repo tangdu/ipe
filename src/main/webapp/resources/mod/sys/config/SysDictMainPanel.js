@@ -44,6 +44,10 @@ Ext.define('Sys.config.DictList',{
             iconCls:ipe.sty.del,
             scope:this,
             handler:this.delDict
+        },'->',{
+            text:'生成【ipe.fuc.${code}Dt  -  ipe.store.${code}Store】',
+            xtype:'label',
+            style:'color:red'
         }];
 
         this.store=Ext.create('Ext.data.JsonStore', {
@@ -140,9 +144,11 @@ Ext.define('Sys.config.DictValList',{
         this.columns=[{xtype: 'rownumberer'},{
             header:'名称',
             dataIndex:'dictValName',
+            width:200,
             sortable:true
         },{
             header:'代码',
+            width:150,
             dataIndex:'dictValCode',
             sortable:true
         },{

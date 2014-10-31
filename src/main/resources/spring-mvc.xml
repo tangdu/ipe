@@ -55,7 +55,9 @@
 			<mvc:mapping path="/**"/>
 			<mvc:exclude-mapping path="/login"/>
 			<mvc:exclude-mapping path="/signin.html"/>
-            <bean class="com.ipe.module.core.web.interceptor.SecutiryInterceptor"></bean>
+            <bean class="com.ipe.module.core.web.interceptor.SecutiryInterceptor">
+            	<property name="filters" value=".js,.png,.css,.jpg,.jpeg" />
+            </bean>
 		</mvc:interceptor>
 	</mvc:interceptors>
 

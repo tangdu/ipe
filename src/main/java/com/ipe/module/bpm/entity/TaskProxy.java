@@ -9,6 +9,9 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
+import org.hibernate.annotations.NotFound;
+import org.hibernate.annotations.NotFoundAction;
+
 import com.fasterxml.jackson.annotation.JsonAutoDetect;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.ipe.common.entity.IDEntity;
@@ -47,6 +50,7 @@ public class TaskProxy extends IDEntity {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_to")
+    @NotFound(action=NotFoundAction.IGNORE)
     public User getUserTo() {
         return userTo;
     }
