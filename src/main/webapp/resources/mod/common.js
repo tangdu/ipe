@@ -375,17 +375,32 @@ Ext.override(Ext.button.Button,{
 	fireHandler:function(e){
 		var me = this,
             handler = me.handler;
-        if (me.fireEvent('click', me, e) !== false) {
+        if (me.fireEvent('click', me, e) !== false) {//触发原有事件
             if (handler) {
                 handler.call(me.scope || me, me, e);
             }
         }
-        ////////add delay////////
-		me.setDisabled(true);
-		var task=new Ext.util.DelayedTask(function(){
-			me.setDisabled(false);
-		});
-		task.delay(1000);
+        if(this.xtype!='tab'){//对tab有干扰
+        	me.setDisabled(true);//禁用
+	        ////////add delay-1////////
+	        Ext.create('Ext.fx.Anim', {
+			    target: me,
+			    //duration: 1000,
+			    delay:1000,
+			    easing:'easeOut',
+			    listeners:{
+			    	'afteranimate':function(){
+			    		me.setDisabled(false);
+			    	}
+			    }
+			});
+	        ////////add delay-2////////
+			/*me.setDisabled(true);
+			var task=new Ext.util.DelayedTask(function(){
+				me.setDisabled(false);
+			});
+			task.delay(1000);*/
+        }
 	}
 });
 /*Ext.Ajax.on('requestexception', function(conn, response, options) {
