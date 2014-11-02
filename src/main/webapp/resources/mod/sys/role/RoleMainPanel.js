@@ -281,7 +281,7 @@ Ext.define('Sys.role.RoleQueryForm',{
  * 组合-用户管理首页
  */
 Ext.define('Sys.role.RoleMainPanel',{
-    extend:'Ext.Panel',
+    extend:'Ipe.Panel',
     //bodyPadding: 5,
     layout:'border',
     initComponent:function(){

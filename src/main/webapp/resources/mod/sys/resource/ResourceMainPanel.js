@@ -251,7 +251,7 @@ Ext.define('Sys.resource.ResourceForm',{
 });
 
 Ext.define('Sys.resource.ResourceMainPanel',{
-    extend:'Ext.Panel',
+    extend:'Ipe.Panel',
     layout:'border',
     initComponent:function(){
         this.resourceTree=Ext.create('Sys.resource.ResourceTreePanel',{parent:this,region:'center'});

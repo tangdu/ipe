@@ -40,7 +40,6 @@ Ext.define('Sys.user.UserList',{
             width:300
         }];
 
-        
         this.store=Ext.create('Ext.data.JsonStore', {
             proxy: {
                 type: 'ajax',
@@ -65,16 +64,19 @@ Ext.define('Sys.user.UserList',{
         this.tbar=[{
             text:'查询',
             iconCls:ipe.sty.query,
+            itemId:'user/list',
             scope:this,
             handler:this.queryUser
         },{
             text:'新增',
             iconCls:ipe.sty.add,
+            itemId:'user/add',
             scope:this,
             handler:this.addUser
         },{
             text:'修改',
             iconCls:ipe.sty.edit,
+            itemId:'user/edit',
             scope:this,
             handler:this.editUser
         },{
@@ -85,11 +87,13 @@ Ext.define('Sys.user.UserList',{
         },'-',{
             text:'重置密码',
             iconCls:ipe.sty.reset,
+            itemId:'user/recoverPwd',
             scope:this,
             handler:this.recoverPwd
         },'-',{
             text:'角色配置',
             iconCls:ipe.sty.set,
+            itemId:'role/addUserRole',
             scope:this,
             handler:this.setRole
         }/*,'->',{xtype:'label',text:'查询:'},{
@@ -107,6 +111,7 @@ Ext.define('Sys.user.UserList',{
             parent:this
         });
         this.callParent();
+        
     },queryUser:function(){
     	var obj=this.parent.queryForm;
     	obj.isVisible() ? obj.hide():obj.show();
@@ -307,7 +312,7 @@ Ext.define('Sys.user.UserQueryForm',{
  * 组合-用户管理首页
  */
 Ext.define('Sys.user.UserMainPanel',{
-    extend:'Ext.Panel',
+    extend:'Ipe.Panel',
     //bodyPadding: 5,
     layout:'border',
     //layout:{type:'vbox',align:'stretch'},

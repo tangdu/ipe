@@ -37,6 +37,7 @@
         <property name="filterChainDefinitions">
             <value>
                 /login=anon
+                /verificationCode=anon
                 /resources/** = anon
                 /logout = user
                 /comm/** = user

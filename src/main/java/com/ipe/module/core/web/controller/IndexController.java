@@ -32,6 +32,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.alibaba.fastjson.JSON;
 import com.ipe.common.util.Anonymous;
+import com.ipe.common.util.VerificationCodeUtil;
 import com.ipe.module.bpm.service.ProcessTaskService;
 import com.ipe.module.core.entity.Dict;
 import com.ipe.module.core.entity.SysConfig;
@@ -39,8 +40,10 @@ import com.ipe.module.core.service.DictService;
 import com.ipe.module.core.service.MenuService;
 import com.ipe.module.core.service.MessageService;
 import com.ipe.module.core.service.NoticeService;
+import com.ipe.module.core.service.RoleService;
 import com.ipe.module.core.service.SysConfigService;
 import com.ipe.module.core.service.UserService;
+import com.ipe.module.core.web.security.CaptchaException;
 import com.ipe.module.core.web.security.CustUsernamePasswordToken;
 import com.ipe.module.core.web.security.SystemRealm;
 import com.ipe.module.core.web.util.RestRequest;
@@ -57,6 +60,8 @@ public class IndexController extends AbstractController {
 	private UserService userService;
 	@Autowired
 	private MenuService menuService;
+	@Autowired
+	private RoleService roleService;
 
 	@Anonymous
 	@RequestMapping(value = "/", method = RequestMethod.GET)
@@ -65,10 +70,10 @@ public class IndexController extends AbstractController {
 		SystemRealm.UserInfo userInfo = (SystemRealm.UserInfo) SecurityUtils
 				.getSubject().getPrincipal();
 		String menus = menuService.getUserMenu(userInfo.getUserId(),userInfo.getRoleId(),userInfo.getAdmin());
+		data.put("menus", menus);
 		// 2_字典表
 		List<Dict> list = dictService.listAll();
 		data.put("dicts", JSON.toJSONString(list));
-		data.put("menus", menus);
 		// 3_配置表
 		List<SysConfig> config = sysConfigService.listAll();
         Map<String, Object> map = new HashMap<String, Object>();
@@ -78,6 +83,10 @@ public class IndexController extends AbstractController {
             }
         }
         data.put("configs", JSON.toJSONString(map));
+        // 4_分配权限
+        List<String> authorits=roleService.getUserAuthorits(userInfo.getUserId());
+        data.put("authorits", JSON.toJSONString(authorits));
+        
 		return "index";
 	}
 
@@ -109,11 +118,11 @@ public class IndexController extends AbstractController {
 	@Anonymous
 	@RequestMapping(value = "/login", method = RequestMethod.POST)
 	public String login(@RequestParam String useraccount,
-			@RequestParam String password, HttpServletRequest request,
+			@RequestParam String password, @RequestParam String captcha,HttpServletRequest request,
 			RedirectAttributes redirectAttributes) {
 		CustUsernamePasswordToken token = new CustUsernamePasswordToken(
 				useraccount, password, request.getMethod(),
-				request.getParameter("captcha"), request.getServletPath(),
+				captcha, request.getServletPath(),
 				WebUtil.getIpAddr(request));
 		try {
 			getSubject().login(token);
@@ -126,7 +135,9 @@ public class IndexController extends AbstractController {
 			redirectAttributes.addAttribute("errorMsg", "用户已经被锁定不能登录，请与管理员联系！");
 		} catch (ExcessiveAttemptsException eae) {
 			redirectAttributes.addAttribute("errorMsg", "错误次数过多！");
-		} catch (AuthenticationException ae) {
+		} catch (CaptchaException ae) {
+			redirectAttributes.addAttribute("errorMsg", "验证码错误！");
+		}catch (AuthenticationException ae) {
 			redirectAttributes.addAttribute("errorMsg", "其他的登录错误！");
 		}
 		return "redirect:signin";
@@ -225,4 +236,13 @@ public class IndexController extends AbstractController {
 		}
 	}
 
+	/**
+	 * 生成验证码
+	 * @param response
+	 */
+	@Anonymous
+	@RequestMapping(value = { "/verificationCode" })
+	public void verificationCode(HttpServletRequest request,HttpServletResponse response) {
+		VerificationCodeUtil.createCode(request,response);
+	}
 }

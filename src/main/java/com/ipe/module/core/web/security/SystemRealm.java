@@ -78,6 +78,14 @@ public class SystemRealm extends AuthorizingRealm {
 			AuthenticationToken authenticationToken)
 			throws AuthenticationException {
 		CustUsernamePasswordToken upToken = (CustUsernamePasswordToken) authenticationToken;
+		upToken.setRememberMe(true);
+		String captcha = upToken.getCaptcha();
+		//验证码功能
+		String exitCode = (String) SecurityUtils.getSubject().getSession().getAttribute("captcha");
+		if (null == captcha || !captcha.equalsIgnoreCase(exitCode)) {
+             throw new CaptchaException("验证码错误");
+        }
+
 		User user = getLoginUser(upToken);
 		if (user != null) {
 			return new SimpleAuthenticationInfo(new UserInfo(user,upToken.getAccessIp()),
@@ -88,7 +96,6 @@ public class SystemRealm extends AuthorizingRealm {
 
 	private User getLoginUser(AuthenticationToken authenticationToken) {
 		CustUsernamePasswordToken upToken = (CustUsernamePasswordToken) authenticationToken;
-		upToken.setRememberMe(true);
 		List<User> users = userService.login(upToken.getUsername(),
 				String.valueOf(upToken.getPassword()));
 		User user = users.get(0);

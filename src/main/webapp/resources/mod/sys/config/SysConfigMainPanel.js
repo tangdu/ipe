@@ -1,6 +1,6 @@
 Ext.define('Sys.config.SysConfigEditForm',{
 	extend:'Ext.FormPanel',
-    url:'sysConfig/add',
+    url:'sysConfig/edit',
     frame:true,
     defaults:{
         anchor:'28%'
@@ -79,19 +79,16 @@ Ext.define('Sys.config.SysConfigEditForm',{
 	},saveData:function(){
 		var me=this;
 		if(this.getForm().isValid()){
-			Ext.Ajax.request({
-				url:'sysConfig/edit',
+			this.getForm().submit({
 				params:{params:Ext.encode(this.getForm().getValues())},
-				success:function(resp){
-					var result=Ext.decode(resp.responseText);
-					if(result.success){
-						Ext.Msg.alert('提示','保存成功');
-						me.loadData();
-					}else{
-						Ext.Msg.alert('提示','保存失败');
-					}
-				}
-			});
+                success:function(re){
+                    Ext.Msg.alert('提示','保存成功');
+					me.loadData();
+                },
+                failure: function(form, action) {
+                    Ext.Msg.alert('提示','保存失败');
+                }
+            });
 		}
 	},loadData:function(){
 		var me=this;
@@ -111,7 +108,7 @@ Ext.define('Sys.config.SysConfigEditForm',{
  * 组合-配置管理首页
  */
 Ext.define('Sys.config.SysConfigMainPanel',{
-    extend:'Ext.Panel',
+    extend:'Ipe.Panel',
     //bodyPadding: 5,
     layout:'fit',
     initComponent:function(){

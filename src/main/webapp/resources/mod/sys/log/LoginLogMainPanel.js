@@ -134,7 +134,7 @@ Ext.define('Sys.log.QueryForm',{
 
 
 Ext.define('Sys.log.LoginLogMainPanel',{
-    extend:'Ext.Panel',
+    extend:'Ipe.Panel',
     layout:{type:'border',align:'stretch'},
     initComponent:function(){
     	this.queryForm=Ext.create('Sys.log.QueryForm',{parent:this,region:'north',height:70,hidden:true});

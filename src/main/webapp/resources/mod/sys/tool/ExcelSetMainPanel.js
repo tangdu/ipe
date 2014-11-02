@@ -739,7 +739,7 @@ Ext.define('Sys.tool.ExcelImpWin',{
 
 
 Ext.define("Sys.tool.ExcelSetMainPanel",{
-    extend:'Ext.Panel',
+    extend:'Ipe.Panel',
     layout:{type:'fit',align:'stretch'},
     initComponent:function(){
         this.exlImptplList=Ext.create('Sys.tool.ExlImptplList');

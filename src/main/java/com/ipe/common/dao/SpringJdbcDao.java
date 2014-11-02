@@ -60,7 +60,7 @@ public class SpringJdbcDao {
 
     private List<?> queryForList(String sql, List<Object> conditions,
                                  Class<?> mappedClass) {
-    	Field [] f=mappedClass.getDeclaredFields();
+    	Field [] f=mappedClass.getFields();
     	if(f.length>1){
     		if (conditions != null && conditions.size() > 0) {
                 return jdbcTemplate.query(sql, conditions.toArray(),

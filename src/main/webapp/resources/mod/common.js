@@ -248,6 +248,7 @@ Ext.Loader.setConfig({
  */
 Ext.define('Ipe.PagingToolbar',{
     extend:'Ext.PagingToolbar',
+    alias : 'widget.ipetoolbar',
     pageSize:20,
     store:this.store,
     displayInfo:true,
@@ -343,6 +344,36 @@ Ext.override(Ext.grid.Panel,{
     pageSize : 20,
     enabledSearch:false
 });
+Ext.define('Ipe.Panel',{
+	extend:'Ext.Panel'
+});
+Ext.override(Ipe.Panel,{
+	beforeRender:function(){
+		this.callParent();
+		if(ipe.config.user.admin==="1"){
+			//管理员不做过滤
+		}else{
+			var tools=Ext.ComponentQuery.query("panel>toolbar");
+			Ext.each(tools,function(r,i){
+				if(r.xtype==='toolbar'){//TODO 排除其它组件干扰
+					if(r.items!=null && r.items.items!=null){
+						//1 先将按钮隐藏
+						Ext.each(r.items.items,function(r2,i2){
+							r2.hide();
+							//delete r2;
+						});
+						//2 再显示按钮
+						Ext.each(ipe.config.authorits,function(r2,i2){
+							if(r.getComponent(r2)){
+								r.getComponent(r2).show();
+							}
+						});
+					}
+				}
+			});
+		}
+	}
+});
 Ext.override(Ext.Window,{
     constrain:true,	        // 整个窗体都不能移出浏览器
     constrainHeader:true	// 窗体标题栏不能移出浏览器
@@ -371,7 +402,7 @@ Ext.override(Ext.form.field.HtmlEditor,{
     ],
     defaultValue:'Arial'
 });
-Ext.override(Ext.button.Button,{
+/*Ext.override(Ext.button.Button,{
 	fireHandler:function(e){
 		var me = this,
             handler = me.handler;
@@ -385,8 +416,8 @@ Ext.override(Ext.button.Button,{
 	        ////////add delay-1////////
 	        Ext.create('Ext.fx.Anim', {
 			    target: me,
-			    //duration: 1000,
-			    delay:1000,
+			    duration: 1000,
+			    //delay:1000,
 			    easing:'easeOut',
 			    listeners:{
 			    	'afteranimate':function(){
@@ -395,14 +426,14 @@ Ext.override(Ext.button.Button,{
 			    }
 			});
 	        ////////add delay-2////////
-			/*me.setDisabled(true);
+			me.setDisabled(true);
 			var task=new Ext.util.DelayedTask(function(){
 				me.setDisabled(false);
 			});
-			task.delay(1000);*/
+			task.delay(1000);
         }
 	}
-});
+});*/
 /*Ext.Ajax.on('requestexception', function(conn, response, options) {
     var msg = '访问系统资源时发生异常<br/>' + '异常状态:' + response.status + '('
         + response.statusText + ')<br/>' + '异常信息:'

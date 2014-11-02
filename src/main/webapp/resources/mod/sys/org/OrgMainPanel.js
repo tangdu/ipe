@@ -240,7 +240,7 @@ Ext.define('Sys.org.OrgEditForm',{
 
 
 Ext.define('Sys.org.OrgMainPanel',{
-    extend:'Ext.Panel',
+    extend:'Ipe.Panel',
     layout:{type:'border',align:'stretch'},
     initComponent:function(){
         this.orgTree=Ext.create('Sys.org.OrgTreePanel',{parent:this,region:'center'});

@@ -15,6 +15,7 @@
         ipe.config.userMenu=${menus};
         ipe.config.dictData=${dicts};
         ipe.config.sysConfig=${configs};
+        ipe.config.authorits=${authorits};
         //创建菜单-字典-初始化-
         if(ipe.config.sysConfig.sys_style=="1"){
         	Ext.create('Ipe.desktop2.Desktop');
@@ -22,6 +23,7 @@
         	Ext.create('Ipe.desktop.Desktop');
         }
         init();
+        
         delete ipe.config.dictData;
         delete ipe.config.userMenu;
     });

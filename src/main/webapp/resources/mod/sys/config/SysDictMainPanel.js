@@ -419,7 +419,7 @@ Ext.define('Sys.config.DictValWindow',{
 
 
 Ext.define('Sys.config.SysDictMainPanel',{
-    extend:'Ext.Panel',
+    extend:'Ipe.Panel',
     layout:{type:'border',align:'stretch'},
     initComponent:function(){
         this.dictList=Ext.create('Sys.config.DictList',{parent:this,region:'center'});

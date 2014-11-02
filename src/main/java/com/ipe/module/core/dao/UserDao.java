@@ -26,7 +26,7 @@ public class UserDao extends BaseDao<User, String> {
     }
 
     public int updatePwd(String id, String userPwd, String ouserPwd) {
-        return execute("update User u set u.userPwd=? where u.id=? and u.userPwd=?", id, userPwd, ouserPwd);
+        return execute("update User u set u.userPwd=? where u.id=? and u.userPwd=?", userPwd ,id, ouserPwd);
     }
 
     public List<Role> getUserRole(String userId) {

@@ -290,7 +290,7 @@ Ext.define('Sys.menu.MenuForm',{
 
 
 Ext.define('Sys.menu.MenuMainPanel',{
-    extend:'Ext.Panel',
+    extend:'Ipe.Panel',
     layout:{type:'border',align:'stretch'},
     initComponent:function(){
         this.menuTree=Ext.create('Sys.menu.MenuTreePanel',{parent:this,region:'center'});

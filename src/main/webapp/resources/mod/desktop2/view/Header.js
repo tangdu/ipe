@@ -129,6 +129,7 @@ Ext.define('Desktop.view.Header', {
                     });
             }
         }catch(e){
+        	console.log(e);
             Ext.Msg.alert('提示',"页面不存在或是未完成初始化["+e+"]");
         }finally{
             setTimeout(function(){

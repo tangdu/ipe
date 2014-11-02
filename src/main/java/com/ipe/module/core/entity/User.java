@@ -92,7 +92,6 @@ public class User extends IDEntity {
     private String isAdmin;
 
     @Column(name = "is_admin")
-    @JSONField(serialize = false)
     public String getAdmin() {
         return isAdmin;
     }

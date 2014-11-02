@@ -266,7 +266,7 @@ Ext.define('Sys.msg.NoticeEditForm',{
 });
 
 Ext.define('Sys.msg.SysNoticeMainPanel',{
-    extend:'Ext.Panel',
+    extend:'Ipe.Panel',
     layout:{type:'border',align:'stretch'},
     initComponent:function(){
         this.noticeList=Ext.create('Sys.msg.NoticeList',{parent:this,region:'center'});

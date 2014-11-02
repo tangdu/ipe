@@ -77,7 +77,7 @@ Ext.define('Sys.msg.MessageList',{
 });
 
 Ext.define('Sys.msg.SysMessageMainPanel',{
-    extend:'Ext.Panel',
+    extend:'Ipe.Panel',
     layout:{type:'fit',align:'stretch'},
     initComponent:function(){
         this.messageList=Ext.create('Sys.msg.MessageList',{parent:this,region:'center'});

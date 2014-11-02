@@ -225,7 +225,7 @@ Ext.define('Sys.msg.RemindEditForm',{
 });
 
 Ext.define('Sys.msg.SysRemindMainPanel',{
-    extend:'Ext.Panel',
+    extend:'Ipe.Panel',
     layout:{type:'border',align:'stretch'},
     initComponent:function(){
         this.remindList=Ext.create('Sys.msg.RemindList',{parent:this,region:'center'});
