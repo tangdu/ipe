@@ -4,6 +4,8 @@ import com.ipe.module.core.entity.DictVal;
 import com.ipe.module.core.service.DictValService;
 import com.ipe.module.core.web.util.BodyWrapper;
 import com.ipe.module.core.web.util.RestRequest;
+
+import org.apache.commons.lang.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -30,9 +32,13 @@ public class DictValController extends AbstractController {
     @RequestMapping(value = {"/list"})
     public
     @ResponseBody
-    BodyWrapper list(final String dictId, RestRequest rest) {
+    BodyWrapper list(final String dictId,String code, RestRequest rest) {
         try {
-            dictValService.where(rest.getPageModel()," dictId=?",dictId);
+        	if(StringUtils.isNotBlank(code)){
+        		dictValService.where(rest.getPageModel()," and dictId=? and dictValCode=?",dictId,code);
+        	}else{
+        		dictValService.where(rest.getPageModel()," and dictId=?",dictId);
+        	}
             return success(rest.getPageModel());
         } catch (Exception e) {
             LOG.error("query error",e);

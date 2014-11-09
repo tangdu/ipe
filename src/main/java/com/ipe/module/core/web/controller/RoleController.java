@@ -1,7 +1,10 @@
 package com.ipe.module.core.web.controller;
 
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
+import org.apache.commons.lang.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -38,7 +41,23 @@ public class RoleController extends AbstractController {
     @ResponseBody
     BodyWrapper list(Role role, RestRequest rest) {
         try {
-            roleService.where(rest.getPageModel());
+        	StringBuffer wh=new StringBuffer();
+        	List<Object> params=new ArrayList<Object>();
+        	if(role!=null){
+        		if(StringUtils.isNotBlank(role.getRoleName())){
+        			wh.append(" and roleName like ?");
+        			params.add("%"+role.getRoleName());
+        		}
+        		if(StringUtils.isNotBlank(role.getRoleCode())){
+        			wh.append(" and roleCode like ?");
+        			params.add("%"+role.getRoleCode());
+        		}
+        		if(StringUtils.isNotBlank(role.getEnabled())){
+        			wh.append(" and enabled= ?");
+        			params.add(role.getEnabled());
+        		}
+        	}
+            roleService.where(rest.getPageModel(),wh.toString(),params);
             return success(rest.getPageModel());
         } catch (Exception e) {
             LOG.error("query error",e);
@@ -96,7 +115,7 @@ public class RoleController extends AbstractController {
     @RequestMapping(value = {"/addUserRole"})
     public
     @ResponseBody
-    BodyWrapper addUserRole(@RequestParam String[] urids,@RequestParam String userId) {
+    BodyWrapper addUserRole(String[] urids,@RequestParam String userId) {
         try {
             roleService.saveUserRole(urids,userId);
             return success();

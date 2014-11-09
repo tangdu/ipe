@@ -112,6 +112,12 @@ public abstract class BaseDao<M extends Serializable, PK extends Serializable> {
 		setParameter(query, obj);
 		return query.uniqueResult();
 	}
+	
+	public Object findOne(String hql, List<Object> params) {
+		Query query = this.getSession().createQuery(hql);
+		setParameter(query, params);
+		return query.uniqueResult();
+	}
 
 	public Object findOne(String hql, Map<String, Object> map) {
 		Query query = this.getSession().createQuery(hql);
@@ -182,6 +188,14 @@ public abstract class BaseDao<M extends Serializable, PK extends Serializable> {
 	public <T> List<T> list(String hql, PageModel model, Object... obj) {
 		return bulid(hql, model, obj);
 	}
+	
+	public <T> List<T> list(String hql, List<Object> params) {
+		return bulid(hql, null, params);
+	}
+
+	public <T> List<T> list(String hql, PageModel model, List<Object> params) {
+		return bulid(hql, model, params);
+	}
 
 	@SuppressWarnings("unchecked")
 	public <T> List<T> bulid(String hql, PageModel model,
@@ -224,6 +238,28 @@ public abstract class BaseDao<M extends Serializable, PK extends Serializable> {
 		}
 		return query.list();
 	}
+	
+	@SuppressWarnings("unchecked")
+	public <T> List<T> bulid(String hql, PageModel model, List<Object> params) {
+		Query query = getSession().createQuery(hql);
+		setParameter(query, params);
+		if (model != null) {
+			if (model != null) {
+				query.setFirstResult(model.getStartRow());
+				query.setMaxResults(model.getEndRow());
+			}
+			if (hql.startsWith("select")) {
+				hql = "select count(*) from (" + hql + ")";
+			} else {
+				hql = "select count(*) " + hql;
+			}
+			Long totalRows = (Long) findOne(hql, params);
+			model.setTotalRows(totalRows);
+			model.setList(query.list());
+			return (List<T>) model.getList();
+		}
+		return query.list();
+	}
 
 	@SuppressWarnings("unchecked")
 	public <T> List<T> list(Criteria criteria) {
@@ -247,6 +283,14 @@ public abstract class BaseDao<M extends Serializable, PK extends Serializable> {
 		if (obj != null) {
 			for (int i = 0; i < obj.length; i++) {
 				query.setParameter(i, obj[i]);
+			}
+		}
+	}
+	
+	private void setParameter(Query query,List<Object> params) {
+		if (params != null) {
+			for (int i = 0; i < params.size(); i++) {
+				query.setParameter(i, params.get(i));
 			}
 		}
 	}

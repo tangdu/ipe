@@ -96,6 +96,9 @@ Ext.define('Sys.role.RoleAuthoritySetWin',{
         this.callParent();
     },saveData:function(){
         var me=this;
+        var myMask = new Ext.LoadMask(this, {msg:"提交中...."});
+        myMask.show();
+        
         var nodes=this.panel.getView().getChecked();
         if(nodes.length>0){
             var ps=[];
@@ -112,6 +115,7 @@ Ext.define('Sys.role.RoleAuthoritySetWin',{
                     roleId:me.record.data.id
                 },
                 success: function(response){
+                	myMask.hide();
                     var resp =Ext.decode(response.responseText) ;
                     if(resp.success){
                         Ext.Msg.alert('提示','配置成功!');

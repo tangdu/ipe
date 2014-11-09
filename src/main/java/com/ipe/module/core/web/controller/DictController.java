@@ -1,5 +1,6 @@
 package com.ipe.module.core.web.controller;
 
+import org.apache.commons.lang.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -32,9 +33,15 @@ public class DictController extends AbstractController {
     @RequestMapping(value = {"/list"})
     public
     @ResponseBody
-    BodyWrapper list(Dict dict, RestRequest rest) {
+    BodyWrapper list(String code,String name, RestRequest rest) {
         try {
-            dictService.where(rest.getPageModel());
+        	if(StringUtils.isNotBlank(name)){
+        		dictService.where(rest.getPageModel()," and dictName like ?","%"+name);
+        	}else if(StringUtils.isNotBlank(code)){
+        		dictService.where(rest.getPageModel()," and dictCode like ? ","%"+code);
+        	}else{
+        		dictService.where(rest.getPageModel());
+        	}
             return success(rest.getPageModel());
         } catch (Exception e) {
             LOG.error("query error",e);

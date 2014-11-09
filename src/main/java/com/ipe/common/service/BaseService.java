@@ -115,13 +115,28 @@ public abstract class BaseService<M extends Serializable, PK extends Serializabl
         if (where == null || "".equals(where)) {
             return getBaseDao().list("from " + getBaseDao().HQL_TABNEME + " where 1=1 ", pageModel);
         } else {
-            return getBaseDao().list("from " + getBaseDao().HQL_TABNEME + " where 1=1 and " + where, pageModel, obj);
+            return getBaseDao().list("from " + getBaseDao().HQL_TABNEME + " where 1=1  " + where, pageModel, obj);
         }
     }
+    
+    @Transactional(readOnly = true)
+    public List<M> where(PageModel pageModel, String where,List<Object> params) {
+        if (where == null || "".equals(where)) {
+            return getBaseDao().list("from " + getBaseDao().HQL_TABNEME + " where 1=1 ", pageModel);
+        } else {
+            return getBaseDao().list("from " + getBaseDao().HQL_TABNEME + " where 1=1  " + where, pageModel, params);
+        }
+    }
+    
 
     @Transactional(readOnly = true)
     public List<M> where(String where, Object... obj) {
         return where(null, where, obj);
+    }
+    
+    @Transactional(readOnly = true)
+    public List<M> where(String where,List<Object> params) {
+        return where(null, where, params);
     }
 
     @Transactional(readOnly = true)

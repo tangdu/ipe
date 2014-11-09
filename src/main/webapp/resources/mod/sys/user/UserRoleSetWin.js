@@ -138,6 +138,9 @@ Ext.define('Sys.user.UserRoleSetWin',{
         }];
         this.callParent();
     },saveData:function(){
+    	var myMask = new Ext.LoadMask(this, {msg:"提交中...."});
+        myMask.show();
+        
         var me=this;
         //var size_=me.roleSetList.getStore().getCount();
         var urids=[];
@@ -150,6 +153,7 @@ Ext.define('Sys.user.UserRoleSetWin',{
             method:'post',
             params:{urids:urids,userId:me.record.data.id},
             success:function(response){
+            	myMask.hide();
                 var result=Ext.decode(response.responseText);
                 if(result.success){
                     Ext.Msg.alert('提示','保存成功');

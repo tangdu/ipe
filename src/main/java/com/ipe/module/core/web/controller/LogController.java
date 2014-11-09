@@ -45,7 +45,7 @@ public class LogController extends AbstractController {
     @ResponseBody
     BodyWrapper loginList(Log log, RestRequest rest) {
         try {
-            logService.where(rest.getPageModel(),"logType=?","L1");
+            logService.where(rest.getPageModel()," and logType=?","L1");
             return success(rest.getPageModel());
         } catch (Exception e) {
             LOG.error("query error", e);
@@ -64,7 +64,7 @@ public class LogController extends AbstractController {
     @ResponseBody
     BodyWrapper busList(Log log, RestRequest rest) {
         try {
-            logService.where(rest.getPageModel(),"logType=?","L2");
+            logService.where(rest.getPageModel()," and  logType=?","L2");
             return success(rest.getPageModel());
         } catch (Exception e) {
             LOG.error("query error", e);

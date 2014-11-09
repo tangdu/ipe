@@ -355,12 +355,15 @@ Ext.override(Ipe.Panel,{
 		}else{
 			var tools=Ext.ComponentQuery.query("panel>toolbar");
 			Ext.each(tools,function(r,i){
+				//console.log(r);
 				if(r.xtype==='toolbar'){//TODO 排除其它组件干扰
 					if(r.items!=null && r.items.items!=null){
 						//1 先将按钮隐藏
 						Ext.each(r.items.items,function(r2,i2){
-							r2.hide();
-							//delete r2;
+							if(r2.itemId){
+								r2.hide();
+								//delete r2;
+							}
 						});
 						//2 再显示按钮
 						Ext.each(ipe.config.authorits,function(r2,i2){
@@ -402,7 +405,7 @@ Ext.override(Ext.form.field.HtmlEditor,{
     ],
     defaultValue:'Arial'
 });
-/*Ext.override(Ext.button.Button,{
+Ext.override(Ext.button.Button,{
 	fireHandler:function(e){
 		var me = this,
             handler = me.handler;
@@ -433,7 +436,7 @@ Ext.override(Ext.form.field.HtmlEditor,{
 			task.delay(1000);
         }
 	}
-});*/
+});
 /*Ext.Ajax.on('requestexception', function(conn, response, options) {
     var msg = '访问系统资源时发生异常<br/>' + '异常状态:' + response.status + '('
         + response.statusText + ')<br/>' + '异常信息:'

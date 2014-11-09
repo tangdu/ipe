@@ -60,14 +60,20 @@ Ext.define('Sys.config.DictList',{
             handler:this.delDict
         },'->',{
         	xtype:'searchfield',
-            emptyText:'名称/编号查询',
+            emptyText:'编号查询',
             fieldLabel:'查询:',
             labelWidth:30,
-            scope:this,
-            name:'query',
+            paramName:'code',
             store:this.store,
-            width:150,
-            handler:this.searchUser
+            width:150
+        },{
+        	xtype:'searchfield',
+            emptyText:'名称查询',
+            //fieldLabel:'查询:',
+            labelWidth:30,
+            paramName:'name',
+            store:this.store,
+            width:100
         },{width:ipe.config.paddingWidth,xtype:'tbspacer'}];
 
         this.bbar=Ext.create('Ipe.PagingToolbar',{
@@ -75,16 +81,7 @@ Ext.define('Sys.config.DictList',{
         });
 
         this.on('select',this.loadDictVal,this);
-        this.store.on('beforeload',this.load,this);
         this.callParent();
-    },load:function(s){
-        if(this.searchInput && this.searchField
-            && this.searchInput.getValue()!=""
-            && this.searchField.getValue()!=""){
-            var params={};
-            params[this.searchField.getValue()]=this.searchInput.getValue();
-            Ext.apply(s.proxy.extraParams,params);
-        }
     },addDict:function(){
         var win=Ext.create('Sys.config.DictWindow',{parent:this,title:'新增键',oper:'add'});
         win.show();
@@ -192,14 +189,12 @@ Ext.define('Sys.config.DictValList',{
             handler:this.delDitVal
         },'->',{
         	xtype:'searchfield',
-            emptyText:'名称/编号查询',
+            emptyText:'编号查询',
             fieldLabel:'查询:',
             labelWidth:30,
-            scope:this,
-            name:'query',
+            paramName:'code',
             store:this.store,
-            width:150,
-            handler:this.searchUser
+            width:150
         },{width:ipe.config.paddingWidth,xtype:'tbspacer'}];
 
         this.bbar=Ext.create('Ipe.PagingToolbar',{

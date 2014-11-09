@@ -1,10 +1,12 @@
 package com.ipe.module.core.web.controller;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 
+import org.apache.commons.lang.StringUtils;
 import org.apache.shiro.SecurityUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -43,7 +45,23 @@ public class UserController extends AbstractController {
     @ResponseBody
     BodyWrapper list(User user, RestRequest rest) {
         try {
-            userService.where(rest.getPageModel());
+        	StringBuffer wh=new StringBuffer();
+        	List<Object> params=new ArrayList<Object>();
+        	if(user!=null){
+        		if(StringUtils.isNotBlank(user.getUserName())){
+        			wh.append(" and userName like ?");
+        			params.add("%"+user.getUserName());
+        		}
+        		if(StringUtils.isNotBlank(user.getUserAccount())){
+        			wh.append(" and userAccount like ?");
+        			params.add("%"+user.getUserAccount());
+        		}
+        		if(StringUtils.isNotBlank(user.getEnabled())){
+        			wh.append(" and enabled= ?");
+        			params.add(user.getEnabled());
+        		}
+        	}
+            userService.where(rest.getPageModel(),wh.toString(),params);
             return success(rest.getPageModel());
         } catch (Exception e) {
             LOGGER.error("Exception ",e);
