@@ -82,7 +82,7 @@ Ext.define('Sys.msg.NoticeList',{
         	xtype:'searchfield',
             emptyText:'输入标题查询',
             scope:this,
-            name:'query',
+            name:'title',
             store:this.store,
             width:150,
             handler:this.searchUser

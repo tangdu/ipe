@@ -76,7 +76,7 @@ Ext.define('Sys.log.LogList',{
         this.bbar=Ext.create('Ipe.PagingToolbar',{store:this.store,pageSize:this.pageSize});
         this.callParent();
     },viewData:function(){
-
+		
     },queryLog:function(){
     	var obj=this.parent.queryForm;
     	obj.isVisible() ? obj.hide():obj.show();
@@ -101,7 +101,7 @@ Ext.define('Sys.log.QueryForm',{
         },*/
     defaults:{
     	xtype:'container',
-    	frame:true
+    	frame:true,anchor:'95%'
     },
     initComponent:function(){
         this.items=[{
@@ -117,18 +117,20 @@ Ext.define('Sys.log.QueryForm',{
             	]}]
         },{
             columnWidth:.25,items:[
-            	{fieldLabel:'访问用户',xtype:'textfield',name:'accessPerson'},
+            	{fieldLabel:'访问用户',xtype:'textfield',name:'accessPerson',anchor:'95%'},
             	{fieldLabel:'访问路径',xtype:'textfield',name:'operate'}]
         },{
             columnWidth:.25,items:[
             	{fieldLabel:'访问IP',xtype:'textfield',name:'accessIp'}]
         },{
             columnWidth:.25,layout:'table',items:[
-            	{text:'查询',xtype:'button',iconCls:ipe.sty.query,margin:'0 20 0 0'},
+            	{text:'查询',xtype:'button',handler:this.queryForm,scope:this,iconCls:ipe.sty.query,margin:'0 20 0 0'},
             	{text:'重置',xtype:'button',iconCls:ipe.sty.reset,handler:function(){this.up("form").getForm().reset()}
             }]
         }]
         this.callParent();
+    },queryForm:function(){
+    	this.parent.logList.getStore().load({params:{params:Ext.encode(this.getForm().getValues())}});
     }
 });
 

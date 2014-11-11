@@ -122,11 +122,13 @@ Ext.define('Sys.log.QueryForm',{
             	{fieldLabel:'访问IP',xtype:'textfield',name:'accessIp'}]
         },{
             columnWidth:.25,layout:'table',items:[
-            	{text:'查询',xtype:'button',iconCls:ipe.sty.query,margin:'0 20 0 0'},
+            	{text:'查询',xtype:'button',handler:this.queryForm,scope:this,iconCls:ipe.sty.query,margin:'0 20 0 0'},
             	{text:'重置',xtype:'button',iconCls:ipe.sty.reset,handler:function(){this.up("form").getForm().reset()}
             }]
         }]
         this.callParent();
+    },queryForm:function(){
+    	this.parent.logList.getStore().load({params:Ext.encode(this.getForm().getValues())});
     }
 });
 

@@ -107,7 +107,7 @@ public class Log extends IDEntity {
 	@Temporal(TemporalType.TIMESTAMP)
 	@Column(name = "access_time")
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
-    @OrderBy("desc")
+    @OrderBy("accessTime desc")
 	public Date getAccessTime() {
 		return accessTime;
 	}

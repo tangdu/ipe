@@ -6,6 +6,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import org.apache.commons.io.FileUtils;
+import org.apache.commons.lang.StringUtils;
 import org.apache.shiro.SecurityUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -45,9 +46,13 @@ public class NoticeController extends AbstractController {
     @RequestMapping(value = {"/list"})
     public
     @ResponseBody
-    BodyWrapper list(Notice notice, RestRequest rest) {
+    BodyWrapper list(String title, RestRequest rest) {
         try {
-            noticeService.where(rest.getPageModel());
+        	if(StringUtils.isNotBlank(title)){
+        		noticeService.where(rest.getPageModel()," and title like ","%"+title);
+        	}else{
+        		noticeService.where(rest.getPageModel());
+        	}
             return success(rest.getPageModel());
         } catch (Exception e) {
             LOG.error("query error",e);
