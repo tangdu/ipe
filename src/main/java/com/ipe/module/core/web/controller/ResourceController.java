@@ -2,8 +2,6 @@ package com.ipe.module.core.web.controller;
 
 import java.util.Date;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -26,7 +24,6 @@ import com.ipe.module.core.web.util.RestRequest;
 @RequestMapping("/resource")
 public class ResourceController extends AbstractController {
 
-    private static final Logger LOGGER= LoggerFactory.getLogger(ResourceController.class);
     @Autowired
     private ResourceService resourceService;
 

@@ -7,8 +7,6 @@ import java.util.List;
 import javax.servlet.http.HttpServletResponse;
 
 import org.apache.commons.lang.StringUtils;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
@@ -30,16 +28,15 @@ import com.ipe.module.core.web.util.WebUtil;
  * To change this template use File | Settings | File Templates.
  */
 @Controller
-@RequestMapping("/log")
+@RequestMapping("/LOGGER")
 public class LogController extends AbstractController {
 
-    private static final Logger LOG = LoggerFactory.getLogger(LogController.class);
     @Autowired
     private LogService logService;
 
     /**
      * 登录日志
-     * @param log
+     * @param LOGGER
      * @param rest
      * @return
      */
@@ -87,14 +84,14 @@ public class LogController extends AbstractController {
         	}
         	return success(rest.getPageModel());
         } catch (Exception e) {
-            LOG.error("query error", e);
+            LOGGER.error("query error", e);
             return failure(e);
         }
     }
 
     /**
      * 操作日志
-     * @param log
+     * @param LOGGER
      * @param rest
      * @return
      */
@@ -146,7 +143,7 @@ public class LogController extends AbstractController {
         	}
             return success(rest.getPageModel());
         } catch (Exception e) {
-            LOG.error("query error", e);
+            LOGGER.error("query error", e);
             return failure(e);
         }
     }
@@ -159,7 +156,7 @@ public class LogController extends AbstractController {
             logService.delete(ids);
             return success();
         } catch (Exception e) {
-            LOG.error("del error", e);
+            LOGGER.error("del error", e);
             return failure(e);
         }
     }
@@ -183,7 +180,7 @@ public class LogController extends AbstractController {
             	super.downFileError(response);
             }
         } catch (Exception e) {
-            LOG.error("del error", e);
+            LOGGER.error("del error", e);
             super.downFileError(response);
         }
     }

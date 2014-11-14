@@ -8,8 +8,6 @@ import java.util.Map;
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.lang.StringUtils;
 import org.apache.shiro.SecurityUtils;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
@@ -37,7 +35,6 @@ import com.ipe.module.core.web.util.RestRequest;
 @RequestMapping("/notice")
 public class NoticeController extends AbstractController {
 
-    private static final Logger LOG= LoggerFactory.getLogger(NoticeController.class);
     @Autowired
     private NoticeService noticeService;
     private static final String PATH="tools/";
@@ -55,7 +52,7 @@ public class NoticeController extends AbstractController {
         	}
             return success(rest.getPageModel());
         } catch (Exception e) {
-            LOG.error("query error",e);
+            LOGGER.error("query error",e);
             return failure(e);
         }
     }
@@ -91,7 +88,7 @@ public class NoticeController extends AbstractController {
             noticeService.update(notice);
             return success(notice);
         } catch (Exception e) {
-            LOG.error("edit error",e);
+            LOGGER.error("edit error",e);
             return failure(e);
         }
     }
@@ -115,11 +112,11 @@ public class NoticeController extends AbstractController {
             noticeService.save(notice);
             return success(notice);
         } catch (Exception e) {
-            LOG.error("add error",e);
+            LOGGER.error("add error",e);
             return failure(e);
         }
     }
-
+    
     @RequestMapping(value = {"/del"})
     public
     @ResponseBody
@@ -128,7 +125,7 @@ public class NoticeController extends AbstractController {
             noticeService.delete(ids);
             return success();
         } catch (Exception e) {
-            LOG.error("del error",e);
+            LOGGER.error("del error",e);
             return failure(e);
         }
     }

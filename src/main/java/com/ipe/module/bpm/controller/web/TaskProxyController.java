@@ -1,5 +1,14 @@
 package com.ipe.module.bpm.controller.web;
 
+import java.util.Date;
+
+import org.apache.shiro.SecurityUtils;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseBody;
+
 import com.ipe.module.bpm.entity.TaskProxy;
 import com.ipe.module.bpm.service.TaskProxyService;
 import com.ipe.module.core.service.UserService;
@@ -7,16 +16,6 @@ import com.ipe.module.core.web.controller.AbstractController;
 import com.ipe.module.core.web.security.SystemRealm;
 import com.ipe.module.core.web.util.BodyWrapper;
 import com.ipe.module.core.web.util.RestRequest;
-import org.apache.shiro.SecurityUtils;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.ResponseBody;
-
-import java.util.Date;
 
 /**
  * Created with IntelliJ IDEA.
@@ -29,7 +28,6 @@ import java.util.Date;
 @RequestMapping("/taskProxy")
 public class TaskProxyController extends AbstractController {
 
-    private static final Logger LOG= LoggerFactory.getLogger(TaskProxyController.class);
     @Autowired
     private TaskProxyService taskProxyService;
     @Autowired
@@ -43,7 +41,7 @@ public class TaskProxyController extends AbstractController {
             taskProxyService.where(rest.getPageModel());
             return success(rest.getPageModel());
         } catch (Exception e) {
-            LOG.error("query error",e);
+            LOGGER.error("query error",e);
             return failure(e);
         }
     }
@@ -63,7 +61,7 @@ public class TaskProxyController extends AbstractController {
             taskProxyService.update(taskProxy);
             return success(taskProxy);
         } catch (Exception e) {
-            LOG.error("edit error",e);
+            LOGGER.error("edit error",e);
             return failure(e);
         }
     }
@@ -84,7 +82,7 @@ public class TaskProxyController extends AbstractController {
             taskProxyService.save(taskProxy);
             return success(taskProxy);
         } catch (Exception e) {
-            LOG.error("add error",e);
+            LOGGER.error("add error",e);
             return failure(e);
         }
     }
@@ -97,7 +95,7 @@ public class TaskProxyController extends AbstractController {
             taskProxyService.delete(ids);
             return success();
         } catch (Exception e) {
-            LOG.error("del error",e);
+            LOGGER.error("del error",e);
             return failure(e);
         }
     }
@@ -110,7 +108,7 @@ public class TaskProxyController extends AbstractController {
             taskProxyService.udpateStatus(ids);
             return success();
         } catch (Exception e) {
-            LOG.error("del error",e);
+            LOGGER.error("del error",e);
             return failure(e);
         }
     }

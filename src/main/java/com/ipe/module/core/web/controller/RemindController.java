@@ -2,8 +2,6 @@ package com.ipe.module.core.web.controller;
 
 import java.util.Date;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -26,7 +24,6 @@ import com.ipe.module.core.web.util.RestRequest;
 @RequestMapping("/remind")
 public class RemindController extends AbstractController {
 
-    private static final Logger LOG= LoggerFactory.getLogger(RemindController.class);
     @Autowired
     private RemindService remindService;
 
@@ -38,7 +35,7 @@ public class RemindController extends AbstractController {
             remindService.where(rest.getPageModel());
             return success(rest.getPageModel());
         } catch (Exception e) {
-            LOG.error("query error",e);
+            LOGGER.error("query error",e);
             return failure(e);
         }
     }
@@ -51,7 +48,7 @@ public class RemindController extends AbstractController {
             remindService.update(remind);
             return success(remind);
         } catch (Exception e) {
-            LOG.error("edit error",e);
+            LOGGER.error("edit error",e);
             return failure(e);
         }
     }
@@ -65,7 +62,7 @@ public class RemindController extends AbstractController {
             remindService.save(remind);
             return success(remind);
         } catch (Exception e) {
-            LOG.error("add error",e);
+            LOGGER.error("add error",e);
             return failure(e);
         }
     }
@@ -78,7 +75,7 @@ public class RemindController extends AbstractController {
             remindService.delete(ids);
             return success();
         } catch (Exception e) {
-            LOG.error("del error",e);
+            LOGGER.error("del error",e);
             return failure(e);
         }
     }

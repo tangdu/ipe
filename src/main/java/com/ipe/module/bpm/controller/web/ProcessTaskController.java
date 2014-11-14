@@ -1,16 +1,15 @@
 package com.ipe.module.bpm.controller.web;
 
-import com.ipe.module.bpm.service.ProcessTaskService;
-import com.ipe.module.core.web.controller.AbstractController;
-import com.ipe.module.core.web.util.BodyWrapper;
-import com.ipe.module.core.web.util.RestRequest;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+
+import com.ipe.module.bpm.service.ProcessTaskService;
+import com.ipe.module.core.web.controller.AbstractController;
+import com.ipe.module.core.web.util.BodyWrapper;
+import com.ipe.module.core.web.util.RestRequest;
 
 /**
  * Created with IntelliJ IDEA.
@@ -23,7 +22,6 @@ import org.springframework.web.bind.annotation.ResponseBody;
 @RequestMapping("bpm/task")
 public class ProcessTaskController extends AbstractController {
 
-    private static final Logger LOGGER= LoggerFactory.getLogger(ProcessTaskController.class);
     @Autowired
     private ProcessTaskService taskService;
 

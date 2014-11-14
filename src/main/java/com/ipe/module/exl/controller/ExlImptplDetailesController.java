@@ -1,17 +1,19 @@
-package com.ipe.module.core.web.controller;
+package com.ipe.module.exl.controller;
 
-import org.apache.commons.lang.StringUtils;
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import com.ipe.common.util.Logs;
-import com.ipe.module.core.entity.Dict;
-import com.ipe.module.core.service.DictService;
+import com.ipe.module.core.web.controller.AbstractController;
 import com.ipe.module.core.web.util.BodyWrapper;
 import com.ipe.module.core.web.util.RestRequest;
+import com.ipe.module.exl.entity.ExlImptplDetailes;
+import com.ipe.module.exl.service.ExlImptplDetailesService;
 
 /**
  * Created with IntelliJ IDEA.
@@ -21,65 +23,56 @@ import com.ipe.module.core.web.util.RestRequest;
  * To change this template use File | Settings | File Templates.
  */
 @Controller
-@RequestMapping("/dict")
-public class DictController extends AbstractController {
+@RequestMapping("/exlImptplDetailes")
+public class ExlImptplDetailesController extends AbstractController {
     @Autowired
-    private DictService dictService;
+    private ExlImptplDetailesService exlImptplDetailesService;
 
-    @RequestMapping(value = {"/list"})
+    @RequestMapping(value = {"/getByTplId"})
     public
     @ResponseBody
-    BodyWrapper list(String code,String name, RestRequest rest) {
+    BodyWrapper getByTplId(@RequestParam final String tplId) {
         try {
-        	if(StringUtils.isNotBlank(name)){
-        		dictService.where(rest.getPageModel()," and dictName like ?","%"+name);
-        	}else if(StringUtils.isNotBlank(code)){
-        		dictService.where(rest.getPageModel()," and dictCode like ? ","%"+code);
-        	}else{
-        		dictService.where(rest.getPageModel());
-        	}
-            return success(rest.getPageModel());
+            List<ExlImptplDetailes> detaileses=exlImptplDetailesService.where("exlImptpl.id=?", tplId);
+            return success(detaileses);
         } catch (Exception e) {
             LOGGER.error("query error",e);
             return failure(e);
         }
     }
 
-    @Logs(opdesc = "编辑字典库")
     @RequestMapping(value = {"/edit"}, method = RequestMethod.POST)
     public
     @ResponseBody
-    BodyWrapper edit(Dict dict, RestRequest rest) {
+    BodyWrapper edit(ExlImptplDetailes exlImptplDetailes, RestRequest rest) {
         try {
-            dictService.update(dict);
-            return success(dict);
+            exlImptplDetailesService.save(exlImptplDetailes);
+            return success(exlImptplDetailes);
         } catch (Exception e) {
             LOGGER.error("edit error",e);
             return failure(e);
         }
     }
 
-    @Logs(opdesc = "添加字典库")
     @RequestMapping(value = {"/add"}, method = RequestMethod.POST)
     public
     @ResponseBody
-    BodyWrapper add(Dict dict, RestRequest rest) {
+    BodyWrapper add(ExlImptplDetailes exlImptplDetailes, RestRequest rest) {
         try {
-            dictService.save(dict);
-            return success(dict);
+            exlImptplDetailesService.save(exlImptplDetailes);
+            return success(exlImptplDetailes);
         } catch (Exception e) {
             LOGGER.error("add error",e);
             return failure(e);
         }
     }
 
-    @Logs(opdesc = "删除字典库")
     @RequestMapping(value = {"/del"})
     public
     @ResponseBody
     BodyWrapper del(String[] ids, RestRequest rest) {
         try {
-            dictService.delete(ids);
+            exlImptplDetailesService.delete(ids);
             return success();
         } catch (Exception e) {
             LOGGER.error("del error",e);

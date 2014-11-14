@@ -1,7 +1,7 @@
 package com.ipe.module.core.dao;
 
 import com.ipe.common.dao.BaseDao;
-import com.ipe.module.data.entity.ExlImptpl;
+import com.ipe.module.exl.entity.ExlImptpl;
 
 import org.springframework.stereotype.Repository;
 

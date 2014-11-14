@@ -5,8 +5,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -29,7 +27,6 @@ import com.ipe.module.core.web.util.RestRequest;
 @RequestMapping("/sysConfig")
 public class SysConfigController extends AbstractController {
 
-    private static final Logger LOG = LoggerFactory.getLogger(SysConfigController.class);
     @Autowired
     private SysConfigService sysConfigService;
     static SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
@@ -48,7 +45,7 @@ public class SysConfigController extends AbstractController {
             }
             return success(map);
         } catch (Exception e) {
-            LOG.error("query error", e);
+            LOGGER.error("query error", e);
             return failure(e);
         }
     }
@@ -61,7 +58,7 @@ public class SysConfigController extends AbstractController {
             sysConfigService.update(params);
             return success();
         } catch (Exception e) {
-            LOG.error("edit error", e);
+            LOGGER.error("edit error", e);
             return failure(e);
         }
     }
@@ -74,7 +71,7 @@ public class SysConfigController extends AbstractController {
             sysConfigService.save(sysConfig);
             return success(sysConfig);
         } catch (Exception e) {
-            LOG.error("add error", e);
+            LOGGER.error("add error", e);
             return failure(e);
         }
     }
@@ -87,7 +84,7 @@ public class SysConfigController extends AbstractController {
             sysConfigService.delete(ids);
             return success();
         } catch (Exception e) {
-            LOG.error("del error", e);
+            LOGGER.error("del error", e);
             return failure(e);
         }
     }

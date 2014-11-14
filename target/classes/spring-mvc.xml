@@ -62,7 +62,7 @@
 	</mvc:interceptors>
 
 	<!-- 开启controller注解支持 -->
-	<context:component-scan base-package="com.ipe.module">
+	<context:component-scan base-package="com.ipe">
 		<context:include-filter type="annotation"
             expression="org.springframework.stereotype.Controller"/>
 	</context:component-scan>

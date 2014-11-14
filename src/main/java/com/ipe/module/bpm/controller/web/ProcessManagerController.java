@@ -1,13 +1,17 @@
 package com.ipe.module.bpm.controller.web;
 
-import com.ipe.module.bpm.service.ProcessManagerService;
-import com.ipe.module.core.web.controller.AbstractController;
-import com.ipe.module.core.web.util.BodyWrapper;
-import com.ipe.module.core.web.util.RestRequest;
+import java.io.BufferedInputStream;
+import java.io.BufferedOutputStream;
+import java.io.File;
+import java.io.InputStream;
+import java.util.List;
+import java.util.Map;
+
+import javax.servlet.ServletOutputStream;
+import javax.servlet.http.HttpServletResponse;
+
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.IOUtils;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
@@ -17,14 +21,10 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 
-import javax.servlet.ServletOutputStream;
-import javax.servlet.http.HttpServletResponse;
-import java.io.BufferedInputStream;
-import java.io.BufferedOutputStream;
-import java.io.File;
-import java.io.InputStream;
-import java.util.List;
-import java.util.Map;
+import com.ipe.module.bpm.service.ProcessManagerService;
+import com.ipe.module.core.web.controller.AbstractController;
+import com.ipe.module.core.web.util.BodyWrapper;
+import com.ipe.module.core.web.util.RestRequest;
 
 /**
  * Created with IntelliJ IDEA.
@@ -36,7 +36,6 @@ import java.util.Map;
 @Controller
 @RequestMapping("bpm")
 public class ProcessManagerController extends AbstractController {
-    private static final Logger LOGGER = LoggerFactory.getLogger(ProcessManagerController.class);
     @Autowired
     private ProcessManagerService processManagerService;
 

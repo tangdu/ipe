@@ -5,8 +5,6 @@ import java.util.Date;
 import java.util.List;
 
 import org.apache.commons.lang.StringUtils;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -32,7 +30,6 @@ import com.ipe.module.core.web.util.RestRequest;
 @RequestMapping("/role")
 public class RoleController extends AbstractController {
 
-    private static final Logger LOG= LoggerFactory.getLogger(RoleController.class);
     @Autowired
     private RoleService roleService;
 
@@ -60,7 +57,7 @@ public class RoleController extends AbstractController {
             roleService.where(rest.getPageModel(),wh.toString(),params);
             return success(rest.getPageModel());
         } catch (Exception e) {
-            LOG.error("query error",e);
+            LOGGER.error("query error",e);
             return failure(e);
         }
     }
@@ -74,7 +71,7 @@ public class RoleController extends AbstractController {
             roleService.update(role);
             return success(role);
         } catch (Exception e) {
-            LOG.error("edit error",e);
+            LOGGER.error("edit error",e);
             return failure(e);
         }
     }
@@ -88,7 +85,7 @@ public class RoleController extends AbstractController {
             roleService.save(role);
             return success(role);
         } catch (Exception e) {
-            LOG.error("add error",e);
+            LOGGER.error("add error",e);
             return failure(e);
         }
     }
@@ -101,7 +98,7 @@ public class RoleController extends AbstractController {
             roleService.delete(id);
             return success();
         } catch (Exception e) {
-            LOG.error("del error",e);
+            LOGGER.error("del error",e);
             return failure(e);
         }
     }
@@ -120,7 +117,7 @@ public class RoleController extends AbstractController {
             roleService.saveUserRole(urids,userId);
             return success();
         } catch (Exception e) {
-            LOG.error("addRole error",e);
+            LOGGER.error("addRole error",e);
             return failure(e);
         }
     }
@@ -139,7 +136,7 @@ public class RoleController extends AbstractController {
             roleService.saveAuthority(ids,roleId);
             return success();
         } catch (Exception e) {
-            LOG.error("addAuthority error",e);
+            LOGGER.error("addAuthority error",e);
             return failure(e);
         }
     }
@@ -157,7 +154,7 @@ public class RoleController extends AbstractController {
             Resource root=roleService.getAuthoritys(roleId);
             return success(root);
         } catch (Exception e) {
-            LOG.error("getAuthority error",e);
+            LOGGER.error("getAuthority error",e);
             return failure(e);
         }
     }
@@ -175,7 +172,7 @@ public class RoleController extends AbstractController {
             Resource root=roleService.getAuthoritys(userId);
             return success(root);
         } catch (Exception e) {
-            LOG.error("getAuthority error",e);
+            LOGGER.error("getAuthority error",e);
             return failure(e);
         }
     }

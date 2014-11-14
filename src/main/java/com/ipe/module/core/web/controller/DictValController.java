@@ -1,18 +1,16 @@
 package com.ipe.module.core.web.controller;
 
-import com.ipe.module.core.entity.DictVal;
-import com.ipe.module.core.service.DictValService;
-import com.ipe.module.core.web.util.BodyWrapper;
-import com.ipe.module.core.web.util.RestRequest;
-
 import org.apache.commons.lang.StringUtils;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
+
+import com.ipe.module.core.entity.DictVal;
+import com.ipe.module.core.service.DictValService;
+import com.ipe.module.core.web.util.BodyWrapper;
+import com.ipe.module.core.web.util.RestRequest;
 
 /**
  * Created with IntelliJ IDEA.
@@ -25,7 +23,6 @@ import org.springframework.web.bind.annotation.ResponseBody;
 @RequestMapping("/dictVal")
 public class DictValController extends AbstractController {
 
-    private static final Logger LOG= LoggerFactory.getLogger(DictValController.class);
     @Autowired
     private DictValService dictValService;
 
@@ -41,7 +38,7 @@ public class DictValController extends AbstractController {
         	}
             return success(rest.getPageModel());
         } catch (Exception e) {
-            LOG.error("query error",e);
+            LOGGER.error("query error",e);
             return failure(e);
         }
     }
@@ -54,7 +51,7 @@ public class DictValController extends AbstractController {
             dictValService.update(dictVal);
             return success(dictVal);
         } catch (Exception e) {
-            LOG.error("edit error",e);
+            LOGGER.error("edit error",e);
             return failure(e);
         }
     }
@@ -67,7 +64,7 @@ public class DictValController extends AbstractController {
             dictValService.save(dictVal);
             return success(dictVal);
         } catch (Exception e) {
-            LOG.error("add error",e);
+            LOGGER.error("add error",e);
             return failure(e);
         }
     }
@@ -80,7 +77,7 @@ public class DictValController extends AbstractController {
             dictValService.delete(ids);
             return success();
         } catch (Exception e) {
-            LOG.error("del error",e);
+            LOGGER.error("del error",e);
             return failure(e);
         }
     }
