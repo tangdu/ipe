@@ -81,4 +81,17 @@ public class DictValController extends AbstractController {
             return failure(e);
         }
     }
+    
+    @RequestMapping(value = {"/saveSort"})
+    public
+    @ResponseBody
+    BodyWrapper saveSort(String[] ids, RestRequest rest) {
+        try {
+            dictValService.updateSno(ids);
+            return success();
+        } catch (Exception e) {
+            LOGGER.error("del error",e);
+            return failure(e);
+        }
+    }
 }

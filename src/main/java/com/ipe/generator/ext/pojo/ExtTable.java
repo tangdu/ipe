@@ -9,9 +9,15 @@ public class ExtTable {
 
     private String entityName;
     private String packageName;
+    @SuppressWarnings("unused")
+	private String name;
     private List<ExtColumn> columns;
+    
+    public String getName() {
+		return packageName!=null ? packageName+"."+entityName :entityName;
+	}
 
-    public String getEntityName() {
+	public String getEntityName() {
         return entityName;
     }
 

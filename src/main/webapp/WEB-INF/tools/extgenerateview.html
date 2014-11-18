@@ -1,17 +1,15 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>JS 预览</title>
+    <title>JS 预览 【${className}】</title>
     <#include "/common/header.html"/>
 </head>
 <body>
 </body>
 <script type="text/javascript">
     if(window.opener){
-        var html=window.opener.document.getElementById("pre_code").innerText;
-        var mpackage=window.opener.document.getElementById("mpackage").value;
-        var className=mpackage+"."+window.opener.document.getElementById("entityName").value;
-        var type=window.opener.document.getElementById("type").value;
+        var html=window.opener.document.getElementById("${htmlId}").value;
+        console.log(html);
         Ext.onReady(function(){
             try{
                 if (window.execScript) {
@@ -19,17 +17,11 @@
                 } else {
                     window.eval(html);
                 }
-                var panel=null;
-                if(type=="singleColForm" || type=="multColForm"){
-                    panel=Ext.create(className+"EditForm");
-                }else{
-                    panel=Ext.create(className+"List");
-                }
-
+                var panel=Ext.create("${className}");;
                 var viewport=Ext.create('Ext.container.Viewport',{layout:'fit',items:panel});
             }catch (e){
                 console.log(e);
-                alert("["+className+"]###编辑JS存在错误###\n"+e);
+                alert("###编辑JS存在错误###\n"+e);
             }
         });
     }

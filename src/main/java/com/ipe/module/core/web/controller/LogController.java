@@ -28,7 +28,7 @@ import com.ipe.module.core.web.util.WebUtil;
  * To change this template use File | Settings | File Templates.
  */
 @Controller
-@RequestMapping("/LOGGER")
+@RequestMapping("/log")
 public class LogController extends AbstractController {
 
     @Autowired

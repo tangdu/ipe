@@ -19,4 +19,15 @@ public class DictValService extends BaseService<DictVal,String> {
     public BaseDao<DictVal, String> getBaseDao() {
         return dictValDao;
     }
+    
+    @Transactional
+    public void updateSno(String [] ids){
+    	if(ids!=null){
+    		for(int i=0;i<ids.length;i++){
+    			DictVal d=dictValDao.get(ids[i]);
+    			d.setSno(i+1);
+    			dictValDao.update(d);
+    		}
+    	}
+    }
 }

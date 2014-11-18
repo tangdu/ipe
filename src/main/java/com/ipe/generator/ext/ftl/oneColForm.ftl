@@ -2,7 +2,7 @@
  * Created by tangdu on 14-2-20.
  */
 <#include "macro.ftl"/>
-Ext.define('${mpackage}.${entityName}EditForm',{
+Ext.define('${mpackage}.${entityName}',{
     extend:'Ext.FormPanel',
     url:'${entityName?uncap_first}/add',
     waitTitle:'请稍候....',

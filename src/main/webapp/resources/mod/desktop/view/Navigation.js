@@ -56,7 +56,7 @@ Ext.define('Desktop.view.Navigation', {
                 fields:['text','leaf','jsClass',"menuUrl","menuType"]
             });
             var treePanel=Ext.create('Ext.TreePanel',{store:store,rootVisible: false,title:r.text});
-            treePanel.on('itemdblclick',this.treeClick,this);
+            treePanel.on('itemclick',this.treeClick,this);
             this.items.push(treePanel);
         },this);
     },treeClick:function(view,record){

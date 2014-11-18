@@ -6,6 +6,11 @@
     <link rel="stylesheet" type="text/css" href="${basePath}/resources/lib/bootflat/css/site.min.css"  rel="stylesheet" media="screen"/>
     <script type="text/javascript" src="${basePath}/resources/lib/jquery-1.10.1.min.js"></script>
     <script type="text/javascript" src="${basePath}/resources/lib/bootflat/site.min.js"></script>
+    <style>
+     body{
+     	background-color: #f8f8f8;
+     }
+    </style>
 </head>
 <body>
 
@@ -16,7 +21,7 @@
         <form action="" method="POST" class="form"  role="form">
             <div class="form-group">
                 <label for="entityName" class="col-md-1 control-label">实体对象</label>
-                <div class="col-md-3">
+                <div class="col-md-2">
                     <select  class="form-control" id="entityName" required="required">
                         <#list entities as entity>
                             <option value="${entity.entityName}">${entity.entityName}</option>
@@ -26,25 +31,25 @@
             </div>
             <div class="form-group">
                 <label for="type" class="col-md-1 control-label">生成类型</label>
-                <div class="col-md-3">
+                <div class="col-md-2">
                     <select class="form-control" required="required"  id="type">
                         <option value="singleColForm">单列表单</option>
                         <option value="multColForm">多列表单</option>
                         <option value="gridList">表格</option>
+                        <option value="querygridList">查询表格</option>
                     </select>
                 </div>
             </div>
             <div class="form-group">
                 <label for="mpackage" class="col-md-1 control-label">文件包名</label>
-                <div class="col-md-3">
+                <div class="col-md-2">
                     <input type="text" id="mpackage" class="form-control" value="">
                 </div>
             </div>
             <div class="form-group">
-                <div class=" col-md-4 ">
-                    <label class="control-label checkbox">
-                        	是否自动生成文件<input type="checkbox" value=true id="createFile">
-                    </label>
+            	<label class="col-md-1 control-label">生成文件</label>
+                <div class=" col-md-3 ">
+               		 <input type="checkbox" value=true id="createFile">
                 </div>
             </div>
             <div class="form-group">
@@ -62,7 +67,7 @@
     <table class="table table-bordered table-hover" id="datas" >
         <thead>
         <tr>
-            <th>名称(fieldLabel)</th><th>字段(name)</th><th>属性类型</th><th>字段长度(maxLength)</th><th>是否为空(allowBlank)</th><th>ExtJS数据类型(xtype)</th>
+            <th style='width:20%;'>fieldLabel</th><th style='width:15%;'>name</th><th>属性类型</th><th style='width:70px;'>maxLength</th><th style='width:70px;'>allowBlank</th><th style='width:150px;'>ExtJS(xtype)</th>
         </tr>
         </thead>
         <tbody>

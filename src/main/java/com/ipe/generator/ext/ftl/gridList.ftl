@@ -1,4 +1,4 @@
-Ext.define('${mpackage}.${entityName}List',{
+Ext.define('${mpackage}.${entityName}',{
     extend:'Ext.grid.Panel',
     alias : 'widget.${entityName?uncap_first}list',
     enableColumnMove : false,

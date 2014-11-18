@@ -137,7 +137,11 @@ Ext.define('Sys.config.DictValList',{
     extend:'Ext.grid.Panel',
     alias : 'widget.dictvallist',
     viewConfig : {
-        loadingText : '正在加载字典值列表'
+        loadingText : '正在加载字典值列表',
+        plugins: {
+        	ptype: 'gridviewdragdrop',
+        	enableDrop: true
+        }
     },
     sorters: [{
         property: 'dictValCode',
@@ -187,6 +191,12 @@ Ext.define('Sys.config.DictValList',{
             iconCls:ipe.sty.del,
             scope:this,
             handler:this.delDitVal
+        },{
+            text:'排序',
+            iconCls:ipe.sty.save,
+            tooltip:'保存排序',
+            scope:this,
+            handler:this.saveSort
         },'->',{
         	xtype:'searchfield',
             emptyText:'编号查询',
@@ -202,6 +212,12 @@ Ext.define('Sys.config.DictValList',{
         });
 
         this.callParent();
+        this.view.on("drop",this.afterDrop,this);
+    },afterDrop:function(){
+    	this.getStore().each(function(r,i){
+    		this.getStore().getAt(i).set("sno",i+1);
+    		this.getStore().commitChanges();
+    	},this);
     },addDitVal:function(){
         var record=this.parent.dictList.getSelectionModel().getSelection();
         if(record && record.length>0){
@@ -254,6 +270,28 @@ Ext.define('Sys.config.DictValList',{
         }else{
             Ext.Msg.alert('提示','请选择要删除的记录!');
         }
+    },saveSort:function(){
+    	var record=[];
+    	this.getStore().each(function(r,i){
+    		record.push(r.data.id);
+    	});
+    	if(record.length<=0){
+    		return;
+    	}
+    	Ext.Ajax.request({
+            url: 'dictVal/saveSort',
+            params: {
+                ids:record
+            },
+            success: function(response){
+                var resp =Ext.decode(response.responseText) ;
+                if(resp.success){
+                    Ext.Msg.alert('提示','保存成功');
+                }else{
+                    Ext.Msg.alert('提示',resp.rows);
+                }
+            }
+        });
     }
 });
 

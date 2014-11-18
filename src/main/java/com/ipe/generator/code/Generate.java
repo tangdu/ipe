@@ -21,8 +21,7 @@ public class Generate {
 	public static void main(String args[]) {
 		Configuration cfg = new Configuration();
 		try {
-			cfg.setDirectoryForTemplateLoading(new File(
-					"F:\\workspace\\jaeespace\\smh2\\src\\main\\java\\com\\ipe\\generator"));
+			cfg.setClassForTemplateLoading(Generate.class, "ftl");
 			Map<String, String> model = Maps.newHashMap();
 			String[] entitys = new String[] { "ExlImptpl", "ExlImptplDetailes" };
 
