@@ -407,28 +407,10 @@ Ext.override(Ext.form.field.HtmlEditor,{
 });
 Ext.override(Ext.button.Button,{
 	fireHandler:function(e){
-		var me = this,
-            handler = me.handler;
-        if (me.fireEvent('click', me, e) !== false) {//触发原有事件
-            if (handler) {
-                handler.call(me.scope || me, me, e);
-            }
-        }
-        if(this.xtype!='tab'){//对tab有干扰
-        	me.setDisabled(true);//禁用
-	        ////////add delay-1////////
-	        Ext.create('Ext.fx.Anim', {
-			    target: me,
-			    duration: 1000,
-			    //delay:1000,
-			    easing:'easeOut',
-			    listeners:{
-			    	'afteranimate':function(){
-			    		me.setDisabled(false);
-			    	}
-			    }
-			});
-	        ////////add delay-2////////
+		var me = this;
+		this.callParent(arguments);
+		console.log(this.xtype);
+        if(this.xtype!='tab' && this.xtype!='filebutton'){//对tab-上传按钮有干扰
 			me.setDisabled(true);
 			var task=new Ext.util.DelayedTask(function(){
 				me.setDisabled(false);

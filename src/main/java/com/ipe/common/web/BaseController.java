@@ -5,7 +5,6 @@ import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
-import java.io.PrintWriter;
 import java.math.BigDecimal;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -71,16 +70,20 @@ public abstract class BaseController {
     }
 
     public void downFileError(HttpServletResponse response){
-    	PrintWriter printWriter=null;
+    	OutputStream out=null;
         try {
-        	printWriter=response.getWriter();
+        	out=response.getOutputStream();
             WebUtil.setDownHeader(response,"下载异常.txt");
-            printWriter.print("下载文件找不到，请联系系统管理员");
-        } catch (IOException e) {
+            out.write("下载文件找不到，请联系系统管理员".getBytes("UTF-8"));
+        } catch (Exception e) {
             e.printStackTrace();
         } finally{
-        	if(printWriter!=null){
-        		printWriter.close();
+        	if(out!=null){
+        		try {
+					out.close();
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
         	}
         }
     }

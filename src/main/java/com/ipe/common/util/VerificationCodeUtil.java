@@ -4,6 +4,7 @@ import java.awt.Color;
 import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.image.BufferedImage;
+import java.io.IOException;
 import java.util.Random;
 
 import javax.imageio.ImageIO;
@@ -27,10 +28,11 @@ public class VerificationCodeUtil {
 		response.setHeader("Pragma", "No-cache");
 		response.setHeader("Cache-Control", "no-cache");
 		response.setDateHeader("Expires", 0);
+		ServletOutputStream out=null;
 		try {
 			String s = RandomStringUtils.random(4, true, true);
 			request.getSession().setAttribute("captcha", s);
-			ServletOutputStream out = response.getOutputStream();
+			out = response.getOutputStream();
 			BufferedImage image = new BufferedImage(width, height,
 					BufferedImage.TYPE_INT_RGB);
 			Graphics g = image.getGraphics();
@@ -68,6 +70,17 @@ public class VerificationCodeUtil {
 			ImageIO.write((BufferedImage) image, "JPEG", out);
 		} catch (Exception e) {
 			LOGGER.error("createCode error {}", e);
+		} finally{
+			if(out!=null){
+				try {
+					response.flushBuffer();
+					out.flush();
+					out.close();
+					out=null;
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
+			}
 		}
 	}
 

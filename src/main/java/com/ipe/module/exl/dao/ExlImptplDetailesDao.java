@@ -1,4 +1,4 @@
-package com.ipe.module.core.dao;
+package com.ipe.module.exl.dao;
 
 import com.ipe.common.dao.BaseDao;
 import com.ipe.module.exl.entity.ExlImptplDetailes;

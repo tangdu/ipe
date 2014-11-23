@@ -8,8 +8,6 @@ import java.util.List;
 import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -20,10 +18,10 @@ import com.ipe.common.dao.SpringJdbcDao;
 import com.ipe.common.exception.CustException;
 import com.ipe.common.exception.Exceptions;
 import com.ipe.common.service.BaseService;
-import com.ipe.module.core.dao.ExlImptplDao;
 import com.ipe.module.exl.ExcelCreate;
 import com.ipe.module.exl.ExcelParse;
 import com.ipe.module.exl.TableInfo;
+import com.ipe.module.exl.dao.ExlImptplDao;
 import com.ipe.module.exl.entity.ExlImptpl;
 import com.ipe.module.exl.entity.ExlImptplDetailes;
 
@@ -40,8 +38,6 @@ public class ExlImptplService extends BaseService<ExlImptpl, String> {
     private ExlImptplDao exlImptplDao;
     @Autowired
     private SpringJdbcDao springJdbcDao;
-    
-    private static final Logger LOGGER=LoggerFactory.getLogger(ExlImptplService.class);
 
     @Override
     public BaseDao<ExlImptpl, String> getBaseDao() {
@@ -66,14 +62,18 @@ public class ExlImptplService extends BaseService<ExlImptpl, String> {
         }
         exlImptpl.setDetailesSet(detaileses);
         this.save(exlImptpl);
-        createTable(exlImptpl.getMappingTable(), detaileses);
+        if("01".equals(exlImptpl.getExlType())){
+        	createTable(exlImptpl.getMappingTable(), detaileses);
+        }
     }
 
     @Transactional(readOnly = false)
     public void edit(ExlImptpl exlImptpl, String details) {
         try {//删除表
-            String sql = "drop table " + exlImptpl.getMappingTable();
-            springJdbcDao.execute(sql);
+        	if("01".equals(exlImptpl.getExlType())){
+        		String sql = "drop table " + exlImptpl.getMappingTable();
+                springJdbcDao.execute(sql);
+        	}
         } catch (Exception e) {
         }
         //新增
@@ -154,7 +154,7 @@ public class ExlImptplService extends BaseService<ExlImptpl, String> {
     	ExlImptpl exlImptpl = this.get(id);
     	List<TableInfo> info=getTableInfo(exlImptpl.getMappingTable(),exlImptpl.getTableBelongUser());
     	List<Map<String, Object>> data=springJdbcDao.queryListMap(" select * from "+exlImptpl.getTableBelongUser()+"."+exlImptpl.getMappingTable());
-    	ExcelCreate.createDefault2(data, info, outputStream);
+    	ExcelCreate.getInstance().createDefault(data, info, outputStream);
     }
     
     @SuppressWarnings("unchecked")

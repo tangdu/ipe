@@ -33,7 +33,7 @@ public class ExlImptplDetailesController extends AbstractController {
     @ResponseBody
     BodyWrapper getByTplId(@RequestParam final String tplId) {
         try {
-            List<ExlImptplDetailes> detaileses=exlImptplDetailesService.where("exlImptpl.id=?", tplId);
+            List<ExlImptplDetailes> detaileses=exlImptplDetailesService.where(" and exlImptpl.id=?", tplId);
             return success(detaileses);
         } catch (Exception e) {
             LOGGER.error("query error",e);

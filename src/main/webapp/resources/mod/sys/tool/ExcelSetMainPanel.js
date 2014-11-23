@@ -127,7 +127,7 @@ Ext.define('Sys.tool.ExlImptplList',{
             name:'query',
             store:this.store,
             width:150,
-            handler:this.searchUser
+            handler:this.searchExlImpTpl
         },{width:ipe.config.paddingWidth,xtype:'tbspacer'}];
 
         this.bbar=Ext.create('Ipe.PagingToolbar',{
@@ -197,6 +197,8 @@ Ext.define('Sys.tool.ExlImptplList',{
         }else{
             Ext.Msg.alert('提示','请选择要执行导出的记录!');
         }
+    },searchExlImpTpl:function(){
+    	
     }
 });
 /**

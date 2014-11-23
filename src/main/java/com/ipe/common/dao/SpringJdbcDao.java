@@ -1,6 +1,5 @@
 package com.ipe.common.dao;
 
-import java.lang.reflect.Field;
 import java.util.List;
 import java.util.Map;
 
@@ -60,8 +59,7 @@ public class SpringJdbcDao {
 
     private List<?> queryForList(String sql, List<Object> conditions,
                                  Class<?> mappedClass) {
-    	Field [] f=mappedClass.getFields();
-    	if(f.length>1){
+    	if(!mappedClass.isPrimitive() && !mappedClass.getName().startsWith("java.")){//不是简单的Int,bool类型 &&不是java内部类型
     		if (conditions != null && conditions.size() > 0) {
                 return jdbcTemplate.query(sql, conditions.toArray(),
                 		BeanPropertyRowMapper.newInstance(mappedClass));

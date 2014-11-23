@@ -66,6 +66,10 @@
 	line-height: 16px;
     padding-left: 15px;
 }
+.freemarker-editor textarea{
+	font-size: 15px;
+	color:#0080c0;
+}
 /****/
 #loading{
 	margin:0 auto 0 auto;

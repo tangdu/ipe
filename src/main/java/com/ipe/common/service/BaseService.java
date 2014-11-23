@@ -4,6 +4,8 @@ import java.io.Serializable;
 import java.util.List;
 import java.util.Map;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -13,6 +15,7 @@ import com.ipe.common.util.PageModel;
 
 @Transactional(readOnly = false,propagation=Propagation.REQUIRED)
 public abstract class BaseService<M extends Serializable, PK extends Serializable> {
+	public final Logger LOGGER=LoggerFactory.getLogger(this.getClass());
     public abstract BaseDao<M, PK> getBaseDao();
 
     @Transactional(readOnly = false)

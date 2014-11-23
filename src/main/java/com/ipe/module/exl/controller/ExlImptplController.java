@@ -199,10 +199,12 @@ public class ExlImptplController extends AbstractController {
         } finally{
         	try {
         		if(outputStream!=null){
+        			response.flushBuffer();
+        			outputStream.flush();
         			outputStream.close();
         		}
 			} catch (IOException e) {
-				e.printStackTrace();
+				LOGGER.error("expexcelData error",e);
 			}
         }
     }

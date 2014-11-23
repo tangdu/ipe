@@ -37,6 +37,15 @@ public class ExlImptpl extends IDEntity {
 	private Integer startrowIndex;
 	private Integer startcolIndex;
 	private String exlFile;
+	private String exlType;
+	@Column(name="exl_type")
+	public String getExlType() {
+		return exlType;
+	}
+
+	public void setExlType(String exlType) {
+		this.exlType = exlType;
+	}
 
 	@Column(name="table_belong_user")
 	public String getTableBelongUser() {
