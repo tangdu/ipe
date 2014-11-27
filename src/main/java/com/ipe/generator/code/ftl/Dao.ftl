@@ -1,17 +1,13 @@
-package ${daoPackName};
+package ${packageName}.dao;
 
-import com.ipe.common.dao.CustomerRepository;
-import ${entityPackName}.${entityName};
-import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
+import com.ipe.common.dao.BaseDao;
+import ${packageName}.entity.${entityName?cap_first};
+
 /**
-* Created with IntelliJ IDEA.
-* User: tangdu
-* Date: 13-9-7
-* Time: 下午9:56
-* To change this template use File | Settings | File Templates.
-*/
+ * Created by tangdu on ${.now}.
+ */
 @Repository
-public class ${entityName}Dao extends BaseDao<${entityName},String> {
+public class ${entityName?cap_first}Dao extends BaseDao<${entityName},String> {
 }

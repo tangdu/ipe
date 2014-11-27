@@ -1,28 +1,25 @@
-package ${servicePackName};
+package ${packageName}.service;
 
-import com.ipe.common.dao.CustomerRepository;
 import com.ipe.common.service.BaseService;
-import ${entityPackName}.${entityName};
-import ${daoPackName}.${entityName}Repository;
+import com.ipe.common.dao.BaseDao;
+import ${packageName}.entity.${entityName?cap_first};
+import ${packageName}.dao.${entityName?cap_first}Dao;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import javax.persistence.criteria.CriteriaBuilder;
-import javax.persistence.criteria.CriteriaQuery;
-import javax.persistence.criteria.Predicate;
 
-
-
+/**
+ * Created by tangdu on ${.now}.
+ */
 @Service
 @Transactional
-public class ${entityName}Service extends BaseService<${entityName},String> {
+public class ${entityName?cap_first}Service extends BaseService<${entityName},String> {
     @Autowired
-    private ${entityName}Dao ${entityName?uncap_first}Dao;
+    private ${entityName?cap_first}Dao ${entityName?uncap_first}Dao;
 
     @Override
-    public BaseDao<${entityName}, String> getBaseDao() {
+    public BaseDao<${entityName?cap_first}, String> getBaseDao() {
         return ${entityName?uncap_first}Dao;
     }
 }

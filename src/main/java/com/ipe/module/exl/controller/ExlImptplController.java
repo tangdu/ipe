@@ -29,7 +29,7 @@ import com.ipe.module.core.web.util.BodyWrapper;
 import com.ipe.module.core.web.util.RestRequest;
 import com.ipe.module.core.web.util.WebUtil;
 import com.ipe.module.exl.ExcelParse;
-import com.ipe.module.exl.TableInfo;
+import com.ipe.module.exl.TableColumn;
 import com.ipe.module.exl.entity.ExlImptpl;
 import com.ipe.module.exl.service.ExlImptplService;
 
@@ -219,7 +219,7 @@ public class ExlImptplController extends AbstractController {
     @ResponseBody
     public BodyWrapper loadFieldByTableUser(String mappingTable,String tableBelongUser) {
         try {
-        	List<TableInfo> list=exlImptplService.getTableInfo(mappingTable, tableBelongUser);
+        	List<TableColumn> list=exlImptplService.getTableInfo(mappingTable, tableBelongUser);
         	return success(list);
         } catch (Exception e) {
             LOGGER.error("edit error",e);

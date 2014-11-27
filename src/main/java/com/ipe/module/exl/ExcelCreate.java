@@ -28,7 +28,7 @@ public class ExcelCreate extends SimpleExcelCreate {
 		return _INSTANCE==null ?  _INSTANCE=new ExcelCreate() :_INSTANCE;
 	}
 
-	public void createDefault(List<Map<String, Object>> data, List<TableInfo> info,
+	public void createDefault(List<Map<String, Object>> data, List<TableColumn> info,
 			OutputStream stream) throws CustException {
 		if (info != null && stream != null) {
 			try {
@@ -46,14 +46,14 @@ public class ExcelCreate extends SimpleExcelCreate {
 		}
 	}
 
-	private void createTitles(XSSFWorkbook workbook, List<TableInfo> info) {
+	private void createTitles(XSSFWorkbook workbook, List<TableColumn> info) {
 		if (info != null) {
 			XSSFSheet sheet = workbook.createSheet();
 			XSSFRow row = null;
 			XSSFCell cell = null;
 			row = sheet.createRow(0);
 			int i = 0;
-			for (TableInfo t : info) {
+			for (TableColumn t : info) {
 				cell = row.createCell(i);
 				cell.setCellValue((t.getFieldDesc() == null || "".equals(t
 						.getFieldDesc())) ? t.getFieldName() : t.getFieldDesc());

@@ -12,6 +12,7 @@ Ext.define('Desktop.view.Navigation', {
     minWidth:220,
     autoScroll : false,
     layout : 'accordion',
+    showSwitch:true,
     collapsible : true,
     layoutConfig : {
         animate : true
@@ -60,9 +61,10 @@ Ext.define('Desktop.view.Navigation', {
             this.items.push(treePanel);
         },this);
     },treeClick:function(view,record){
-        if(record.childNodes.length==0){
+        if(record.childNodes.length==0 && this.showSwitch){
             var ts=record.data;
             if(ts.menuUrl){
+            	this.showSwitch=false;
                 var ipeCont=(this.parent.ipeCon);
                 var tname_=ts.menuUrl.replace(/\.|\-|_|\//gi,'');
                 var sheetId="Tab_Panel_"+tname_;
@@ -75,36 +77,38 @@ Ext.define('Desktop.view.Navigation', {
         }
     },getTabView:function(ts){
         var myMask = new Ext.LoadMask(this, {msg:"..."});
+        var me=this;
         myMask.show();
         var pcontainer=null;
         try{
             if(ts.menuType=='1'){//类实例
                 pcontainer=Ext.create(
-                    ts.menuUrl,{
-                    	bodyCls:'defaultColor',
-                        border:false,
-                        parent:this
-                    });
+                	ts.menuUrl,{
+	                	bodyCls:'defaultColor',
+	                    border:false,
+	                    parent:this
+                });
             }else if(ts.menuType=='0'){//URL路径
                 pcontainer=Ext.create(
-                    'Ext.panel.Panel',{
-                        border:true,
-                        parent:this,
-                        html:"<iframe width='100%' height='100%' frameborder='0' src='"+ts.menuUrl+"'></iframe>"
-                    });
+                'Ext.panel.Panel',{
+                    border:true,
+                    parent:this,
+                    html:"<iframe width='100%' height='100%' frameborder='0' src='"+ts.menuUrl+"'></iframe>"
+                });
             }
         }catch(e){
             Ext.Msg.alert('提示',"页面不存在或是未完成初始化["+e+"]");
         }finally{
             setTimeout(function(){
                 myMask.hide();
+                me.nav.showSwitch=true;
             },1000);
         }
         return pcontainer;
     },singTabView:function(ipeCont,ts,sheetId){
     	var sheet=ipeCont.getComponent(1);
     	if(sheet){
-        	Ext.applyIf(ipeCont,{getTabView:this.getTabView});
+        	Ext.applyIf(ipeCont,{getTabView:this.getTabView,nav:this});
             var pcontainer=ipeCont.getTabView(ts);
             if(pcontainer==null){
                 return;
@@ -122,7 +126,7 @@ Ext.define('Desktop.view.Navigation', {
     	if(sheet){
             ipeCont.setActiveTab(sheet);
         }else{
-            Ext.applyIf(ipeCont,{getTabView:this.getTabView});
+            Ext.applyIf(ipeCont,{getTabView:this.getTabView,nav:this});
             var pcontainer=ipeCont.getTabView(ts);
             if(pcontainer==null){
                 return;

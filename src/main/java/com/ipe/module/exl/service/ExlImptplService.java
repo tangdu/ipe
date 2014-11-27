@@ -18,9 +18,10 @@ import com.ipe.common.dao.SpringJdbcDao;
 import com.ipe.common.exception.CustException;
 import com.ipe.common.exception.Exceptions;
 import com.ipe.common.service.BaseService;
+import com.ipe.common.service.CommonUtil;
 import com.ipe.module.exl.ExcelCreate;
 import com.ipe.module.exl.ExcelParse;
-import com.ipe.module.exl.TableInfo;
+import com.ipe.module.exl.TableColumn;
 import com.ipe.module.exl.dao.ExlImptplDao;
 import com.ipe.module.exl.entity.ExlImptpl;
 import com.ipe.module.exl.entity.ExlImptplDetailes;
@@ -152,18 +153,15 @@ public class ExlImptplService extends BaseService<ExlImptpl, String> {
     
     public void expData(String id,OutputStream outputStream) throws CustException{
     	ExlImptpl exlImptpl = this.get(id);
-    	List<TableInfo> info=getTableInfo(exlImptpl.getMappingTable(),exlImptpl.getTableBelongUser());
+    	List<TableColumn> info=getTableInfo(exlImptpl.getMappingTable(),exlImptpl.getTableBelongUser());
     	List<Map<String, Object>> data=springJdbcDao.queryListMap(" select * from "+exlImptpl.getTableBelongUser()+"."+exlImptpl.getMappingTable());
     	ExcelCreate.getInstance().createDefault(data, info, outputStream);
     }
     
-    @SuppressWarnings("unchecked")
-	public List<TableInfo> getTableInfo(String mappingTable,String tableBelongUser){
-    	String sql="select t.ORDINAL_POSITION as 'index',t.COLUMN_NAME as fieldName,t.COLUMN_TYPE as fieldType,t.COLUMN_COMMENT as fieldDesc "
-    			+ "from information_schema.`COLUMNS` t where t.TABLE_SCHEMA=? and t.TABLE_NAME=?";
-    	List<Object> conditions=new ArrayList<Object>();
-    	conditions.add(tableBelongUser);
-    	conditions.add(mappingTable);
-    	return (List<TableInfo>) springJdbcDao.queryList(sql, conditions, TableInfo.class);
+    @Autowired
+    private CommonUtil  commonUtil;
+    
+	public List<TableColumn> getTableInfo(String mappingTable,String tableBelongUser){
+    	return commonUtil.getTableInfo(mappingTable, tableBelongUser);
     }
 }

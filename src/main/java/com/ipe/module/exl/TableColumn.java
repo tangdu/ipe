@@ -2,7 +2,7 @@ package com.ipe.module.exl;
 
 import java.io.Serializable;
 
-public class TableInfo implements Serializable{
+public class TableColumn implements Serializable{
 	/**
 	 * 
 	 */
