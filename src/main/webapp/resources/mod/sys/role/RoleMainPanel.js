@@ -35,7 +35,6 @@ Ext.define('Sys.role.RoleList',{
             width:300
         }];
 
-        
         this.store=Ext.create('Ext.data.JsonStore', {
             proxy: {
                 type: 'ajax',
@@ -82,15 +81,7 @@ Ext.define('Sys.role.RoleList',{
             iconCls:ipe.sty.set,
             scope:this,
             handler:this.setPermission
-        }/*,'->',{xtype:'label',text:'查询:'},{
-        	xtype:'searchfield',
-            emptyText:'输入角色名查询',
-            scope:this,
-            name:'query',
-            store:this.store,
-            width:150,
-            handler:this.searchUser
-        },{width:ipe.config.paddingWidth,xtype:'tbspacer'}*/];
+        }];
 
         this.bbar=Ext.create('Ipe.PagingToolbar',{
             store:this.store,

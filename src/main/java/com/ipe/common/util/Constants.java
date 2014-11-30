@@ -12,6 +12,8 @@ import java.util.Map;
 public class Constants {
 
 	public final static  String SCHEMA="ipe_db";
+	public static final String SYSNAME="sysname";
+	
 	/**
 	 * 不需要记录日志的请求
 	 */

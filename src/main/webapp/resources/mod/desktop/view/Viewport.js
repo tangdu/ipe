@@ -83,7 +83,7 @@ Ext.define('Desktop.view.Header', {
         
     	//F:用HTML构建Header,修改样式:sys_header
     	this.title=Ext.create('Ext.Container',{flex:1,html:
-    		'<span class="sys_title bold">IPE系统平台1.0</span>' +
+    		'<span class="sys_title bold">'+ipe.config.sysConfig.sysname+'</span>' +
     		'<span class="to-right list-groups">' +
     			/*'<span class="list-item">欢迎您，'+ipe.config.user.userName+'</span>|' +*/
     			'<span class="list-item bold"><a href="javascript:ipe.fuc.changeRole()">切换角色</a></span>|' +

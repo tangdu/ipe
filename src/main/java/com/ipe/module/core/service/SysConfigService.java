@@ -1,5 +1,6 @@
 package com.ipe.module.core.service;
 
+import java.util.List;
 import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
@@ -11,6 +12,7 @@ import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
 import com.ipe.common.dao.BaseDao;
 import com.ipe.common.service.BaseService;
+import com.ipe.common.util.Constants;
 import com.ipe.module.core.dao.SysConfigDao;
 import com.ipe.module.core.entity.SysConfig;
 
@@ -41,4 +43,13 @@ public class SysConfigService extends BaseService<SysConfig, String> {
             }
         }
     }
+    
+    public String getSysName(){
+		List<SysConfig> config = sysConfigDao.list(" from SysConfig where key=?",Constants.SYSNAME);
+		if(!config.isEmpty()){
+			return config.get(0).getValue();
+		}else{
+			return   "IPE项目脚手架平台";
+		}
+	}
 }

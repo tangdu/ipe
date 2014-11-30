@@ -18,9 +18,6 @@ import com.ipe.common.util.Constants;
 @Table(name = "t_cor_user_role", schema = "", catalog = Constants.SCHEMA)
 @Entity
 public class UserRole extends IDEntity {
-    /**
-	 * 
-	 */
 	private static final long serialVersionUID = -7490830091549504364L;
 	//关联角色
     private Role role;

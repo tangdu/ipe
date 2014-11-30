@@ -90,6 +90,7 @@ public class MenuService extends BaseService<Menu, String> {
     public Menu getTreeMenus(){
     	List<Menu> menus=menuDao.listAll();
     	Menu root=getRootMenu(menus);
+    	CollectionSort.sortList(menus, "sno", true);
     	eachMenu(menus, root);
     	return root;
     }
@@ -102,6 +103,7 @@ public class MenuService extends BaseService<Menu, String> {
     	List<Menu> menus=menuDao.listAll();
     	eachMenu(menus);
     	Menu root=getRootMenu(menus);
+    	CollectionSort.sortList(menus, "sno", true);
     	eachMenu(menus, root);
     	return root;
     }
@@ -133,7 +135,7 @@ public class MenuService extends BaseService<Menu, String> {
     public String getUserMenu(String userId,String roleId,String isAdmin) {
         List<Menu> menus=null;
         Menu root=null;
-        if (!"1".equals(isAdmin)) {
+        if (!"1".equals(isAdmin)) {//非管理员
             String sql = "select * from ( select t01.* from t_cor_menu t01 join (\n" +
                     "SELECT t4.resource_id from t_cor_user t1 join \n" +
                     "t_cor_user_role t2 on t1.id_=t2.user_id\n" +
@@ -152,6 +154,7 @@ public class MenuService extends BaseService<Menu, String> {
         if (root == null) {
             throw new ServiceException("root is null");
         }
+        CollectionSort.sortList(menus, "sno", true);
         eachMenu(menus, root);
         
         PropertyFilter propertyFilter = new PropertyFilter() {
@@ -174,7 +177,6 @@ public class MenuService extends BaseService<Menu, String> {
             }
         };
         List<Menu> trees=root.getRows();
-        CollectionSort.sortList(trees, "sno", true);
         String result=JSON.toJSONString(trees, propertyFilter, SerializerFeature.UseSingleQuotes, SerializerFeature.WriteNullListAsEmpty);
         return result;
     }

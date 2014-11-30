@@ -8,6 +8,9 @@
 	border-color: #b5b8c8;
 	background-image: none !important;
 }
+.x-form-text:focus{
+	border-color: #0099FF;
+}
 .x-window-default{
 	-webkit-border-radius: 0;
 	-moz-border-radius: 0;

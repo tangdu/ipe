@@ -18,6 +18,7 @@ Ext.define('Sys.config.SysConfigEditForm',{
             ]},
             {xtype:'fieldset',title:'系统信息',layout:'column',flex:2,items:[
             	{layout:'form',columnWidth:.3,defaultType: 'textfield',frame:true,border:false,xtype:'container',items:[
+            			{fieldLabel:'系统名称',name:'sysname'},
 	            		{fieldLabel:'描述',name:'description',xtype:'textarea'},
             			{fieldLabel:'版本',name:'version'}
             		]}

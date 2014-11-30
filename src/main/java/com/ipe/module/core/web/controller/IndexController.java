@@ -83,16 +83,20 @@ public class IndexController extends AbstractController {
             }
         }
         data.put("configs", JSON.toJSONString(map));
+        //3_1 得到系统名称
+        data.put(SYSNAME, sysConfigService.getSysName());
         // 4_分配权限
         List<String> authorits=roleService.getUserAuthorits(userInfo.getUserId());
         data.put("authorits", JSON.toJSONString(authorits));
         
 		return "index";
 	}
-
+	
+	private static final String SYSNAME="sysname";
 	@Anonymous
 	@RequestMapping(value = "/signin", method = RequestMethod.GET)
-	public String signin() {
+	public String signin(ModelMap data) {
+		data.put(SYSNAME, sysConfigService.getSysName());
 		return "signin";
 	}
 

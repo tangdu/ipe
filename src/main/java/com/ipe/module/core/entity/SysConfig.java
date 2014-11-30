@@ -22,10 +22,6 @@ import com.ipe.common.util.Constants;
 @Entity
 @Cache(usage = CacheConcurrencyStrategy.READ_WRITE) 
 public class SysConfig extends IDEntity {
-
-    /**
-	 * 
-	 */
 	private static final long serialVersionUID = -1241579886117243093L;
 	private String key;
     private String value;

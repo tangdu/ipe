@@ -16,19 +16,11 @@ Ext.define('Desktop.view.Header', {
 
         //任务
         ipe.config.userMenu=ipe.config.userMenu.concat(['->',{
-            text:'待办项',
-            iconCls:ipe.sty.comment,
-            handler:this.showTask
-        }]);
-
-        //用户
-        ipe.config.userMenu=ipe.config.userMenu.concat(['-',{
-            text:ipe.config.user.userName,
-            iconCls:ipe.sty.user,
-            menu:[
-                {text:'修改密码',scope:this,handler:ipe.fuc.upPwd},
-                {iconCls : 'icon-power-off',text:'退出',handler:ipe.fuc.logout}
-            ]
+            text:'修改密码',
+            handler:this.upPwd
+        },{
+            text:'退出系统',
+            handler:this.logout
         }]);
         ipe.config.userMenu.push({width:50,xtype:'tbspacer'});
 
