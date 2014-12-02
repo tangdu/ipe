@@ -1,39 +1,36 @@
-/**
- *标头
- */
+
+
 Ext.define('Desktop.view.Header', {
-    extend : 'Ext.panel.Panel',
-    //height : 100,
+    extend : 'Ext.Container',
     region : 'north',
-    layout:{type:'hbox',align:'stretch'},
+    layout:{type:'vbox',align:'stretch'},
     border:false,
     initComponent : function(){
-        ipe.config.userMenu=[
-            {width:20,xtype:'tbspacer'},
-            {text:'IPE脚手架1.0',xtype:'label',style:{fontSize:16,color:'red'}}
-        ].concat(ipe.config.userMenu);
-        this.eachMenu(ipe.config.userMenu);
-
-        //任务
-        ipe.config.userMenu=ipe.config.userMenu.concat(['->',{
-            text:'修改密码',
-            handler:this.upPwd
-        },{
-            text:'退出系统',
-            handler:this.logout
-        }]);
-        ipe.config.userMenu.push({width:50,xtype:'tbspacer'});
-
-        this.bbar = Ext.create('Ext.toolbar.Toolbar',{
-            parent:this,
-            enableOverflow:true,
-            items:ipe.config.userMenu
-        });
+    	this.title=Ext.create('Ext.Container',{
+    	   border:false,
+    	   cls:'sys_header',
+    	   height:50,
+    	   html:'<span class="sys_title bold">'+ipe.config.sysConfig.sysname+'</span>' +
+    		'<span class="to-right list-groups">' +
+    			/*'<span class="list-item">欢迎您，'+ipe.config.user.userName+'</span>|' +*/
+    			'<span class="list-item bold"><a href="javascript:ipe.fuc.changeRole()">切换角色</a></span>|' +
+    			'<span class="list-item bold"><a href="javascript:ipe.fuc.upPwd()">修改密码</a></span>|' +
+    			'<span class="list-item bold"><a href="javascript:ipe.fuc.logout()">退出系统</a></span>' +
+    		'</span>'
+    	});
+    	this.menu=Ext.create('Ext.Container',{
+    		border:false,
+    		height:29,
+    		html:ipe.config.userMenu
+    	});
+    	
+        this.items=[this.title,this.menu];
+        this.on('afterrender',this.showMenubar,this);
         this.callParent();
-    },
-    showTask:function(){
-
-    },
+	},
+	showMenubar:function(){
+		ddlevelsmenu.setup("ddtopmenubar", "topbar");	
+	},
     menuClick:function(ts){
         if(ts.menuUrl){
             var ipeCont=(this.parent.ipeCon);
@@ -47,7 +44,7 @@ Ext.define('Desktop.view.Header', {
         }
     },
     singTabView:function(ipeCont,ts,sheetId){
-    	var sheet=ipeCont.getComponent(1);
+    	var sheet=ipeCont.getComponent(0);
     	if(sheet){
         	Ext.applyIf(ipeCont,{getTabView:this.getTabView});
             var pcontainer=ipeCont.getTabView(ts);
@@ -75,10 +72,14 @@ Ext.define('Desktop.view.Header', {
                 return;
             }
             /////////////
+            var ct=true;
+            if(ts.closable!=null){
+            	ct=ts.closable;
+            }
             var panel=Ext.create('Ext.Panel',{
                 layout:{type:'fit',align:'stretch'},
                 iconCls:ipe.sty.app,
-                closable:true,
+                closable:ct ,
                 refreable:true,
                 border:false,
                 frame:true,
@@ -89,7 +90,6 @@ Ext.define('Desktop.view.Header', {
                 items:pcontainer,
                 mattr:ts
             });
-
             ipeCont.add(panel);
             ipeCont.setActiveTab(panel);
         }

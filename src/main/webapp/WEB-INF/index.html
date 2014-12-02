@@ -3,7 +3,10 @@
 <head>
     <title>${sysname}</title>
     <#include "common/header.html"/>
- </head>
+    <link rel="stylesheet" href="${basePath}/resources/images/ddlevelsfiles/ddlevelsmenu-base.css"/>
+    <link rel="stylesheet" href="${basePath}/resources/images/ddlevelsfiles/ddlevelsmenu-topbar.css"/>
+	<script type="text/javascript" src="${basePath}/resources/images/ddlevelsfiles/ddlevelsmenu.js"></script>
+</head>
 <body>
 <div id="loading"><img src="resources/images/loading.gif">正在加载....</div>
 </body>
@@ -12,14 +15,16 @@
         Ext.QuickTips.init();
         Ext.form.Field.prototype.msgTarget = "side";
         
-        ipe.config.userMenu=${menus};
+        
         ipe.config.dictData=${dicts};
         ipe.config.sysConfig=${configs};
         ipe.config.authorits=${authorits};
         //创建菜单-字典-初始化-
         if(ipe.config.sysConfig.sys_style=="1"){
+        	ipe.config.userMenu="${menus}";
         	Ext.create('Ipe.desktop2.Desktop');
         }else{
+        	ipe.config.userMenu=${menus};
         	Ext.create('Ipe.desktop.Desktop');
         }
         init();

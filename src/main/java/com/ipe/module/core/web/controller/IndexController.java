@@ -66,26 +66,37 @@ public class IndexController extends AbstractController {
 	@Anonymous
 	@RequestMapping(value = "/", method = RequestMethod.GET)
 	public String index(ModelMap data) {
-		// 1_加载菜单
-		SystemRealm.UserInfo userInfo = (SystemRealm.UserInfo) SecurityUtils
-				.getSubject().getPrincipal();
-		String menus = menuService.getUserMenu(userInfo.getUserId(),userInfo.getRoleId(),userInfo.getAdmin());
-		data.put("menus", menus);
-		// 2_字典表
-		List<Dict> list = dictService.listAll();
-		data.put("dicts", JSON.toJSONString(list));
-		// 3_配置表
+		String style=null;//系统风格
+		// 1_配置表
 		List<SysConfig> config = sysConfigService.listAll();
         Map<String, Object> map = new HashMap<String, Object>();
         if (config != null) {
             for (SysConfig obj : config) {
             	map.put(obj.getKey(), obj.getValue());
+            	if(SYSNAME.equals(obj.getKey())){//_得到系统名称
+            		data.put(SYSNAME, obj.getValue());
+            	}
+            	if("sys_style".equals(obj.getKey())){
+            		style=obj.getValue();
+            	}
             }
         }
         data.put("configs", JSON.toJSONString(map));
-        //3_1 得到系统名称
-        data.put(SYSNAME, sysConfigService.getSysName());
-        // 4_分配权限
+		// 2_加载菜单
+		SystemRealm.UserInfo userInfo = (SystemRealm.UserInfo) SecurityUtils
+				.getSubject().getPrincipal();
+		String menus=null;
+		if("1".equals(style)){
+			menus = menuService.getUserMenuHtml(userInfo.getUserId(),userInfo.getRoleId(),userInfo.getAdmin());
+		}else{
+			menus = menuService.getUserMenu(userInfo.getUserId(),userInfo.getRoleId(),userInfo.getAdmin());
+		}
+		data.put("menus", menus);
+		
+		// 4_字典表
+		List<Dict> list = dictService.listAll();
+		data.put("dicts", JSON.toJSONString(list));
+        // 6_分配权限
         List<String> authorits=roleService.getUserAuthorits(userInfo.getUserId());
         data.put("authorits", JSON.toJSONString(authorits));
         

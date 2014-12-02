@@ -29,13 +29,12 @@ Ext.define('Desktop.view.Container', {
     activeTab : 0,
     enableTabScroll : true,
     border:false,
-    defaults: {
+    /*defaults: {
         bodyPadding: 5
-    },
+    },*/
     region : 'center',
     //split : true,
     initComponent:function(){
-        this.portal=Ext.create('Ext.Panel');
         this.plugins=[Ext.create('Ext.ux.TabReorderer'),
             Ext.create('Ext.ux.TabCloseMenu',{
             parent:this,
@@ -69,7 +68,7 @@ Ext.define('Desktop.view.Viewport', {
     	if(Ext.get('loading')){
     		Ext.get('loading').update('');
     	}
-    	ipe.fuc.openMenu('Desktop.view.IndexView','1','首页','btn_home');
+    	ipe.fuc.openMenu2({menuType:'1',menuUrl:'Desktop.view.IndexView',text:'首页',cls:'btn_home',closable:false});
     }
 });
 

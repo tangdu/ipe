@@ -121,7 +121,7 @@ input[type=submit]:active {
 <section class="container">
     <div class="login">
       <h1>${sysname}-登录</h1>
-      <form method="post" action="login" target="_top">
+      <form method="post" action="login" target="_top" onsubmit="submitForm()">
         <div class="form-group">
         	<input type="text" name="useraccount" value="" placeholder="用户名" required="required" autofocus="autofocus">
         </div>
@@ -138,8 +138,10 @@ input[type=submit]:active {
 </section>
 </body>
 <script type="text/javascript">
-	function encrypt(obj) {
-		obj.value = CryptoJS.MD5(obj.value);
+	function submitForm(){
+		var pd=document.getElementsByName("password")[0];
+		pd.value=CryptoJS.MD5(pd.value);
+		return true;
 	}
 	function changeCode(obj){
 		obj.src='verificationCode?a='+new Date();
