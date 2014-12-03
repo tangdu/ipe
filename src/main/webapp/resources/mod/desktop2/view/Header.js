@@ -1,5 +1,4 @@
 
-
 Ext.define('Desktop.view.Header', {
     extend : 'Ext.Container',
     region : 'north',
@@ -44,7 +43,7 @@ Ext.define('Desktop.view.Header', {
         }
     },
     singTabView:function(ipeCont,ts,sheetId){
-    	var sheet=ipeCont.getComponent(0);
+    	var sheet=ipeCont.getComponent(1);
     	if(sheet){
         	Ext.applyIf(ipeCont,{getTabView:this.getTabView});
             var pcontainer=ipeCont.getTabView(ts);

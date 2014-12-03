@@ -20,8 +20,9 @@ Ext.define('Desktop.view.Navigation', {
     split : true,
     initComponent : function(){
         this.items=[];
-        this.makeTreeMenu(ipe.config.userMenu);
-        this.makeTree(ipe.config.userMenu);
+        var menus=Ext.decode(ipe.config.userMenu);
+        this.makeTreeMenu(menus);
+        this.makeTree(menus);
         this.callParent();
     },makeTreeMenu:function(menu){
         Ext.each(menu,function(r,i){
