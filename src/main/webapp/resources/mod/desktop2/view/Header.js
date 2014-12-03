@@ -5,25 +5,25 @@ Ext.define('Desktop.view.Header', {
     layout:{type:'vbox',align:'stretch'},
     border:false,
     initComponent : function(){
-    	this.title=Ext.create('Ext.Container',{
+    	/*this.title=Ext.create('Ext.Container',{
     	   border:false,
     	   cls:'sys_header',
     	   height:50,
     	   html:'<span class="sys_title bold">'+ipe.config.sysConfig.sysname+'</span>' +
     		'<span class="to-right list-groups">' +
-    			/*'<span class="list-item">欢迎您，'+ipe.config.user.userName+'</span>|' +*/
+    			'<span class="list-item">欢迎您，'+ipe.config.user.userName+'</span>|' +
     			'<span class="list-item bold"><a href="javascript:ipe.fuc.changeRole()">切换角色</a></span>|' +
     			'<span class="list-item bold"><a href="javascript:ipe.fuc.upPwd()">修改密码</a></span>|' +
     			'<span class="list-item bold"><a href="javascript:ipe.fuc.logout()">退出系统</a></span>' +
     		'</span>'
-    	});
+    	});*/
     	this.menu=Ext.create('Ext.Container',{
     		border:false,
-    		height:29,
+    		height:40,
     		html:ipe.config.userMenu
     	});
     	
-        this.items=[this.title,this.menu];
+        this.items=[this.menu];
         this.on('afterrender',this.showMenubar,this);
         this.callParent();
 	},

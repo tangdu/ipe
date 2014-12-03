@@ -207,11 +207,15 @@ public class MenuService extends BaseService<Menu, String> {
 	public String getUserMenuHtml(String userId, String roleId, String isAdmin) {
 		List<Menu> menus = getUserMenuObject(userId, roleId, isAdmin);
 		StringBuffer sb=new StringBuffer();
-		sb.append("<div id='ddtopmenubar' class='mattblackmenu' style='height:60px;'><ul>");
+		sb.append("<div id='ddtopmenubar' class='mattblackmenu'><ul>");
 		//一级菜单
 		for(Menu m1:menus){
 			sb.append("<li><a rel='"+m1.getId()+"'>"+m1.getMenuName()+"</a></li>");
 		}
+		sb.append("<li class='to-right list-item bold'><a href='javascript:ipe.fuc.logout()'>退出系统</a></li>");
+		sb.append("<li class='to-right list-item bold'><a href='javascript:ipe.fuc.upPwd()'>修改密码</a></li>" );
+		sb.append("<li class='to-right list-item bold'><a href='javascript:ipe.fuc.changeRole()'>切换角色</a></li>");
+		
 		sb.append("</ul></div>");
 		//多级菜单
 		for(Menu m1:menus){

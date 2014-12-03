@@ -105,7 +105,7 @@ public class IndexController extends AbstractController {
 	
 	private static final String SYSNAME="sysname";
 	@Anonymous
-	@RequestMapping(value = "/signin", method = RequestMethod.GET)
+	@RequestMapping(value = "/sign", method = RequestMethod.GET)
 	public String signin(ModelMap data) {
 		data.put(SYSNAME, sysConfigService.getSysName());
 		return "signin";
@@ -155,7 +155,7 @@ public class IndexController extends AbstractController {
 		}catch (AuthenticationException ae) {
 			redirectAttributes.addAttribute("errorMsg", "其他的登录错误！");
 		}
-		return "redirect:signin";
+		return "redirect:sign";
 	}
 
 	/**
@@ -175,7 +175,7 @@ public class IndexController extends AbstractController {
 		} catch (Exception e) {
 			LOGGER.error("Exception {}", e);
 		}
-		return "signin";
+		return "redirect:sign";
 	}
 
 	@Autowired

@@ -1,5 +1,6 @@
 /* ######### Matt Black Strip Main Menu Bar CSS ######### */
 .mattblackmenu ul{
+font-size:14px;
 margin: 0;
 padding-left: 40;
 list-style-type: none;
@@ -16,10 +17,11 @@ margin: 0;
 
 .mattblackmenu li a{
 float: left;
+height:40px;
 display: block;
 text-decoration: none;
-margin: 0;
-padding: 6px 8px; /*padding inside each tab*/
+margin: 0px;
+padding: 12px 7px 12px 7px; /*padding inside each tab*/
 border-right: 1px solid white; /*right divider between tabs*/
 color: white;
 background: #99bce8;

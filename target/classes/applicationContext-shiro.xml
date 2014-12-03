@@ -26,7 +26,7 @@
     <!-- Shiro 过滤器 -->
     <bean id="shiroFilter" class="org.apache.shiro.spring.web.ShiroFilterFactoryBean">
         <property name="securityManager" ref="securityManager"/>
-        <property name="loginUrl" value="/signin.html"/>
+        <property name="loginUrl" value="/sign"/>
         <property name="successUrl" value="/index"/>
         <property name="unauthorizedUrl" value="/common/403" />
        <!-- <property name="filters">
