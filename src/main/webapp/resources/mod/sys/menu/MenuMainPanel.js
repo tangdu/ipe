@@ -5,9 +5,7 @@ Ext.define('Sys.menu.MenuTreePanel',{
     //animate: true,
     rootVisible: false,
     multiSelect: false,
-    //ingleExpand: true,
-    reserveScrollbar: true,
-    useArrows: true,
+    singleExpand: true,
     viewConfig: {
         plugins: {
             ptype: 'treeviewdragdrop',

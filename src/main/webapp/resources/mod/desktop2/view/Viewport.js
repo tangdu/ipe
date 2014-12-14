@@ -35,14 +35,16 @@ Ext.define('Desktop.view.Container', {
     region : 'center',
     //split : true,
     initComponent:function(){
-        this.plugins=[Ext.create('Ext.ux.TabReorderer'),
-            Ext.create('Ext.ux.TabCloseMenu',{
-            parent:this,
-            scope:this,
-            closeTabText: '关闭面板',
-            closeOthersTabsText: '关闭其他',
-            closeAllTabsText: '关闭所有'
-        })];
+    	if(ipe.config.sysConfig.ena_menu=="1"){
+	        this.plugins=[Ext.create('Ext.ux.TabReorderer'),
+	            Ext.create('Ext.ux.TabCloseMenu',{
+	            parent:this,
+	            scope:this,
+	            closeTabText: '关闭面板',
+	            closeOthersTabsText: '关闭其他',
+	            closeAllTabsText: '关闭所有'
+	        })];
+    	}
         this.callParent();
     }
 });

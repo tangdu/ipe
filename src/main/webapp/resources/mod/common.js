@@ -399,7 +399,6 @@ Ext.override(Ext.button.Button,{
 	fireHandler:function(e){
 		var me = this;
 		this.callParent(arguments);
-		console.log(this.xtype);
         if(this.xtype!='tab' && this.xtype!='filebutton'){//对tab-上传按钮有干扰
 			me.setDisabled(true);
 			var task=new Ext.util.DelayedTask(function(){

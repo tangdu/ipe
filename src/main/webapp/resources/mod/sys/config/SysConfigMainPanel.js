@@ -61,11 +61,24 @@ Ext.define('Sys.config.SysConfigEditForm',{
 			            valueField: 'key',
 			            displayField: 'value',
 			            editable: true
+			        },{
+			        	fieldLabel:'启用Tab菜单',
+			            store: ipe.store.flagStore,
+			            emptyText: '请选择',
+			            hideField:'ena_menu',
+			            name:'ena_menu',
+			            mode: 'local',
+			            triggerAction: 'all',
+			            allowBlank:false,
+			            valueField: 'key',
+			            displayField: 'value',
+			            editable: true
 			        }
 		        ]},{layout:'form',columnWidth:.3,defaultType: 'displayfield',frame:true,border:false,xtype:'container',items:[
 		        	{value:'(选择‘是’多个Tab页，‘否’只显示一个Tab页)'},
 		        	{value:'(开发模式没有权限控制)'},
-		        	{value:'(选择系统风格)'}
+		        	{value:'(选择系统风格)'},
+		        	{value:'(启用Tab菜单)'}
 		        ]}
             ]},{
             	xtype:'label',

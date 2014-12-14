@@ -86,12 +86,13 @@ function viewDnyDiagram(record){
 
     var win=Ext.create('Ext.Window',{
         title:'执行中流程图',
-        resizable : true,
-        draggable : true,
+        //resizable : true,
+        //draggable : true,
         maximizable:true,
         layout : 'fit',
         width : 730,
         height : 400,
+        model:true,
         border:false,
         items : [{xtype:'panel',autoScroll:true,items:{
             xtype : 'box',

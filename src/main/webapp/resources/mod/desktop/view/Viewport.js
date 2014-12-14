@@ -112,17 +112,17 @@ Ext.define('Desktop.view.Container', {
     defaults: {
         //bodyPadding: 1
     },
-    plugins : [
-        Ext.create('Ext.ux.TabReorderer'),
-        Ext.create('Ext.ux.TabCloseMenu',{
-            closeTabText: '关闭面板',
-            closeOthersTabsText: '关闭其他',
-            closeAllTabsText: '关闭所有'
-        })
-    ],
     initComponent:function(){
-        /*this.portal=Ext.create('Desktop.view.IndexView',{border:false});
-        this.items = [{title:'首页',iconCls:'btn_home',layout:'fit',items:this.portal}];*/
+    	if(ipe.config.sysConfig.ena_menu=="1"){
+	    	this.plugins=[
+		        Ext.create('Ext.ux.TabReorderer'),
+		        Ext.create('Ext.ux.TabCloseMenu',{
+		            closeTabText: '关闭面板',
+		            closeOthersTabsText: '关闭其他',
+		            closeAllTabsText: '关闭所有'
+		        })
+		    ];
+   		}
         this.callParent();
     }
 });

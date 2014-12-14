@@ -5,9 +5,7 @@ Ext.define('Sys.resource.ResourceTreePanel',{
     extend:'Ext.tree.Panel',
     animate: true,
     rootVisible:false,
-    lines:true,
     singleExpand: true,
-    useArrows: true,
     viewConfig: {
         plugins: {
             ptype: 'treeviewdragdrop',

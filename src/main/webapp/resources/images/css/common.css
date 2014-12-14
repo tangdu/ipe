@@ -1,79 +1,32 @@
-/*重写EXTJS样式*/
-.x-form-text {
-	color: black;
-	padding: 1px 3px 2px 3px;
-	background: white repeat-x 0 0;
-	border-width: 1px;
-	border-style: solid;
-	border-color: #b5b8c8;
-	background-image: none !important;
-}
+/*重写EXTJS样式
+.x-form-text
+.x-window-default
+.x-window-header-default-top
+.x-panel-default-framed
+.x-btn-default-small
+.x-mask
+.x-tab-default-top
+.x-btn-default-small-icon-text-left .x-btn-inner
+.freemarker-editor textarea
+.x-panel-header-default
+.x-panel-header-default-framed-top
+*/
 .x-form-text:focus{
 	border-color: #0099FF;
-}
-.x-window-default{
-	-webkit-border-radius: 0;
-	-moz-border-radius: 0;
-	-ms-border-radius: 0;
-	-o-border-radius: 0;
-	border-radius: 0;
-}
-.x-window-header-default-top{
-	-moz-border-radius-topleft: 0;
-	-webkit-border-top-left-radius: 0;
-	border-top-left-radius: 0;
-	-moz-border-radius-topright: 0;
-	-webkit-border-top-right-radius: 0;
-	border-top-right-radius: 0;
-	-moz-border-radius-bottomright: 0;
-	-webkit-border-bottom-right-radius: 0;
-	border-bottom-right-radius: 0;
-	-moz-border-radius-bottomleft: 0;
-	-webkit-border-bottom-left-radius: 0;
-	border-bottom-left-radius: 0;
-}
-.x-panel-default-framed{
-	-webkit-border-radius: 0;
-	-moz-border-radius: 0;
-	-ms-border-radius: 0;
-	-o-border-radius: 0;
-	border-radius: 0;
-}
-.x-btn-default-small{
-	-webkit-border-radius: 0;
-	-moz-border-radius: 0;
-	-ms-border-radius: 0;
-	-o-border-radius: 0;
-	border-radius: 0;
+	box-shadow:0 0 2px #06c;
+	-moz-box-shadow:0 0 2px #06c;
+    -webkit-box-shadow:0 0 2px #06c;
 }
 .x-mask{
 	opacity: .4;
 	background: #ccc;
 	cursor: default;
 }
-.x-tab-default-top{
-	-moz-border-radius-topleft: 0;
-	-webkit-border-top-left-radius: 0;
-	border-top-left-radius: 0;
-	-moz-border-radius-topright: 0;
-	-webkit-border-top-right-radius: 0;
-	border-top-right-radius: 0;
-	-moz-border-radius-bottomright: 0;
-	-webkit-border-bottom-right-radius: 0;
-	border-bottom-right-radius: 0;
-	-moz-border-radius-bottomleft: 0;
-	-webkit-border-bottom-left-radius: 0;
-	padding: 3px 11px 3px 11px;
-}
-.x-btn-default-small-icon-text-left .x-btn-inner{
-	line-height: 16px;
-    padding-left: 15px;
-}
 .freemarker-editor textarea{
 	font-size: 15px;
 	color:#0080c0;
 }
-/****/
+/*************************************************************/
 #loading{
 	margin:0 auto 0 auto;
 	width:110px;
@@ -93,6 +46,9 @@ html,body{
     background-color: #EFEFEF!important;
     background-image: none!important;
     border-color: #AFBFF8!important;
+    box-shadow:none!important;
+    -moz-box-shadow:none!important;
+    -webkit-box-shadow:none!important;
 }
 .padding0{
 	padding:0;
