@@ -22,13 +22,11 @@ html, body, div, span, applet, object, iframe, h1, h2, h3, h4, h5, h6, p,
 	margin: 0;
 	padding: 0;
 	border: 0;
-	font-size: 100%;
-	font: inherit;
 	vertical-align: baseline;
 }
 
 body {
-	font-size: 13px;
+	font-size: 14px;
 	font-family: 黑体, Helvetica, sans-serif;
 	color: #404040; 
 	background: #333366;
@@ -36,20 +34,20 @@ body {
 
 .container {
 	margin: 190px auto;
-	width: 640px;
 }
 
 .login {
-	position: relative;
 	margin: 0 auto;
-	padding: 20px 20px 5px;
-	width: 310px;
+	width: 510px;
 	background: white;
 	border-radius: 3px;
 	-webkit-box-shadow: 0 0 200px rgba(255, 255, 255, 0.5), 0 1px 2px
 		rgba(0, 0, 0, 0.3);
 	box-shadow: 0 0 200px rgba(255, 255, 255, 0.5), 0 1px 2px
 		rgba(0, 0, 0, 0.3);
+}
+.login form{
+	padding:15px;
 }
 
 .login:before {
@@ -65,10 +63,9 @@ body {
 }
 
 .login h1 {
-	margin: -20px -20px 21px;
 	line-height: 40px;
-	font-size: 15px;
 	font-weight: bold;
+	font-size: 17px;
 	color: #555;
 	text-align: center;
 	text-shadow: 0 1px white;
@@ -84,9 +81,8 @@ body {
 }
 
 input[type=submit] {
-	padding: 0 18px;
-	margin-top:15px;
-	height: 29px;
+	height: 30px;
+	width:100px;
 	font-weight: bold;
 	color: #527881;
 }
@@ -102,14 +98,16 @@ input[type=submit]:active {
 	margin: 15px;
 }
 .form-group input[name=useraccount],.form-group input[name=password]{
-	height: 27px;
+	height: 30px;
 	width:100%;
 	color: #404040;
 }
 .form-group input[name=captcha]{
-	height: 27px;
-	width: 	60%;
+	height: 30px;
+	width: 	150px;
 	color: #404040;
+}
+.left{
 	float:left;
 }
 .right{
@@ -129,10 +127,10 @@ input[type=submit]:active {
          	<input type="password" name="password" onchange="encrypt(this)" value="" placeholder="密码" required="required">
         </div>
         <div class="form-group">
-        	<input type="text" name="captcha" value="" placeholder="验证码" required="required" >
-        	<img src="verificationCode" class="right" onClick="changeCode(this)"  style="cursor: pointer" alt="看不清楚？请点击验证码区域进行刷新">
+        	<input type="text" name="captcha" class="left"  value="" placeholder="验证码" required="required" >
+        	<img src="verificationCode" class="left" onClick="changeCode(this)"  style="cursor: pointer" alt="看不清楚？请点击验证码区域进行刷新">
+        	<input type="submit" class="right"  value="Login">
         </div>
-        <div class="form-group"><input type="submit" value="Login"></div>
       </form>
     </div>
 </section>
