@@ -1,0 +1,71 @@
+apply plugin: 'java'
+apply plugin: 'maven'
+apply plugin: 'eclipse'
+apply plugin: "war"  
+
+group = 'ipe'
+version = '1.0'
+description = """ipe Web"""
+
+sourceCompatibility = 1.7
+targetCompatibility = 1.7
+
+
+
+repositories {
+      mavenLocal()
+       mavenCentral()
+}
+dependencies {
+    compile group: 'mysql', name: 'mysql-connector-java', version:'5.1.22'
+    compile group: 'org.jumpmind.symmetric.jdbc', name: 'mariadb-java-client', version:'1.1.1'
+    compile group: 'com.alibaba', name: 'druid', version:'0.2.26'
+    compile group: 'commons-collections', name: 'commons-collections', version:'3.2.1'
+    compile group: 'commons-io', name: 'commons-io', version:'2.4'
+    compile group: 'commons-lang', name: 'commons-lang', version:'2.6'
+    compile group: 'commons-fileupload', name: 'commons-fileupload', version:'1.3'
+    compile group: 'junit', name: 'junit', version:'4.11'
+    compile group: 'cglib', name: 'cglib', version:'2.2.2'
+    compile group: 'com.alibaba', name: 'fastjson', version:'1.1.36'
+    compile group: 'org.aspectj', name: 'aspectjrt', version:'1.7.1'
+    compile group: 'org.aspectj', name: 'aspectjweaver', version:'1.7.1'
+    compile group: 'org.freemarker', name: 'freemarker', version:'2.3.19'
+    compile group: 'org.slf4j', name: 'jcl-over-slf4j', version:'1.7.5'
+    compile group: 'org.slf4j', name: 'jul-to-slf4j', version:'1.7.5'
+    compile group: 'ch.qos.logback', name: 'logback-classic', version:'1.0.13'
+    compile group: 'org.logback-extensions', name: 'logback-ext-spring', version:'0.1.1'
+    compile group: 'org.logback-extensions', name: 'logback-ext-loggly', version:'0.1.1'
+    compile group: 'net.sf.ehcache', name: 'ehcache-core', version:'2.6.6'
+    compile group: 'org.springframework', name: 'spring-core', version:'3.2.7.RELEASE'
+    compile group: 'org.springframework', name: 'spring-expression', version:'3.2.7.RELEASE'
+    compile group: 'org.springframework', name: 'spring-aop', version:'3.2.7.RELEASE'
+    compile(group: 'org.springframework', name: 'spring-context', version:'3.2.7.RELEASE') {
+		exclude(module: 'commons-logging')
+    }
+    compile group: 'org.springframework', name: 'spring-context-support', version:'3.2.7.RELEASE'
+    compile group: 'org.springframework', name: 'spring-tx', version:'3.2.7.RELEASE'
+    compile group: 'org.springframework', name: 'spring-jdbc', version:'3.2.7.RELEASE'
+    compile group: 'org.springframework', name: 'spring-orm', version:'3.2.7.RELEASE'
+    compile group: 'org.springframework', name: 'spring-webmvc', version:'3.2.7.RELEASE'
+    compile group: 'org.hibernate', name: 'hibernate-core', version:'4.2.6.Final'
+    compile group: 'org.hibernate', name: 'hibernate-ehcache', version:'4.2.6.Final'
+    compile group: 'org.hibernate', name: 'hibernate-validator', version:'5.0.1.Final'
+    compile group: 'com.fasterxml.jackson.core', name: 'jackson-databind', version:'2.2.2'
+    compile group: 'com.fasterxml.jackson.module', name: 'jackson-module-jaxb-annotations', version:'2.2.2'
+    compile group: 'com.fasterxml.jackson.core', name: 'jackson-annotations', version:'2.2.2'
+    compile group: 'javax.servlet', name: 'jstl', version:'1.2'
+    compile group: 'org.apache.shiro', name: 'shiro-all', version:'1.2.2'
+    compile group: 'org.apache.shiro', name: 'shiro-aspectj', version:'1.2.2'
+    compile group: 'org.activiti', name: 'activiti-engine', version:'5.14'
+    compile group: 'org.activiti', name: 'activiti-spring', version:'5.14'
+    compile group: 'org.apache.httpcomponents', name: 'httpclient', version:'4.3.1'
+    compile group: 'org.apache.httpcomponents', name: 'httpclient-cache', version:'4.3.1'
+    compile group: 'org.apache.httpcomponents', name: 'httpmime', version:'4.3.1'
+    compile group: 'org.jsoup', name: 'jsoup', version:'1.7.2'
+    compile group: 'org.apache.poi', name: 'poi', version:'3.10-FINAL'
+    compile group: 'org.apache.poi', name: 'poi-ooxml', version:'3.10-FINAL'
+    testCompile group: 'org.springframework', name: 'spring-test', version:'3.2.7.RELEASE'
+    providedCompile (
+		"javax.servlet:javax.servlet-api:3.1.0"
+    )
+}
