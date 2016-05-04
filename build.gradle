@@ -1,6 +1,8 @@
+import org.gradle.plugins.ide.eclipse.model.Facet
+
 apply plugin: 'java'
-apply plugin: 'maven'
 apply plugin: 'eclipse'
+apply plugin: 'eclipse-wtp'
 apply plugin: "war"  
 
 group = 'ipe'
@@ -68,4 +70,17 @@ dependencies {
     providedCompile (
 		"javax.servlet:javax.servlet-api:3.1.0"
     )
+}
+
+eclipse {
+    wtp {
+        facet {
+            facet name: 'jst.web', type: Facet.FacetType.fixed
+            facet name: 'wst.jsdt.web', type: Facet.FacetType.fixed
+            facet name: 'jst.java', type: Facet.FacetType.fixed
+            facet name: 'jst.web', version: '2.5'
+            facet name: 'jst.java', version: '1.6'
+            facet name: 'wst.jsdt.web', version: '1.0'
+        }
+    }
 }

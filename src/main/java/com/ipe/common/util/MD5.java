@@ -82,7 +82,7 @@ public class MD5 {
 
     public static void main(String args[]) {
         try {
-            System.out.println(digest("0679"));
+            System.out.println(digest("admin"));
             System.out.println(digest("b"));
             System.out.println(digest("admin"));
             String s = new String("qin");
